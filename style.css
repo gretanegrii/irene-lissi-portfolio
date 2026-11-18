@@ -1,0 +1,196 @@
+:root {
+  --bg: #F9E5CE;   /* neutral background (default) */
+  --hover: #FE75B9; /* nav hover color: the pink of the switch */
+  --ink: #111111;  /* black text */
+  --nav-width: 110px;
+  --ease: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Switched theme: only the background changes */
+:root[data-theme="color"] {
+  --bg: #FE75B9;
+  --hover: #F9E5CE; /* on pink, links turn cream */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden; /* no native scroll: pages change on click, contacts on scroll */
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+body {
+  background-color: var(--ink);
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+}
+
+a {
+  color: inherit;
+}
+
+/* Contact page: fixed underneath, colors inverted */
+.contact {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--ink);
+  color: var(--bg);
+  padding: 0 48px 0 calc(var(--nav-width) + 48px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+}
+
+/* The site: a layer on top of the contact page */
+.site {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background-color: var(--bg);
+  color: var(--ink);
+  will-change: transform;
+  transition: background-color 0.3s;
+}
+
+/* No transform transition while scrolling: the site follows the cursor/finger exactly */
+.site.animating {
+  transition: transform 0.45s var(--ease), background-color 0.3s;
+}
+
+/* Theme switch (bottom right of the site) */
+.theme-switch {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  width: 60px;
+  height: 30px;
+  padding: 4px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(254, 117, 185, 0.3); /* soft pink track */
+  cursor: pointer;
+  z-index: 2;
+  transition: background-color 0.3s;
+}
+
+.theme-switch__knob {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #CC85B2; /* mauve knob */
+  transition: transform 0.25s var(--ease), background-color 0.3s;
+}
+
+/* Switched: knob slides right; the track turns lighter so it stays visible on pink */
+:root[data-theme="color"] .theme-switch {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+:root[data-theme="color"] .theme-switch__knob {
+  transform: translateX(30px);
+  background: #B8559A;
+}
+
+/* Vertical navbar on the left, rotated text */
+.nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--nav-width);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column-reverse; /* home at the bottom, contatti at the top */
+  gap: 40px;
+}
+
+.nav a {
+  display: block;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg); /* reads from bottom to top */
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: 300;
+  transition: color 0.5s var(--ease); /* slow, smooth color change on hover */
+}
+
+.nav a:hover {
+  color: var(--hover);
+}
+
+/* Pages: only one is visible at a time */
+.page {
+  position: absolute;
+  inset: 0;
+  padding: 0 48px 0 calc(var(--nav-width) + 48px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+  opacity: 0;
+  visibility: hidden;
+  transition: none; /* pages switch instantly */
+}
+
+.page.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+h1 {
+  font-size: clamp(3rem, 9vw, 8rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+h2 {
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+p,
+.work-list {
+  font-size: 1.25rem;
+  max-width: 40ch;
+}
+
+.work-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  :root {
+    --nav-width: 64px;
+  }
+
+  .nav a {
+    font-size: 1rem;
+  }
+
+  .page,
+  .contact {
+    padding-right: 20px;
+    padding-left: calc(var(--nav-width) + 8px);
+  }
+}
