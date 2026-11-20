@@ -15,16 +15,26 @@ document.querySelectorAll("[data-slider]").forEach((slider) => {
 
   function goTo(index) {
     const next = (index + slides.length) % slides.length; // after the last one it starts again
-    track.scrollTo({ left: next * track.clientWidth, behavior: reducedMotion.matches ? "auto" : "smooth" });
+    // Going on after the last picture (or back before the first one) jumps straight to the other end:
+    // sliding back through all the pictures would look like they are going the wrong way.
+    const wraps = index < 0 || index >= slides.length;
+    track.scrollTo({ left: next * track.clientWidth, behavior: reducedMotion.matches || wraps ? "auto" : "smooth" });
   }
 
-  // The dots follow the scroll
+  // If the slider has a caption next to it and the pictures have their own (data-caption), the caption changes
+  // with the picture that is shown
+  const caption = slider.parentElement.querySelector(":scope > .case__caption");
+  if (caption) caption.setAttribute("aria-live", "polite");
+
+  // The dots (and the caption) follow the scroll
   function updateDots() {
     const now = current();
     dots.forEach((dot, i) => {
       dot.classList.toggle("is-active", i === now);
       dot.setAttribute("aria-current", i === now ? "true" : "false");
     });
+    const text = slides[now] && slides[now].dataset.caption;
+    if (caption && text && caption.innerHTML !== text) caption.innerHTML = text;
   }
   track.addEventListener("scroll", updateDots, { passive: true });
   window.addEventListener("resize", updateDots);

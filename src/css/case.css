@@ -22,6 +22,17 @@ h1 {
   margin-top: 0;
 }
 
+/* A title that is too long to have the pill next to it (Staedtler - Menzione speciale):
+   the pill goes under the title, on the left, like the title */
+.case .project--stacked .project__text {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.case .project--stacked .project__tag {
+  margin: 0.5vw 0 1vw;
+}
+
 .case .project {
   margin-top: var(--case-gap); /* air between the navbar and the title strip */
   background: transparent;
@@ -95,6 +106,11 @@ h1 {
   line-height: 1.311;
 }
 
+/* A text right after the introduction (there is no title between them): the introduction already leaves its space */
+.case__intro + .case__section > .case__body:first-child {
+  margin-top: 0;
+}
+
 .case__body p {
   margin: 0 0 1.25em;
 }
@@ -136,7 +152,9 @@ h1 {
    drag, swipe, or the arrow keys). Under it, one dot for each picture. */
 .case__slider {
   grid-column: 3 / 5;
-  margin: 2.6vw 0 6.94vw;
+  /* The sides are wider than the text column by 2.5vw each: that is the room that the shadow of the
+     pictures needs. Without it the box that scrolls would cut the shadow, and the box would be visible. */
+  margin: 2.6vw -2.5vw 6.94vw;
 }
 
 .case__slides {
@@ -159,7 +177,7 @@ h1 {
   flex: 0 0 100%;
   justify-content: center;
   align-items: center;
-  padding: 1.5vw 0 2vw; /* room for the shadow, which would be cut by the scroll box */
+  padding: 2vw 2.5vw 2.5vw; /* room for the shadow: the scroll box cuts everything that goes out of it */
   scroll-snap-align: center;
 }
 
@@ -169,6 +187,7 @@ h1 {
   max-width: 100%;
   height: auto;
   max-height: 40vw; /* the covers are tall: this keeps them smaller than the screen */
+  filter: drop-shadow(0 0.3vw 1.1vw rgba(0, 0, 0, 0.28)); /* a bit smaller than outside: it has to stay inside the room of the slide */
   margin: 0;
   -webkit-user-drag: none;
 }
@@ -258,7 +277,7 @@ h1 {
 /* The caption of a slider starts at the top edge of the picture: the margin of the slider
    plus the space that the slide leaves above the picture */
 .case__slider ~ .case__caption {
-  margin-top: 4.1vw;
+  margin-top: 4.6vw;
 }
 
 /* The arrow of the caption is a drawing (not a character): a character can turn into a colored emoji
@@ -321,6 +340,10 @@ h1 {
 @media (max-width: 767px) {
   .case__slider {
     margin: 0 0 8vw;
+  }
+
+  .case__slide {
+    padding: 3vw 3vw 4vw;
   }
 
   .case__dots {
