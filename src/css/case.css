@@ -261,6 +261,32 @@ h1 {
   }
 }
 
+/* Three pictures side by side with a space between them (the three posts that make the word Karibujua) */
+.case__tiles {
+  grid-column: 3 / 5;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4vw;
+  margin: 2.6vw 0 6.94vw;
+}
+
+.case__tiles .case__photo {
+  grid-column: auto;
+  width: 100%;
+  margin: 0;
+}
+
+.case__body + .case__figure > .case__tiles {
+  margin-top: 3.47vw;
+}
+
+/* A tall picture (like a whole feed): it does not take more than this height */
+.case__photo--tall {
+  width: auto;
+  max-width: 100%;
+  max-height: 40vw;
+}
+
 /* An image that follows a text: a bit of air above it */
 .case__body + .case__figure > .case__photo {
   margin-top: 3.47vw;
@@ -269,9 +295,14 @@ h1 {
 .case__caption {
   grid-column: 5;
   align-self: start;
-  margin-top: 3.47vw;
+  margin-top: 2.6vw; /* the same space above the picture */
   font-size: var(--small-size);
   line-height: 1.11;
+}
+
+/* After a text the picture has a bit more air above it, and so does the caption */
+.case__body + .case__figure > .case__caption {
+  margin-top: 3.47vw;
 }
 
 /* The caption of a slider starts at the top edge of the picture: the margin of the slider
@@ -319,8 +350,49 @@ h1 {
   }
 }
 
+/* A caption under the picture, as wide as the picture, with the arrow pointing up (to the picture) */
+.case__caption--below {
+  grid-column: 3 / 5;
+  max-width: none;
+  margin: 1.2vw 0 6.94vw;
+}
+
+.case__caption.case__caption--below::before {
+  transform: rotate(90deg); /* the left arrow turned: now it points up */
+  animation-name: arrow-hop-up;
+}
+
+@keyframes arrow-hop-up {
+  0%,
+  64%,
+  100% {
+    transform: rotate(90deg) translateX(0);
+  }
+
+  72% {
+    transform: rotate(90deg) translateX(-0.4em);
+  }
+
+  80% {
+    transform: rotate(90deg) translateX(0);
+  }
+
+  86% {
+    transform: rotate(90deg) translateX(-0.18em);
+  }
+
+  92% {
+    transform: rotate(90deg) translateX(0);
+  }
+}
+
+.case__tiles--captioned {
+  margin-bottom: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .case__caption::before {
+  .case__caption::before,
+  .case__caption.case__caption--below::before {
     animation: none;
   }
 }
@@ -341,6 +413,7 @@ h1 {
   .case__slider {
     margin: 0 0 8vw;
   }
+
 
   .case__slide {
     padding: 3vw 3vw 4vw;

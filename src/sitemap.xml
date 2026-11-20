@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://REPLACE-ME.example/</loc><priority>1.0</priority></url>
+  <url><loc>https://REPLACE-ME.example/work.html</loc><priority>0.8</priority></url>
+  <url><loc>https://REPLACE-ME.example/about.html</loc><priority>0.8</priority></url>
+  <url><loc>https://REPLACE-ME.example/contact.html</loc><priority>0.6</priority></url>
+  <url><loc>https://REPLACE-ME.example/projects/reblend.html</loc><priority>0.6</priority></url>
+  <url><loc>https://REPLACE-ME.example/projects/logopedista.html</loc><priority>0.6</priority></url>
+  <url><loc>https://REPLACE-ME.example/projects/studio.html</loc><priority>0.6</priority></url>
+  <url><loc>https://REPLACE-ME.example/projects/staedtler.html</loc><priority>0.6</priority></url>
+  <url><loc>https://REPLACE-ME.example/projects/interview.html</loc><priority>0.6</priority></url>
+  <url><loc>https://REPLACE-ME.example/projects/quieta-distanza.html</loc><priority>0.6</priority></url>
+  <url><loc>https://REPLACE-ME.example/projects/dualita.html</loc><priority>0.6</priority></url>
+  <url><loc>https://REPLACE-ME.example/projects/life-leaf.html</loc><priority>0.6</priority></url>
+</urlset>
