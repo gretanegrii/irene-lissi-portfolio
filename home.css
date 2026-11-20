@@ -1,0 +1,30 @@
+/* Home page: the sentence is written on four lines, each one a bit further to the right
+   (the last one more), like the reference (isaaabel.me). */
+
+/* The sentence is centered in the window, horizontally and vertically */
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+h1 {
+  margin: 0;
+}
+
+.home__line {
+  display: block;
+}
+
+.home__line:nth-child(2) {
+  margin-left: 0.6em;
+}
+
+.home__line:nth-child(3) {
+  margin-left: 1.2em;
+}
+
+.home__line:nth-child(4) {
+  margin-left: 4em;
+}

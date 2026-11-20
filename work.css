@@ -34,46 +34,6 @@ a {
   text-decoration: none;
 }
 
-/* --- Navbar: fixed at the top, over the strips, like the reference ---------- */
-
-.nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  width: 100%;
-  padding: 0 1.42857vw;
-  pointer-events: none; /* only the pills catch the mouse, the strips below stay hoverable */
-}
-
-.nav__item {
-  pointer-events: all;
-}
-
-@media (min-width: 1681px) {
-  .nav {
-    padding: 0 24px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .nav {
-    padding: 0 2.34375vw;
-  }
-}
-
-@media (max-width: 767px) and (orientation: portrait) {
-  .nav {
-    padding: 0 3.55556vw;
-  }
-}
-
-@media (max-width: 767px) and (orientation: landscape) {
-  .nav {
-    padding: 0 1.77778vw;
-  }
-}
-
 /* --- Page --------------------------------------------------------------- */
 
 .work {

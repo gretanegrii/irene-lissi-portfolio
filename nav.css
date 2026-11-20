@@ -7,7 +7,15 @@
   box-sizing: border-box;
 }
 
+/* Fixed at the top of the window, same place on every page */
 .nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  padding: 0 1.42857vw;
+  pointer-events: none; /* only the pills catch the mouse, what is below stays usable */
   /* Placeholder: the reference uses the paid font ABC Monument Grotesk */
   font-family: "Inter Tight", Helvetica, Arial, sans-serif;
   font-weight: 400;
@@ -24,6 +32,7 @@
 
 .nav__item {
   margin-left: 0.47619vw;
+  pointer-events: all;
 }
 
 .nav__link {
@@ -52,6 +61,10 @@
 /* --- Breakpoints (same as the reference) -------------------------------- */
 
 @media (min-width: 1681px) {
+  .nav {
+    padding: 0 24px;
+  }
+
   .nav__list {
     padding: 16px 0;
   }
@@ -68,6 +81,10 @@
 }
 
 @media (max-width: 1024px) {
+  .nav {
+    padding: 0 2.34375vw;
+  }
+
   .nav__list {
     padding: 1.5625vw 0;
   }
@@ -84,6 +101,10 @@
 }
 
 @media (max-width: 767px) and (orientation: portrait) {
+  .nav {
+    padding: 0 3.55556vw;
+  }
+
   .nav__list {
     flex-wrap: wrap;
     padding: 3.55556vw 0;
@@ -102,6 +123,10 @@
 }
 
 @media (max-width: 767px) and (orientation: landscape) {
+  .nav {
+    padding: 0 1.77778vw;
+  }
+
   .nav__list {
     flex-wrap: wrap;
     padding: 1.77778vw 0;
