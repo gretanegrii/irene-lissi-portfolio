@@ -159,6 +159,7 @@ body {
 .nav__item--back:hover .nav__link { background: #f49731; }
 
 .nav__arrow {
-  width: 1.33em; /* em: the arrow follows the size of the pill at every screen width */
-  height: 0.76em;
+  width: 0.95em; /* em: the arrow follows the size of the pill at every screen width */
+  height: 1em; /* as tall as the text of the other pills, so the pills are the same height */
+  display: block;
 }
