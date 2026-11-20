@@ -1,0 +1,4 @@
+/* About page: colored background, not white */
+body {
+  background: #c6d960;
+}

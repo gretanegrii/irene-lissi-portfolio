@@ -28,3 +28,8 @@ h1 {
 .home__line:nth-child(4) {
   margin-left: 4em;
 }
+
+/* Colored page, not white */
+body {
+  background: #ff4fa3;
+}

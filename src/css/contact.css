@@ -1,0 +1,4 @@
+/* Contact page: colored background, not white */
+body {
+  background: #ffd51a;
+}

@@ -52,11 +52,11 @@
   white-space: nowrap;
 }
 
-/* Hover: the pill takes a color (placeholders, taken from the reference) */
-.nav__item:nth-child(1):hover .nav__link { background: #ffc8c8; }
-.nav__item:nth-child(2):hover .nav__link { background: #f9da37; }
-.nav__item:nth-child(3):hover .nav__link { background: #70cf9e; }
-.nav__item:nth-child(4):hover .nav__link { background: #ff7070; }
+/* Hover: the pill takes a color (same vivid colors as the work strips) */
+.nav__item:nth-child(1):hover .nav__link { background: #19c6d9; }
+.nav__item:nth-child(2):hover .nav__link { background: #9b5cf6; }
+.nav__item:nth-child(3):hover .nav__link { background: #f49731; }
+.nav__item:nth-child(4):hover .nav__link { background: #f0301c; }
 
 /* --- Breakpoints (same as the reference) -------------------------------- */
 
