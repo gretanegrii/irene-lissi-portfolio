@@ -122,6 +122,9 @@ h1 {
   display: block;
   width: 100%;
   height: auto;
+  /* A soft shadow around the picture. It follows the shape of the picture, also when the
+     background has been removed (transparent PNG) */
+  filter: drop-shadow(0 0.3vw 1.4vw rgba(0, 0, 0, 0.28));
   margin: 2.6vw 0 6.94vw;
 }
 
