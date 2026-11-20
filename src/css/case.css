@@ -2,6 +2,11 @@
    work page ends its movement, so the opening looks like one continuous gesture.
    Layout, sizes and breakpoints come from work.css (.work, .project...). */
 
+/* The pills of the navbar stay white here, whatever the color of the page */
+.nav__link {
+  background: #fff;
+}
+
 h1 {
   margin: 0;
   font-weight: 400;
@@ -112,6 +117,11 @@ h1 {
   width: 100%;
   height: auto;
   margin: 2.6vw 0 6.94vw;
+}
+
+/* An image that follows a text: a bit of air above it */
+.case__body + .case__figure .case__photo {
+  margin-top: 3.47vw;
 }
 
 .case__caption {

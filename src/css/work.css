@@ -99,6 +99,42 @@ a {
   white-space: nowrap;
 }
 
+/* Picture of the work: same trick as anacuna.com.
+   It waits hidden behind the strips below (they are in front of it) and, on hover,
+   rises and sticks out above the strip. It takes 0.7s, while the strip takes 0.4s:
+   that is why it seems to arrive a moment after the title.
+   It is anchored to the bottom of the strip, so a big picture grows upwards,
+   never over the strips below. */
+.project__thumb {
+  position: absolute;
+  bottom: 0;
+  left: 73.6%;
+  width: 16vw;
+  height: 10.66667vw;
+  object-fit: cover;
+  pointer-events: none;
+  transform: translateY(110%);
+  transition: transform 0.7s ease;
+}
+
+.project:hover .project__thumb {
+  transform: translateY(0);
+}
+
+/* No hover on touch screens */
+@media (hover: none) {
+  .project__thumb {
+    display: none;
+  }
+}
+
+@media (min-width: 1681px) {
+  .project__thumb {
+    width: 269px;
+    height: 179px;
+  }
+}
+
 /* Opening a case study (work.js): the strips stop reacting to the mouse,
    the chosen one keeps its color while the others slide away */
 body.is-opening {
@@ -108,6 +144,12 @@ body.is-opening {
 .is-opening .project {
   pointer-events: none;
   transition: none;
+}
+
+/* The picture of the chosen strip goes up and out while the strip rises */
+.is-opening .project--active .project__thumb {
+  transform: translateY(-300%);
+  transition: transform 1.2s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
 .is-opening .project--active {

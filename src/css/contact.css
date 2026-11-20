@@ -1,4 +1,5 @@
 /* Contact page: colored background, not white */
 body {
-  background: #ffd51a;
+  --page-bg: #ffd51a; /* the navbar pills take this color too */
+  background: var(--page-bg);
 }

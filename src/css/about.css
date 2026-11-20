@@ -1,4 +1,5 @@
 /* About page: colored background, not white */
 body {
-  background: #c6d960;
+  --page-bg: #c6d960; /* the navbar pills take this color too */
+  background: var(--page-bg);
 }

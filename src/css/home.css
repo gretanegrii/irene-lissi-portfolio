@@ -11,6 +11,9 @@ body {
 
 h1 {
   margin: 0;
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1.1;
 }
 
 .home__line {
@@ -31,5 +34,6 @@ h1 {
 
 /* Colored page, not white */
 body {
-  background: #ff4fa3;
+  --page-bg: #ff4fa3; /* the navbar pills take this color too */
+  background: var(--page-bg);
 }
