@@ -10,6 +10,7 @@ const SPEED = 95; // pixels per second (the reference uses 100)
 const RETURN_TIME = 400; // ms the text takes to go back when the mouse leaves
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+let opening = false; // true once a case study is opening: the hover movement stops
 const strips = [...document.querySelectorAll(".project")].map((project) => ({
   project,
   text: project.querySelector(".project__text"),
@@ -63,7 +64,7 @@ function setup(strip, distance) {
 }
 
 function start(strip) {
-  if (reducedMotion.matches || !strip.slide) return;
+  if (opening || reducedMotion.matches || !strip.slide) return;
 
   // If the mouse comes back while the text is still going back, continue from where it is
   if (strip.goBack) {
@@ -77,7 +78,7 @@ function start(strip) {
 }
 
 function stop(strip) {
-  if (reducedMotion.matches || !strip.slide) return;
+  if (opening || reducedMotion.matches || !strip.slide) return;
 
   const x = currentX(strip.text);
 
@@ -106,3 +107,69 @@ strips.forEach((strip) => {
 
 window.addEventListener("resize", setupAll);
 document.fonts.ready.then(setupAll); // measure again when the font has loaded
+
+// --- Opening a case study ---------------------------------------------------
+// Same gesture as anacuna.com: the strips above the chosen one slide up and out,
+// the ones below slide down and out, and the chosen strip rises under the navbar,
+// where the case study page starts with the same strip. Then the page opens.
+
+const OPEN_TIME = 1200; // ms
+const OPEN_EASING = "cubic-bezier(0.76, 0, 0.24, 1)"; // ease in-out, strong (the reference: power3.inOut)
+
+function openProject(event, strip) {
+  if (reducedMotion.matches || opening) return; // reduced motion: plain link, no animation
+  event.preventDefault();
+  opening = true;
+
+  const href = event.currentTarget.href;
+  const color = getComputedStyle(strip.project).getPropertyValue("--color").trim();
+  const index = strips.indexOf(strip);
+
+  // Where the strip has to end: the top of the case study page (same padding as .work)
+  const target = parseFloat(getComputedStyle(document.querySelector(".work")).paddingTop);
+
+  // 1. Measure everything before touching anything
+  const tops = strips.map((s) => s.project.getBoundingClientRect().top);
+  const textX = currentX(strip.text);
+
+  // 2. Stop the hover movement and freeze every strip where it is on the screen
+  strips.forEach((s) => {
+    if (s.slide) s.slide.cancel();
+    if (s.goBack) s.goBack.cancel();
+  });
+  document.body.classList.add("is-opening");
+  strip.project.classList.add("project--active");
+  strips.forEach((s, i) => {
+    s.project.style.cssText = `position: fixed; top: ${tops[i]}px; left: 0; width: 100%; margin: 0;`;
+  });
+  window.scrollTo(0, 0);
+
+  // 3. Slide
+  const options = { duration: OPEN_TIME, easing: OPEN_EASING, fill: "forwards" };
+  const slideBy = (el, y) => el.animate([{ transform: "translateY(0)" }, { transform: `translateY(${y})` }], options);
+
+  const animations = strips.map((s, i) => {
+    if (i < index) return slideBy(s.project, "-100vh");
+    if (i > index) return slideBy(s.project, "100vh");
+    return slideBy(s.project, `${target - tops[i]}px`);
+  });
+  // The text of the chosen strip comes back to its place while the strip rises
+  animations.push(
+    strip.text.animate([{ transform: `translateX(${textX}px)` }, { transform: "translateX(0)" }], options)
+  );
+
+  // 4. When everything has moved, the page takes the color of the project and opens
+  Promise.all(animations.map((a) => a.finished)).then(() => {
+    document.body.style.background = color;
+    window.location.href = href;
+  });
+}
+
+strips.forEach((strip) => {
+  strip.project.querySelector(".project__link").addEventListener("click", (event) => openProject(event, strip));
+});
+
+// Coming back with the browser's back button: show the list again, not the frozen one
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted) window.location.reload();
+});

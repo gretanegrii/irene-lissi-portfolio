@@ -1,0 +1,166 @@
+/* Case study page. The title strip sits exactly where the clicked strip of the
+   work page ends its movement, so the opening looks like one continuous gesture.
+   Layout, sizes and breakpoints come from work.css (.work, .project...). */
+
+h1 {
+  margin: 0;
+  font-weight: 400;
+}
+
+/* The page already has the color of the project: the strip is only its two lines */
+.case .project {
+  background: transparent;
+  pointer-events: none;
+}
+
+/* --- Body of the case study ---------------------------------------------
+   Layout inspired by zefs.website: text in a narrow column that starts one third
+   into the page, numbered sections, wide images with a small side caption,
+   one big line to underline an idea. Sizes in vw, with a cap on very wide screens. */
+
+.case {
+  /* Sizes measured on zefs.website at 1440px (Lausanne Regular there, Inter Tight here for now) */
+  --lead-size: min(3.125vw, 45px); /* introduction */
+  --head-size: min(4.79167vw, 69px); /* section title */
+  --text-size: min(1.875vw, 27px); /* text under the titles */
+  --small-size: min(1.45833vw, 21px); /* captions */
+  --gutter: 0.95238vw; /* same side space as the title strip */
+  color: #02031f;
+}
+
+/* Intro: first paragraph of the project + small footnote, in the column of the text */
+.case__intro {
+  margin: 6vw 0 0 33.3333%;
+  padding-right: var(--gutter);
+  max-width: 52%;
+}
+
+.case__lead {
+  margin: 0;
+  font-size: var(--lead-size);
+  line-height: 1.109;
+}
+
+/* Section: number | title, then the content */
+.case__section {
+  margin-top: 9vw;
+  padding: 0 var(--gutter);
+}
+
+.case__head {
+  display: flex;
+  align-items: baseline;
+  font-size: var(--head-size);
+  line-height: 0.907;
+}
+
+.case__number {
+  width: 11.5%;
+}
+
+.case__heading {
+  margin: 0;
+  font-size: inherit;
+  font-weight: 400;
+}
+
+.case__body {
+  margin: 3.2vw 0 0 calc(33.3333% - var(--gutter));
+  max-width: 38%;
+  font-size: var(--text-size);
+  line-height: 1.311;
+}
+
+.case__body p {
+  margin: 0 0 1.25em;
+}
+
+/* Image with a small caption on the right, preceded by an arrow */
+.case__figure {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2vw;
+  margin: 4vw 0 0 11.5%;
+}
+
+.case__image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 58%;
+  aspect-ratio: 16 / 10;
+  border: 1px solid #000;
+  font-size: var(--small-size);
+  text-transform: uppercase;
+}
+
+.case__caption {
+  max-width: 11em;
+  font-size: var(--small-size);
+  line-height: 1.11;
+}
+
+.case__caption::before {
+  content: "← ";
+}
+
+/* One big line, to put an idea under the spotlight */
+.case__big {
+  margin: 7vw 0 0 5%;
+  max-width: 62%;
+  font-size: calc(var(--text-size) * 2.4);
+  line-height: 1.05;
+}
+
+.case__end {
+  height: 10vw;
+}
+
+@media (max-width: 767px) {
+  .case {
+    --lead-size: 7.2vw;
+    --head-size: 10vw;
+    --text-size: 4.6vw;
+    --small-size: 3.4vw;
+    --gutter: 2.2vw;
+  }
+
+  .case__intro {
+    margin: 12vw 0 0;
+    padding: 0 var(--gutter);
+    max-width: none;
+  }
+
+  .case__section {
+    margin-top: 16vw;
+  }
+
+  .case__number {
+    width: 12%;
+  }
+
+  .case__body {
+    margin: 6vw 0 0;
+    max-width: none;
+  }
+
+  .case__figure {
+    flex-direction: column;
+    gap: 2vw;
+    margin: 8vw 0 0;
+  }
+
+  .case__image {
+    flex: none;
+    width: 100%;
+  }
+
+  .case__caption {
+    max-width: none;
+  }
+
+  .case__big {
+    margin: 14vw 0 0;
+    max-width: none;
+  }
+}

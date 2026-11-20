@@ -91,12 +91,27 @@ a {
 
 .project__title {
   position: relative;
-  top: -0.04em; /* 0 = title lower and more hidden by the next strip; more negative = higher */
+  top: -0.05em; /* 0 = title lower and more hidden by the next strip; more negative = higher */
   font-size: 6.54762vw;
   line-height: 1;
   letter-spacing: 0;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+/* Opening a case study (work.js): the strips stop reacting to the mouse,
+   the chosen one keeps its color while the others slide away */
+body.is-opening {
+  overflow: hidden;
+}
+
+.is-opening .project {
+  pointer-events: none;
+  transition: none;
+}
+
+.is-opening .project--active {
+  background: var(--color);
 }
 
 /* Pill next to the title: area of interest */
