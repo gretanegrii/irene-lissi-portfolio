@@ -36,7 +36,7 @@ h1 {
 
 .case {
   --case-gap: min(4vw, 67px);
-  /* Sizes measured on zefs.website (Lausanne Regular there, Poppins here for now) */
+  /* Sizes measured on zefs.website (Lausanne Regular there, Bricolage Grotesque here for now) */
   --lead-size: min(3.125vw, 45px); /* introduction */
   --head-size: min(4.79167vw, 69px); /* section title */
   --text-size: min(1.875vw, 27px); /* text under the titles */
@@ -78,6 +78,7 @@ h1 {
 }
 
 .case__heading {
+  font-weight: 700; /* Bold for the titles of the sections */
   grid-column: 2 / 4;
   margin-bottom: 0;
 }

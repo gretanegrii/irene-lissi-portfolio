@@ -1,0 +1,52 @@
+/* Footer: one line at the bottom of the window, on every page (same idea as the reference, anacuna.com):
+   on the left the name and the year, on the right who made the site (with a link to the portfolio).
+   Sizes are in vw, designed on a 1680px wide screen; fixed px above 1680px. */
+
+.site-footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9998; /* under the navbar (9999), over the content that scrolls behind it */
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.65vw 1.42857vw 0.6vw;
+  border-top: 1px solid #000;
+  background: var(--page-bg, #fff); /* same color as the page, so what scrolls behind is hidden */
+  color: #000;
+  font-family: var(--font-main);
+  font-size: 1.07143vw;
+  font-weight: 400;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+.site-footer a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible {
+  text-decoration: none;
+}
+
+@media (min-width: 1681px) {
+  .site-footer {
+    padding: 11px 24px 10px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 767px) {
+  .site-footer {
+    padding: 2vw 3.55556vw 1.8vw;
+    font-size: 3vw;
+  }
+}

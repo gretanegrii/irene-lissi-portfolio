@@ -41,6 +41,11 @@ body {
   display: block;
 }
 
+/* On the home the page color slides, so the footer shows it through instead of copying it */
+.site-footer {
+  background: transparent;
+}
+
 .home__letter {
   position: relative;
   display: inline-block;
@@ -110,11 +115,11 @@ body {
 /* The sentence of the first version, small, at the bottom */
 .home__tagline {
   position: fixed;
-  bottom: 1.6vw;
+  bottom: 4.2vw; /* above the footer */
   left: 0;
   width: 100%;
   margin: 0;
-  font-size: 1.07143vw;
+  font-size: 1.5vw;
   text-align: center;
 }
 
@@ -125,7 +130,7 @@ body {
 
   .home__tagline {
     bottom: 5vw;
-    font-size: 3.4vw;
+    font-size: 4.2vw;
   }
 }
 

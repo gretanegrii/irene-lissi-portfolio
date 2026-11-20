@@ -12,7 +12,7 @@ body {
   background: #fff;
   color: #000;
   /* Placeholder: the reference uses the paid font ABC Monument Grotesk */
-  font-family: "Poppins", Helvetica, Arial, sans-serif;
+  font-family: var(--font-main);
   font-weight: 400;
   line-height: 1;
   overflow-x: hidden;
@@ -38,7 +38,7 @@ a {
 
 .work {
   padding-top: 5.11905vw;
-  padding-bottom: 2.61905vw;
+  padding-bottom: 6vw; /* room for the footer */
   min-height: 100vh;
 }
 
@@ -167,6 +167,7 @@ body.is-opening {
   border: 1px solid #000;
   border-radius: 1.90476vw;
   font-size: 1.07143vw;
+  font-weight: 500;
   line-height: 1.11111;
   letter-spacing: 0;
   white-space: nowrap;

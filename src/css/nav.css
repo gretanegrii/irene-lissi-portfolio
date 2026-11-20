@@ -7,9 +7,17 @@
   box-sizing: border-box;
 }
 
+/* The fonts of the site (from the brief of Irene):
+   - Bricolage Grotesque, the main one: Regular 400, Medium 500, Bold 700, ExtraBold 800
+   - Syne, the second one, ExtraBold 800: only for very big headlines and words that have to hit */
+:root {
+  --font-main: "Bricolage Grotesque", Helvetica, Arial, sans-serif;
+  --font-display: "Syne", "Bricolage Grotesque", Helvetica, Arial, sans-serif;
+}
+
 /* The font of the whole site (placeholder: the reference uses the paid font ABC Monument Grotesk) */
 body {
-  font-family: "Poppins", Helvetica, Arial, sans-serif;
+  font-family: var(--font-main);
 }
 
 /* Fixed at the top of the window, same place on every page */
@@ -22,7 +30,7 @@ body {
   padding: 0 1.42857vw;
   pointer-events: none; /* only the pills catch the mouse, what is below stays usable */
   /* Placeholder: the reference uses the paid font ABC Monument Grotesk */
-  font-family: "Poppins", Helvetica, Arial, sans-serif;
+  font-family: var(--font-main);
   font-weight: 400;
   line-height: 1;
 }
@@ -50,6 +58,7 @@ body {
   background: var(--page-bg, #fff); /* same color as the page (solid, so the text passing behind is hidden) */
   color: #000;
   font-size: 2.14286vw;
+  font-weight: 500; /* Medium: for the small interface things */
   letter-spacing: 0;
   line-height: 1;
   text-decoration: none;
@@ -57,11 +66,44 @@ body {
   white-space: nowrap;
 }
 
-/* Hover: the pill takes a color (same vivid colors as the work strips) */
-.nav__item:nth-child(1):hover .nav__link { background: #19c6d9; }
-.nav__item:nth-child(2):hover .nav__link { background: #9b5cf6; }
-.nav__item:nth-child(3):hover .nav__link { background: #f49731; }
-.nav__item:nth-child(4):hover .nav__link { background: #f0301c; }
+/* Hover: the colors are swapped, with a smooth animation. A black layer rises from the bottom of the pill
+   and fills it, while the text changes to the color of the page (--page-bg, set by each page; white on the
+   work page). When the mouse leaves, the black layer goes away upwards, in the same direction. */
+.nav__link {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate; /* the black layer stays behind the text but in front of the pill */
+  transition: color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav__link::before {
+  content: "";
+  position: absolute;
+  inset: -1px; /* a bit over the border, so no thin line of the old color stays */
+  z-index: -1;
+  background: #000;
+  transform: scaleY(0);
+  transform-origin: top; /* leaving: it shrinks towards the top */
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav__link:hover,
+.nav__link:focus-visible {
+  color: var(--page-bg, #fff);
+}
+
+.nav__link:hover::before,
+.nav__link:focus-visible::before {
+  transform: scaleY(1);
+  transform-origin: bottom; /* coming: it grows from the bottom */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav__link,
+  .nav__link::before {
+    transition: none;
+  }
+}
 
 /* --- Breakpoints (same as the reference) -------------------------------- */
 
@@ -151,11 +193,9 @@ body {
 
 /* Case study pages: a pill with an arrow, at the left, goes back to the work page */
 .nav__item--back {
-  order: -1; /* it is the last in the HTML (so the hover colors above keep their order) but shows first */
+  order: -1; /* it is the last in the HTML but shows first */
   margin-right: auto;
 }
-
-.nav__item--back:hover .nav__link { background: #f49731; }
 
 .nav__arrow {
   width: 0.95em; /* em: the arrow follows the size of the pill at every screen width */
