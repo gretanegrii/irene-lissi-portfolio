@@ -1,39 +1,137 @@
-/* Home page: the sentence is written on four lines, each one a bit further to the right
-   (the last one more), like the reference (isaaabel.me). */
+/* Home page: like madeinhaus.com, a huge name in the middle, in capitals, on two lines.
+   Every now and then a letter turns into the asterisk of the logo, and then comes back (home.js).
+   The color of the page changes every few seconds (home.js). */
 
-/* The sentence is centered in the window, horizontally and vertically */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
+  --page-bg: #f089ba; /* the first color of the list in home.js */
+  margin: 0;
+  background: var(--page-bg);
+  color: #000;
+  /* The color slides smoothly from one to the next, like madeinhaus.com */
+  transition: background-color 0.8s ease-in-out;
+}
+
+/* The pills of the navbar do not have a color of their own here: they show the one of the page */
+.nav__link {
+  background: transparent;
+}
+
+.home {
   display: grid;
   place-items: center;
   min-height: 100vh;
-  margin: 0;
 }
 
-h1 {
+.home__title {
   margin: 0;
-  font-size: 34px;
-  font-weight: 400;
-  line-height: 1.1;
+  font-size: 16vw;
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-align: center;
 }
 
-.home__line {
+.home__row {
   display: block;
 }
 
-.home__line:nth-child(2) {
-  margin-left: 0.6em;
+.home__letter {
+  position: relative;
+  display: inline-block;
 }
 
-.home__line:nth-child(3) {
-  margin-left: 1.2em;
+/* The R has an eye inside: the empty part of the R, with a pupil that looks left and right */
+.home__r {
+  display: inline-block;
+  height: 0.7em; /* as tall as the capital letters of the font */
+  width: auto;
+  margin: 0 0.03em;
+  overflow: visible;
 }
 
-.home__line:nth-child(4) {
-  margin-left: 4em;
+.home__pupil {
+  animation: pupil-look 3s ease-in-out infinite;
 }
 
-/* Colored page, not white */
-body {
-  --page-bg: #ff4fa3; /* the navbar pills take this color too */
-  background: var(--page-bg);
+@keyframes pupil-look {
+  0%,
+  20% {
+    transform: translateX(0);
+  }
+
+  35%,
+  55% {
+    transform: translateX(-14px);
+  }
+
+  70%,
+  90% {
+    transform: translateX(12px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* A letter that has turned into the asterisk: the letter is hidden, the asterisk takes its place */
+.home__letter.is-star {
+  color: transparent;
+}
+
+.home__star {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.85em;
+  height: auto;
+  transform: translate(-50%, -50%);
+  animation: star-jump 0.7s linear infinite; /* same jump as the asterisk of the logo */
+}
+
+@keyframes star-jump {
+  0%,
+  49.99% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  50%,
+  100% {
+    transform: translate(-50%, -50%) rotate(24deg);
+  }
+}
+
+/* The sentence of the first version, small, at the bottom */
+.home__tagline {
+  position: fixed;
+  bottom: 1.6vw;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  font-size: 1.07143vw;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .home__title {
+    font-size: 24vw;
+  }
+
+  .home__tagline {
+    bottom: 5vw;
+    font-size: 3.4vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home__star,
+  .home__pupil {
+    animation: none;
+  }
 }

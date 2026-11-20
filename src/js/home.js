@@ -1,0 +1,65 @@
+// Home: the color of the page changes every few seconds, going through the colors of the work strips
+// (same colors, same order as in work.html). The change is smooth (see the transition in home.css).
+// A new color every 4.5 seconds (madeinhaus.com does it about every 7).
+
+const COLORS = [
+  "#f089ba", // Reblend
+  "#f0df89", // Logopedista
+  "#89e6f0", // Studio
+  "#e789f0", // NCA
+  "#8bb6ee", // Staedtler
+  "#f0a489", // CMDZ
+  "#c189f0", // Vibe
+  "#f09389", // Anti-Violence Campaign
+  "#8dede8", // Interview
+  "#f0dd89", // Quieta Distanza
+  "#f0bf89", // Karibujua
+  "#bd92e8", // Dualita
+  "#d9e594", // Life/Leaf
+];
+const INTERVAL = 4500; // ms between one color and the next
+
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+if (!reducedMotion.matches) {
+  let index = 0; // the page starts with the first color (set in home.css)
+
+  setInterval(() => {
+    index = (index + 1) % COLORS.length;
+    document.body.style.setProperty("--page-bg", COLORS[index]);
+  }, INTERVAL);
+}
+
+// --- The letters of the name ---------------------------------------------------
+// Every now and then a random letter turns into the asterisk of the logo for a moment,
+// then goes back to being a letter (like the letters of madeinhaus.com that change shape).
+
+const LETTERS = [...document.querySelectorAll(".home__letter")];
+const EVERY = 1400; // ms between one change and the next
+const STAYS = 1100; // ms a letter stays an asterisk
+
+if (!reducedMotion.matches && LETTERS.length) {
+  let previous = -1;
+
+  setInterval(() => {
+    // a letter different from the last one
+    let n;
+    do {
+      n = Math.floor(Math.random() * LETTERS.length);
+    } while (n === previous);
+    previous = n;
+
+    const letter = LETTERS[n];
+    const star = document.createElement("img");
+    star.className = "home__star";
+    star.src = "../assets/img/asterisk.png";
+    star.alt = "";
+    letter.classList.add("is-star");
+    letter.append(star);
+
+    setTimeout(() => {
+      star.remove();
+      letter.classList.remove("is-star");
+    }, STAYS);
+  }, EVERY);
+}
