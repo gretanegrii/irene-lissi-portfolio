@@ -153,7 +153,6 @@ body {
 .nav__item--back {
   order: -1; /* it is the last in the HTML (so the hover colors above keep their order) but shows first */
   margin-right: auto;
-  margin-left: 0;
 }
 
 .nav__item--back:hover .nav__link { background: #f49731; }
@@ -162,4 +161,80 @@ body {
   width: 0.95em; /* em: the arrow follows the size of the pill at every screen width */
   height: 1em; /* as tall as the text of the other pills, so the pills are the same height */
   display: block;
+}
+
+/* The logo: at the left, black, as tall as the pills.
+   --pill-height is the height of a pill (padding + text + border, the same numbers as .nav__link above,
+   for each screen size). */
+.nav {
+  --pill-height: calc(3.09524vw + 2px);
+}
+
+@media (min-width: 1681px) {
+  .nav { --pill-height: 54px; }
+}
+
+@media (max-width: 1024px) {
+  .nav { --pill-height: calc(4.49219vw + 2px); }
+}
+
+@media (max-width: 767px) and (orientation: portrait) {
+  .nav { --pill-height: calc(8.66667vw + 2px); }
+}
+
+@media (max-width: 767px) and (orientation: landscape) {
+  .nav { --pill-height: calc(4.33333vw + 2px); }
+}
+
+.nav__item--logo {
+  order: -2;
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.nav__logo-link {
+  display: block;
+}
+
+/* The logo is two pictures on top of each other: the "IL" and the asterisk.
+   The asterisk jumps between two positions, as if the same asterisk were drawn twice
+   in two different poses (like a hand-drawn animation). */
+.nav__logo {
+  position: relative;
+  display: block;
+  height: var(--pill-height);
+  aspect-ratio: 400 / 534;
+}
+
+.nav__logo-il,
+.nav__logo-asterisk {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.nav__logo-asterisk {
+  transform-origin: 22.5% 16.1%; /* the center of the asterisk */
+  animation: asterisk-jump 0.7s linear infinite;
+}
+
+/* No in-between frames: it is in one pose for about a third of a second, then in the other */
+@keyframes asterisk-jump {
+  0%,
+  49.99% {
+    transform: rotate(0deg);
+  }
+
+  50%,
+  100% {
+    transform: rotate(24deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav__logo-asterisk {
+    animation: none;
+  }
 }

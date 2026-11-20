@@ -2,6 +2,11 @@
    work page ends its movement, so the opening looks like one continuous gesture.
    Layout, sizes and breakpoints come from work.css (.work, .project...). */
 
+/* With the back pill next to it, the logo does not push it away */
+.nav__item--logo {
+  margin-right: 0;
+}
+
 /* The pills of the navbar stay white here, whatever the color of the page */
 .nav__link {
   background: #fff;

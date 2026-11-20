@@ -1,5 +1,176 @@
-/* About page: colored background, not white */
+/* About page: same structure as the reference (anacuna.com/about):
+   a big sentence, a text, and a list of small uppercase rows with a line under each.
+   Sizes are in vw, designed on a 1680px wide screen, like the work page. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   --page-bg: #c6d960; /* the navbar pills take this color too */
+  margin: 0;
   background: var(--page-bg);
+  color: #000;
+  line-height: 1;
+}
+
+::selection {
+  color: #fff;
+  background: #000;
+}
+
+.about {
+  padding: 13.9881vw 1.42857vw 6vw; /* the top leaves the room for the navbar */
+}
+
+/* The big sentence: same size as the titles of the work strips */
+.about__statement {
+  margin: 0 0 7.8vw;
+  font-size: 6.54762vw;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.about__text {
+  font-size: 2.14286vw;
+  line-height: 1.12;
+}
+
+.about__text p {
+  margin: 0 0 1.2em;
+}
+
+.about__text p:last-child {
+  margin-bottom: 0;
+}
+
+/* Skills: pills, same style as the pills of the navbar (and as the contacts of the reference) */
+.about__skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.47619vw;
+  margin: 3.2vw 0 11vw;
+  padding: 0;
+  list-style: none;
+}
+
+.about__skill {
+  padding: 0.53571vw 0.95238vw 0.41667vw;
+  border: 1px solid #000;
+  border-radius: 1.90476vw;
+  font-size: 2.14286vw;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* List: four columns, small uppercase text, a line under each cell */
+.about__label {
+  margin: 0;
+  font-size: 1.07143vw;
+  font-weight: 400;
+  line-height: 1.11;
+}
+
+.about__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about__label,
+.about__row > * {
+  padding: 0.47vw 0;
+  border-bottom: 1px solid #000;
+}
+
+.about__label {
+  width: calc((100% - 3 * 1.07143vw) / 4);
+}
+
+.about__row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 1.07143vw;
+  font-size: 1.07143vw;
+  line-height: 1.11;
+  text-transform: uppercase;
+}
+
+.about__label {
+  text-transform: uppercase;
+}
+
+.about__wide {
+  grid-column: 2 / span 2;
+}
+
+.about__desc {
+  grid-column: 3 / span 2;
+}
+
+.about__full {
+  grid-column: 1 / span 3;
+}
+
+/* Space between one list and the next */
+.about__block + .about__block {
+  margin-top: 4.5vw;
+}
+
+@media (max-width: 767px) {
+  .about {
+    padding: 28vw 2.22vw 12vw;
+  }
+
+  .about__statement {
+    margin-bottom: 14vw;
+    font-size: 10.5vw;
+  }
+
+  .about__text {
+    font-size: 4.9vw;
+  }
+
+  .about__skills {
+    gap: 1.8vw;
+    margin: 7vw 0 18vw;
+  }
+
+  .about__skill {
+    padding: 2.2vw 4vw 1.7vw;
+    border-radius: 8vw;
+    font-size: 4.4vw;
+  }
+
+  .about__label,
+  .about__row {
+    font-size: 3.3vw;
+  }
+
+  .about__label,
+  .about__row > * {
+    padding: 1.6vw 0;
+  }
+
+  .about__label {
+    width: 100%;
+  }
+
+  .about__row {
+    display: block;
+    margin-bottom: 4vw;
+  }
+
+  .about__wide,
+  .about__desc,
+  .about__full {
+    grid-column: auto;
+  }
+
+  .about__block + .about__block {
+    margin-top: 12vw;
+  }
 }
