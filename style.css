@@ -18,57 +18,28 @@
   box-sizing: border-box;
 }
 
-html,
 body {
-  height: 100%;
-  overflow: hidden; /* no native scroll: pages change on click, contacts on scroll */
-  overscroll-behavior: none;
-  touch-action: none;
-}
-
-body {
-  background-color: var(--ink);
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--ink);
   font-family: "Poppins", sans-serif;
   font-weight: 500;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Contact page: colors inverted (dark background, light text) */
+body.is-contact {
+  background-color: var(--ink);
+  color: var(--bg);
 }
 
 a {
   color: inherit;
 }
 
-/* Contact page: fixed underneath, colors inverted */
-.contact {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background-color: var(--ink);
-  color: var(--bg);
-  padding: 0 48px 0 calc(var(--nav-width) + 48px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 24px;
-}
-
-/* The site: a layer on top of the contact page */
-.site {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  background-color: var(--bg);
-  color: var(--ink);
-  will-change: transform;
-  transition: background-color 0.3s;
-}
-
-/* No transform transition while scrolling: the site follows the cursor/finger exactly */
-.site.animating {
-  transition: transform 0.45s var(--ease), background-color 0.3s;
-}
-
-/* Theme switch (bottom right of the site) */
+/* Theme switch (bottom right, always visible) */
 .theme-switch {
-  position: absolute;
+  position: fixed;
   right: 24px;
   bottom: 24px;
   width: 60px;
@@ -103,7 +74,7 @@ a {
 
 /* Vertical navbar on the left, rotated text */
 .nav {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   height: 100%;
@@ -135,23 +106,19 @@ a {
   color: var(--hover);
 }
 
-/* Pages: only one is visible at a time */
+/* Current page: bolder link */
+.nav a[aria-current="page"] {
+  font-weight: 600;
+}
+
+/* Every page: content centered, leaving room for the fixed navbar */
 .page {
-  position: absolute;
-  inset: 0;
-  padding: 0 48px 0 calc(var(--nav-width) + 48px);
+  min-height: 100vh;
+  padding: 48px 48px 48px calc(var(--nav-width) + 48px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 24px;
-  opacity: 0;
-  visibility: hidden;
-  transition: none; /* pages switch instantly */
-}
-
-.page.active {
-  opacity: 1;
-  visibility: visible;
 }
 
 h1 {
@@ -188,8 +155,7 @@ p,
     font-size: 1rem;
   }
 
-  .page,
-  .contact {
+  .page {
     padding-right: 20px;
     padding-left: calc(var(--nav-width) + 8px);
   }

@@ -1,0 +1,292 @@
+/* Work page: list of strips (same layout and behavior as the reference, anacuna.com).
+   Sizes are in vw, designed on a 1680px wide screen; fixed px above 1680px. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: #000;
+  /* Placeholder: the reference uses the paid font ABC Monument Grotesk */
+  font-family: "Inter Tight", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1;
+  overflow-x: hidden;
+  overscroll-behavior: none;
+}
+
+::selection {
+  color: #fff;
+  background: #000;
+}
+
+h2 {
+  margin: 0;
+  font-weight: 400;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* --- Navbar: fixed at the top, over the strips, like the reference ---------- */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  padding: 0 1.42857vw;
+  pointer-events: none; /* only the pills catch the mouse, the strips below stay hoverable */
+}
+
+.nav__item {
+  pointer-events: all;
+}
+
+@media (min-width: 1681px) {
+  .nav {
+    padding: 0 24px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .nav {
+    padding: 0 2.34375vw;
+  }
+}
+
+@media (max-width: 767px) and (orientation: portrait) {
+  .nav {
+    padding: 0 3.55556vw;
+  }
+}
+
+@media (max-width: 767px) and (orientation: landscape) {
+  .nav {
+    padding: 0 1.77778vw;
+  }
+}
+
+/* --- Page --------------------------------------------------------------- */
+
+.work {
+  padding-top: 5.11905vw;
+  padding-bottom: 2.61905vw;
+  min-height: 100vh;
+}
+
+.work__list {
+  width: 100%;
+  margin: 0;
+  padding: 13.9881vw 0 0; /* top: room for the header, which is not here yet. No side padding: strips run edge to edge */
+  overflow: hidden;
+  list-style: none;
+}
+
+/* --- Strip -------------------------------------------------------------- */
+
+.project {
+  --overlap: -1.90476vw; /* each strip slides under the next one by this much */
+  position: relative;
+  z-index: 1;
+  min-width: 100%;
+  margin-bottom: var(--overlap);
+  background: #fff;
+  /* Leaving: the color goes back to white, then the strip drops down */
+  transition:
+    background-color 0.2s linear,
+    transform 0.4s ease 0.2s;
+}
+
+/* Hover: the strip takes its color and slides up over the one above */
+.project:hover {
+  background: var(--color);
+  transform: translateY(var(--overlap));
+  transition:
+    background-color 0.1s linear,
+    transform 0.4s ease;
+}
+
+.project__link {
+  display: block;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
+
+.project__text {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0.83333vw 0.95238vw 0.11905vw;
+  white-space: nowrap;
+  /* The sliding on hover is done by work.js */
+}
+
+.project__title {
+  position: relative;
+  top: -0.04em; /* 0 = title lower and more hidden by the next strip; more negative = higher */
+  font-size: 6.54762vw;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Pill next to the title: area of interest */
+.project__tag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.71429vw;
+  margin-left: 0.47619vw;
+  padding: 0.53571vw 0.95238vw 0.41667vw;
+  border: 1px solid #000;
+  border-radius: 1.90476vw;
+  font-size: 1.07143vw;
+  line-height: 1.11111;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+/* --- Breakpoints (same as the reference) -------------------------------- */
+
+@media (min-width: 1681px) {
+  .work {
+    padding-top: 86px;
+    padding-bottom: 44px;
+  }
+
+  .work__list {
+    padding-top: 235px;
+  }
+
+  .project {
+    --overlap: -32px;
+  }
+
+  .project__text {
+    padding: 14px 16px 2px;
+  }
+
+  .project__title {
+    font-size: 110px;
+  }
+
+  .project__tag {
+    margin-top: 12px;
+    margin-left: 8px;
+    padding: 9px 16px 7px;
+    border-radius: 32px;
+    font-size: 18px;
+    line-height: 1.125;
+  }
+}
+
+@media (max-width: 1280px) {
+  .project {
+    --overlap: -22px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .work {
+    padding-top: 8.39844vw;
+    padding-bottom: 4.29688vw;
+  }
+
+  .work__list {
+    padding-top: 22.94922vw;
+  }
+
+  .project {
+    --overlap: -3.125vw;
+  }
+
+  .project__text {
+    padding: 1.36719vw 1.5625vw 0.19531vw;
+  }
+
+  .project__title {
+    font-size: 7.8125vw;
+  }
+
+  .project__tag {
+    margin-top: 1.17188vw;
+    margin-left: 0.78125vw;
+    padding: 0.87891vw 1.5625vw 0.68359vw;
+    border-radius: 3.125vw;
+    font-size: 1.5625vw;
+    line-height: 1.125;
+  }
+}
+
+@media (max-width: 767px) and (orientation: portrait) {
+  .work {
+    padding-top: 27.55556vw;
+    padding-bottom: 9.77778vw;
+  }
+
+  .work__list {
+    padding-top: 52.22222vw;
+  }
+
+  .project {
+    --overlap: -7.11111vw;
+  }
+
+  .project__text {
+    padding: 3.11111vw 3.55556vw 0.44444vw;
+  }
+
+  .project__title {
+    font-size: 15.55556vw;
+  }
+
+  .project__tag {
+    margin-top: 0;
+    margin-left: 1.77778vw;
+    padding: 1.11111vw 3.11111vw 0.88889vw;
+    border-radius: 7.11111vw;
+    font-size: 3.55556vw;
+    line-height: 1.125;
+  }
+}
+
+@media (max-width: 767px) and (orientation: landscape) {
+  .work {
+    padding-top: 13.77778vw;
+    padding-bottom: 4.88889vw;
+  }
+
+  .work__list {
+    padding-top: 26.11111vw;
+  }
+
+  .project {
+    --overlap: -3.55556vw;
+  }
+
+  .project__text {
+    padding: 1.55556vw 1.77778vw 0.22222vw;
+  }
+
+  .project__title {
+    font-size: 7.77778vw;
+  }
+
+  .project__tag {
+    margin-top: 0;
+    margin-left: 0.88889vw;
+    padding: 0.55556vw 1.55556vw 0.44444vw;
+    border-radius: 3.55556vw;
+    font-size: 1.77778vw;
+    line-height: 1.125;
+  }
+}

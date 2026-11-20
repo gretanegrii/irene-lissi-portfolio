@@ -6,56 +6,19 @@
   <title>Irene Lissi — Creative Director</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="nav.css">
 </head>
 <body>
+  <nav class="nav" aria-label="Main navigation">
+    <ul class="nav__list">
+      <li class="nav__item"><a class="nav__link" href="index.html">home</a></li>
+      <li class="nav__item"><a class="nav__link" href="about.html">su di me</a></li>
+      <li class="nav__item"><a class="nav__link" href="work.html">lavori</a></li>
+      <li class="nav__item"><a class="nav__link" href="contact.html">contatti</a></li>
+    </ul>
+  </nav>
 
-  <!-- Contact page: it sits underneath the whole site and is revealed when the site slides up -->
-  <section class="contact" id="contact" aria-label="Contatti">
-    <h2>contatti</h2>
-    <p><a href="mailto:ciao@example.com">ciao@example.com</a></p>
-    <p><a href="https://instagram.com/" target="_blank" rel="noopener">instagram</a></p>
-    <p><a href="https://linkedin.com/" target="_blank" rel="noopener">linkedin</a></p>
-  </section>
-
-  <!-- The whole site is a layer on top of the contact page -->
-  <div class="site">
-    <!-- Vertical navbar: the words are rotated 90 degrees -->
-    <nav class="nav" aria-label="Main navigation">
-      <ul>
-        <li><a href="#home" data-page="home">home</a></li>
-        <li><a href="#about" data-page="about">su di me</a></li>
-        <li><a href="#work" data-page="work">lavori</a></li>
-        <li><a href="#contact" data-page="contact">contatti</a></li>
-      </ul>
-    </nav>
-
-    <button class="theme-switch" type="button" role="switch" aria-checked="false" aria-label="Cambia colore dello sfondo">
-      <span class="theme-switch__knob"></span>
-    </button>
-
-    <main class="pages">
-      <section id="home" class="page">
-        <h1>home</h1>
-      </section>
-
-      <section id="about" class="page">
-        <h2>su di me</h2>
-        <p>Laureata in Graphic Design e Art Direction all'ABA. Scrivi qui la tua presentazione: chi sei, come lavori, cosa ti appassiona.</p>
-      </section>
-
-      <section id="work" class="page">
-        <h2>lavori</h2>
-        <ul class="work-list">
-          <li>Progetto uno</li>
-          <li>Progetto due</li>
-          <li>Progetto tre</li>
-        </ul>
-      </section>
-    </main>
-  </div>
-
-  <script src="script.js"></script>
+  <h1>Hey! :) Sono Irene Lissi, una junior art director.</h1>
 </body>
 </html>
