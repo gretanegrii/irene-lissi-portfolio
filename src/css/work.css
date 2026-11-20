@@ -114,11 +114,18 @@ a {
   object-fit: cover;
   pointer-events: none;
   transform: translateY(110%);
-  transition: transform 0.7s ease;
+  opacity: 0; /* hidden when the mouse is not on the strip, also for the last strips (nothing is in front of the picture there) */
+  transition:
+    transform 0.7s ease,
+    opacity 0s linear 0.7s; /* it disappears only after it has gone down */
 }
 
 .project:hover .project__thumb {
   transform: translateY(0);
+  opacity: 1;
+  transition:
+    transform 0.7s ease,
+    opacity 0s;
 }
 
 /* No hover on touch screens */

@@ -7,17 +7,21 @@
   margin-right: 0;
 }
 
-/* The pills of the navbar stay white here, whatever the color of the page */
-.nav__link {
-  background: #fff;
-}
-
 h1 {
   margin: 0;
   font-weight: 400;
 }
 
 /* The page already has the color of the project: the strip is only its two lines */
+/* The pill with the area of interest sits at the middle of the height of the title, close to it */
+.case .project__text {
+  align-items: center;
+}
+
+.case .project__tag {
+  margin-top: 0;
+}
+
 .case .project {
   margin-top: var(--case-gap); /* air between the navbar and the title strip */
   background: transparent;
@@ -128,6 +132,116 @@ h1 {
   margin: 2.6vw 0 6.94vw;
 }
 
+/* Slider: the pictures are side by side and you move between them (click on the left or on the right half,
+   drag, swipe, or the arrow keys). Under it, one dot for each picture. */
+.case__slider {
+  grid-column: 3 / 5;
+  margin: 2.6vw 0 6.94vw;
+}
+
+.case__slides {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none; /* no scrollbar: the dots say where you are */
+  cursor: none; /* the pill with the two arrows (below) takes the place of the pointer */
+  user-select: none;
+  -webkit-user-select: none;
+  outline: none;
+}
+
+.case__slides::-webkit-scrollbar {
+  display: none;
+}
+
+.case__slide {
+  display: flex;
+  flex: 0 0 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5vw 0 2vw; /* room for the shadow, which would be cut by the scroll box */
+  scroll-snap-align: center;
+}
+
+.case__slide .case__photo {
+  grid-column: auto;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 40vw; /* the covers are tall: this keeps them smaller than the screen */
+  margin: 0;
+  -webkit-user-drag: none;
+}
+
+.case__dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.6vw;
+  margin-top: 1vw;
+}
+
+.case__dot {
+  width: 0.9vw;
+  height: 0.9vw;
+  min-width: 11px;
+  min-height: 11px;
+  padding: 0;
+  border: 1px solid #000;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.case__dot.is-active {
+  background: #000;
+}
+
+.case__dot:not(.is-active) {
+  background: #fff;
+}
+
+/* The pill that follows the mouse over the pictures: white, with an arrow to the left and one to the right */
+.case__cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7vw;
+  height: var(--pill-height, 46px);
+  padding: 0 1.3vw;
+  border: 1px solid #000;
+  border-radius: 999px;
+  background: #fff;
+  color: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.case__cursor svg {
+  width: 1.5vw;
+  min-width: 18px;
+  height: auto;
+}
+
+.case__slider.is-pointing .case__cursor {
+  opacity: 1;
+}
+
+/* On touch screens there is no pointer: you swipe */
+@media (hover: none) {
+  .case__slides {
+    cursor: auto;
+  }
+
+  .case__cursor {
+    display: none;
+  }
+}
+
 /* An image that follows a text: a bit of air above it */
 .case__body + .case__figure .case__photo {
   margin-top: 3.47vw;
@@ -141,8 +255,49 @@ h1 {
   line-height: 1.11;
 }
 
+/* The arrow of the caption is a drawing (not a character): a character can turn into a colored emoji
+   on some phones. It jumps now and then, towards the picture (the same hop of the arrow of the navbar). */
 .case__caption::before {
-  content: "← ";
+  content: "";
+  display: inline-block;
+  width: 1.1em;
+  height: 0.7em;
+  margin-right: 0.35em;
+  vertical-align: -0.02em;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 16'%3E%3Cpath d='M19 8H2M8 1.5 1.5 8 8 14.5' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat center / contain;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 16'%3E%3Cpath d='M19 8H2M8 1.5 1.5 8 8 14.5' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat center / contain;
+  animation: arrow-hop 3.2s ease-in-out infinite;
+}
+
+@keyframes arrow-hop {
+  0%,
+  64%,
+  100% {
+    transform: translateX(0);
+  }
+
+  72% {
+    transform: translateX(-0.4em);
+  }
+
+  80% {
+    transform: translateX(0);
+  }
+
+  86% {
+    transform: translateX(-0.18em);
+  }
+
+  92% {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case__caption::before {
+    animation: none;
+  }
 }
 
 /* One big line, to put an idea under the spotlight */
@@ -158,6 +313,14 @@ h1 {
 }
 
 @media (max-width: 767px) {
+  .case__slider {
+    margin: 0 0 8vw;
+  }
+
+  .case__dots {
+    margin-top: 3vw;
+  }
+
   .case {
     --lead-size: 7.2vw;
     --head-size: 10vw;

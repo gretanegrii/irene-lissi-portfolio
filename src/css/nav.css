@@ -192,15 +192,23 @@ body {
 }
 
 /* Case study pages: a pill with an arrow, at the left, goes back to the work page */
+/* The back pill: a circle as tall as the pills of the navbar */
 .nav__item--back {
   order: -1; /* it is the last in the HTML but shows first */
+  align-self: flex-end;
   margin-right: auto;
 }
 
+.nav__item--back .nav__link {
+  width: var(--pill-height);
+  height: var(--pill-height);
+  padding: 0;
+}
+
 .nav__arrow {
-  width: 0.95em; /* em: the arrow follows the size of the pill at every screen width */
-  height: 1em; /* as tall as the text of the other pills, so the pills are the same height */
   display: block;
+  width: 0.8em; /* em: the arrow follows the size of the pill at every screen width */
+  height: auto;
 }
 
 /* The logo: at the left, black, as tall as the pills.
