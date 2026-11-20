@@ -7,6 +7,11 @@
   box-sizing: border-box;
 }
 
+/* The font of the whole site (placeholder: the reference uses the paid font ABC Monument Grotesk) */
+body {
+  font-family: "Poppins", Helvetica, Arial, sans-serif;
+}
+
 /* Fixed at the top of the window, same place on every page */
 .nav {
   position: fixed;
@@ -17,7 +22,7 @@
   padding: 0 1.42857vw;
   pointer-events: none; /* only the pills catch the mouse, what is below stays usable */
   /* Placeholder: the reference uses the paid font ABC Monument Grotesk */
-  font-family: "Inter Tight", Helvetica, Arial, sans-serif;
+  font-family: "Poppins", Helvetica, Arial, sans-serif;
   font-weight: 400;
   line-height: 1;
 }
@@ -142,4 +147,18 @@
     border-radius: 3.55556vw;
     font-size: 3.33333vw;
   }
+}
+
+/* Case study pages: a pill with an arrow, at the left, goes back to the work page */
+.nav__item--back {
+  order: -1; /* it is the last in the HTML (so the hover colors above keep their order) but shows first */
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.nav__item--back:hover .nav__link { background: #f49731; }
+
+.nav__arrow {
+  width: 1.33em; /* em: the arrow follows the size of the pill at every screen width */
+  height: 0.76em;
 }

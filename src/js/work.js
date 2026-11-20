@@ -125,8 +125,14 @@ function openProject(event, strip) {
   const color = getComputedStyle(strip.project).getPropertyValue("--color").trim();
   const index = strips.indexOf(strip);
 
-  // Where the strip has to end: the top of the case study page (same padding as .work)
-  const target = parseFloat(getComputedStyle(document.querySelector(".work")).paddingTop);
+  // Where the strip has to end: the top of the case study page (the padding of .work + the air under the navbar)
+  // plus the air under the navbar (--case-gap, defined in case.css, measured with a probe)
+  const work = document.querySelector(".work");
+  const probe = document.createElement("div");
+  probe.style.cssText = "position: absolute; visibility: hidden; height: min(4vw, 67px);";
+  work.appendChild(probe);
+  const target = parseFloat(getComputedStyle(work).paddingTop) + probe.offsetHeight;
+  probe.remove();
 
   // 1. Measure everything before touching anything
   const tops = strips.map((s) => s.project.getBoundingClientRect().top);

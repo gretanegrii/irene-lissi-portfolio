@@ -9,64 +9,73 @@ h1 {
 
 /* The page already has the color of the project: the strip is only its two lines */
 .case .project {
+  margin-top: var(--case-gap); /* air between the navbar and the title strip */
   background: transparent;
   pointer-events: none;
 }
 
 /* --- Body of the case study ---------------------------------------------
-   Layout inspired by zefs.website: text in a narrow column that starts one third
-   into the page, numbered sections, wide images with a small side caption,
-   one big line to underline an idea. Sizes in vw, with a cap on very wide screens. */
+   Layout measured on zefs.website (1440px wide): every block is a grid of 6 columns,
+   60px of space on the left, 30px between columns.
+   - titles start on the 2nd column, the numbers on the 1st
+   - texts sit in the middle: columns 3-4 (the introduction goes on to column 5)
+   - images start on the 2nd column, captions on the 5th
+   Vertical spaces (in vw, so they scale; px at 1440 in the comments):
+   title -> text 56px, text -> image 50px, image -> next block 100px,
+   image -> next title 137px, introduction -> first title 87px. */
 
 .case {
-  /* Sizes measured on zefs.website at 1440px (Lausanne Regular there, Inter Tight here for now) */
+  --case-gap: min(4vw, 67px);
+  /* Sizes measured on zefs.website (Lausanne Regular there, Poppins here for now) */
   --lead-size: min(3.125vw, 45px); /* introduction */
   --head-size: min(4.79167vw, 69px); /* section title */
   --text-size: min(1.875vw, 27px); /* text under the titles */
   --small-size: min(1.45833vw, 21px); /* captions */
-  --gutter: 0.95238vw; /* same side space as the title strip */
   color: #02031f;
 }
 
-/* Intro: first paragraph of the project + small footnote, in the column of the text */
-.case__intro {
-  margin: 6vw 0 0 33.3333%;
-  padding-right: var(--gutter);
-  max-width: 52%;
+.case__intro,
+.case__section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2.5fr 1fr 0.625fr 150px;
+  column-gap: 30px;
+  padding-left: 60px;
 }
 
+/* Introduction: columns 3 to 5 */
 .case__lead {
-  margin: 0;
+  grid-column: 3 / 6;
+  margin: 6vw 0 3.47vw;
   font-size: var(--lead-size);
   line-height: 1.109;
 }
 
-/* Section: number | title, then the content */
-.case__section {
-  margin-top: 9vw;
-  padding: 0 var(--gutter);
+/* Section title: number on column 1, title on columns 2-3 */
+.case__head {
+  display: contents;
 }
 
-.case__head {
-  display: flex;
-  align-items: baseline;
+.case__number,
+.case__heading {
+  margin-top: 2.6vw;
   font-size: var(--head-size);
+  font-weight: 400;
   line-height: 0.907;
 }
 
 .case__number {
-  width: 11.5%;
+  grid-column: 1;
 }
 
 .case__heading {
-  margin: 0;
-  font-size: inherit;
-  font-weight: 400;
+  grid-column: 2 / 4;
+  margin-bottom: 0;
 }
 
+/* Text: columns 3-4, the middle of the page */
 .case__body {
-  margin: 3.2vw 0 0 calc(33.3333% - var(--gutter));
-  max-width: 38%;
+  grid-column: 3 / 5;
+  margin-top: 3.9vw;
   font-size: var(--text-size);
   line-height: 1.311;
 }
@@ -75,19 +84,21 @@ h1 {
   margin: 0 0 1.25em;
 }
 
-/* Image with a small caption on the right, preceded by an arrow */
+.case__body p:last-child {
+  margin-bottom: 0;
+}
+
+/* Image on columns 2-4, small caption on column 5 (starts with an arrow) */
 .case__figure {
-  display: flex;
-  align-items: flex-start;
-  gap: 1.2vw;
-  margin: 4vw 0 0 11.5%;
+  display: contents;
 }
 
 .case__image {
+  grid-column: 2 / 5;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 0 0 58%;
+  margin: 3.47vw 0 6.94vw;
   aspect-ratio: 16 / 10;
   border: 1px solid #000;
   font-size: var(--small-size);
@@ -95,7 +106,9 @@ h1 {
 }
 
 .case__caption {
-  max-width: 11em;
+  grid-column: 5;
+  align-self: start;
+  margin-top: 3.47vw;
   font-size: var(--small-size);
   line-height: 1.11;
 }
@@ -106,14 +119,14 @@ h1 {
 
 /* One big line, to put an idea under the spotlight */
 .case__big {
-  margin: 7vw 0 0 5%;
-  max-width: 62%;
-  font-size: calc(var(--text-size) * 2.4);
-  line-height: 1.05;
+  grid-column: 1 / 6;
+  margin: 0 0 6.94vw;
+  font-size: var(--head-size);
+  line-height: 0.907;
 }
 
 .case__end {
-  height: 10vw;
+  height: 6.94vw;
 }
 
 @media (max-width: 767px) {
@@ -122,17 +135,27 @@ h1 {
     --head-size: 10vw;
     --text-size: 4.6vw;
     --small-size: 3.4vw;
-    --gutter: 2.2vw;
   }
 
-  .case__intro {
-    margin: 12vw 0 0;
-    padding: 0 var(--gutter);
-    max-width: none;
-  }
-
+  .case__intro,
   .case__section {
-    margin-top: 16vw;
+    display: block;
+    padding: 0 2.2vw;
+  }
+
+  .case__lead {
+    margin: 12vw 0 8vw;
+  }
+
+  .case__head {
+    display: flex;
+    align-items: baseline;
+    margin-top: 12vw;
+  }
+
+  .case__number,
+  .case__heading {
+    margin-top: 0;
   }
 
   .case__number {
@@ -140,27 +163,18 @@ h1 {
   }
 
   .case__body {
-    margin: 6vw 0 0;
-    max-width: none;
-  }
-
-  .case__figure {
-    flex-direction: column;
-    gap: 2vw;
-    margin: 8vw 0 0;
+    margin-top: 6vw;
   }
 
   .case__image {
-    flex: none;
-    width: 100%;
+    margin: 8vw 0 2vw;
   }
 
   .case__caption {
-    max-width: none;
+    margin: 0 0 12vw;
   }
 
   .case__big {
-    margin: 14vw 0 0;
-    max-width: none;
+    margin: 12vw 0;
   }
 }
