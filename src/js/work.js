@@ -222,6 +222,7 @@ function openProject(event, strip) {
   const textX = currentX(strip.text);
 
   // 2. Stop the hover movement and freeze every strip where it is on the screen
+  stopEntrance();
   strips.forEach((s) => {
     if (s.slide) s.slide.cancel();
     if (s.goBack) s.goBack.cancel();
@@ -265,6 +266,51 @@ strips.forEach((strip) => {
     openProject(event, strip);
   });
 });
+
+// --- Entrance -------------------------------------------------------------------------
+// When the page opens, the strips take their colors one after the other, from the first to the last, as if they
+// built a rainbow. They stay colored for a moment, then the colors go away, again from the first to the last,
+// and the page is the white list with the hover, as usual.
+
+const ENTER_DELAY = 250; // ms before it starts
+const ENTER_STEP = 110; // ms between one strip and the next
+const ENTER_IN = 380; // ms a strip takes to get its color
+const ENTER_HOLD = 900; // ms the whole rainbow stays
+const EXIT_STEP = 45; // ms between one strip and the next when the colors go away
+const EXIT_OUT = 600; // ms a strip takes to go back to white
+
+let entrance = [];
+
+function playEntrance() {
+  if (reducedMotion.matches) return;
+  const n = strips.length;
+  const rainbowDone = ENTER_DELAY + (n - 1) * ENTER_STEP + ENTER_IN; // the last strip has its color
+  const total = rainbowDone + ENTER_HOLD + (n - 1) * EXIT_STEP + EXIT_OUT;
+  const at = (ms) => Math.min(1, ms / total);
+
+  entrance = strips.map((strip, i) => {
+    const color = getComputedStyle(strip.project).getPropertyValue("--color").trim();
+    const start = ENTER_DELAY + i * ENTER_STEP;
+    const leave = rainbowDone + ENTER_HOLD + i * EXIT_STEP;
+    return strip.project.animate(
+      [
+        { backgroundColor: "#fff", offset: 0 },
+        { backgroundColor: "#fff", offset: at(start) },
+        { backgroundColor: color, offset: at(start + ENTER_IN) },
+        { backgroundColor: color, offset: at(leave) },
+        { backgroundColor: "#fff", offset: 1 },
+      ],
+      { duration: total, easing: "linear" }
+    );
+  });
+}
+
+function stopEntrance() {
+  entrance.forEach((animation) => animation.cancel());
+  entrance = [];
+}
+
+playEntrance();
 
 // Coming back with the browser's back button: show the list again, not the frozen one
 window.addEventListener("pageshow", (event) => {
