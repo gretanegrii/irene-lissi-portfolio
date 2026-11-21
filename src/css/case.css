@@ -2,6 +2,56 @@
    work page ends its movement, so the opening looks like one continuous gesture.
    Layout, sizes and breakpoints come from work.css (.work, .project...). */
 
+/* --- Fluid sizes ----------------------------------------------------------------
+   Nothing jumps between one screen size and the next: from a phone (390px) to 1024px every size slides in a
+   straight line to the laptop design; from 1024px it is the design of the 1680px screen, in vw (with the same
+   maximum sizes in px as before). */
+:root {
+  --c-lead: 7.2vw;
+  --c-head: 10vw;
+  --c-text: 4.6vw;
+  --c-small: 3.4vw;
+  --c-s26: 6vw;
+  --c-s347: 8vw;
+  --c-s39: 6vw;
+  --c-s694: 14vw;
+  --c-lead-t: 12vw;
+  --c-lead-b: 8vw;
+  --c-head-mt: 12vw;
+}
+
+@media (min-width: 390px) {
+  :root {
+    --c-lead: calc(25.6686px + 0.6183vw);
+    --c-head: calc(32.8075px + 1.5878vw);
+    --c-text: calc(17.1649px + 0.1987vw);
+    --c-small: calc(12.2307px + 0.2639vw);
+    --c-s26: calc(21.4168px + 0.5085vw);
+    --c-s347: calc(28.5347px + 0.6834vw);
+    --c-s39: calc(13.228px + 2.6082vw);
+    --c-s694: calc(44.4713px + 2.5971vw);
+    --c-lead-t: calc(37.7943px + 2.3091vw);
+    --c-lead-b: calc(28.5347px + 0.6834vw);
+    --c-head-mt: calc(59.2111px + -3.1823vw);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --c-lead: min(3.125vw, 45px);
+    --c-head: min(4.7917vw, 69px);
+    --c-text: min(1.875vw, 27px);
+    --c-small: min(1.4583vw, 21px);
+    --c-s26: 2.6vw;
+    --c-s347: 3.47vw;
+    --c-s39: 3.9vw;
+    --c-s694: 6.94vw;
+    --c-lead-t: 6vw;
+    --c-lead-b: 3.47vw;
+    --c-head-mt: 2.6vw;
+  }
+}
+
 /* With the back pill next to it, the logo does not push it away */
 .nav__item--logo {
   margin-right: 0;
@@ -52,10 +102,10 @@ h1 {
 .case {
   --case-gap: min(4vw, 67px);
   /* Sizes measured on zefs.website (Lausanne Regular there, Bricolage Grotesque here for now) */
-  --lead-size: min(3.125vw, 45px); /* introduction */
-  --head-size: min(4.79167vw, 69px); /* section title */
-  --text-size: min(1.875vw, 27px); /* text under the titles */
-  --small-size: min(1.45833vw, 21px); /* captions */
+  --lead-size: var(--c-lead); /* introduction */
+  --head-size: var(--c-head); /* section title */
+  --text-size: var(--c-text); /* text under the titles */
+  --small-size: var(--c-small); /* captions */
   color: #02031f;
 }
 
@@ -70,7 +120,7 @@ h1 {
 /* Introduction: columns 3 to 5 */
 .case__lead {
   grid-column: 3 / 6;
-  margin: 6vw 0 3.47vw;
+  margin: var(--c-lead-t) 0 var(--c-lead-b);
   font-size: var(--lead-size);
   line-height: 1.109;
 }
@@ -82,7 +132,7 @@ h1 {
 
 .case__number,
 .case__heading {
-  margin-top: 2.6vw;
+  margin-top: var(--c-head-mt);
   font-size: var(--head-size);
   font-weight: 400;
   line-height: 0.907;
@@ -101,7 +151,7 @@ h1 {
 /* Text: columns 3-4, the middle of the page */
 .case__body {
   grid-column: 3 / 5;
-  margin-top: 3.9vw;
+  margin-top: var(--c-s39);
   font-size: var(--text-size);
   line-height: 1.311;
 }
@@ -129,7 +179,7 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 3.47vw 0 6.94vw;
+  margin: var(--c-s347) 0 var(--c-s694);
   aspect-ratio: 16 / 10;
   border: 1px solid #000;
   font-size: var(--small-size);
@@ -145,7 +195,7 @@ h1 {
   /* A soft shadow around the picture. It follows the shape of the picture, also when the
      background has been removed (transparent PNG) */
   filter: drop-shadow(0 0.3vw 1.4vw rgba(0, 0, 0, 0.28));
-  margin: 2.6vw 0 6.94vw;
+  margin: var(--c-s26) 0 var(--c-s694);
 }
 
 /* Slider: the pictures are side by side and you move between them (click on the left or on the right half,
@@ -154,7 +204,7 @@ h1 {
   grid-column: 3 / 5;
   /* The sides are wider than the text column by 2.5vw each: that is the room that the shadow of the
      pictures needs. Without it the box that scrolls would cut the shadow, and the box would be visible. */
-  margin: 2.6vw -2.5vw 6.94vw;
+  margin: var(--c-s26) -2.5vw var(--c-s694);
 }
 
 .case__slides {
@@ -232,13 +282,13 @@ h1 {
   grid-column: 3 / 5;
   width: 100%;
   height: auto;
-  margin: 2.6vw 0 0;
+  margin: var(--c-s26) 0 0;
   background: #000;
   filter: drop-shadow(0 0.5vw 1.6vw rgba(0, 0, 0, 0.28));
 }
 
 .case__video--spaced {
-  margin-bottom: 6.94vw;
+  margin-bottom: var(--c-s694);
 }
 
 /* Under it, the three phases: a frame each, with its caption under it */
@@ -247,7 +297,7 @@ h1 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.4vw;
-  margin: 2.6vw 0 6.94vw;
+  margin: var(--c-s26) 0 var(--c-s694);
 }
 
 .case__phase {
@@ -314,7 +364,7 @@ h1 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.4vw;
-  margin: 2.6vw 0 6.94vw;
+  margin: var(--c-s26) 0 var(--c-s694);
 }
 
 .case__tiles .case__photo {
@@ -324,7 +374,7 @@ h1 {
 }
 
 .case__body + .case__figure > .case__tiles {
-  margin-top: 3.47vw;
+  margin-top: var(--c-s347);
 }
 
 /* A tall picture (like a whole feed): it does not take more than this height */
@@ -336,26 +386,26 @@ h1 {
 
 /* An image that follows a text: a bit of air above it */
 .case__body + .case__figure > .case__photo {
-  margin-top: 3.47vw;
+  margin-top: var(--c-s347);
 }
 
 .case__caption {
   grid-column: 5;
   align-self: start;
-  margin-top: 2.6vw; /* the same space above the picture */
+  margin-top: var(--c-s26); /* the same space above the picture */
   font-size: var(--small-size);
   line-height: 1.11;
 }
 
 /* After a text the picture has a bit more air above it, and so does the caption */
 .case__body + .case__figure > .case__caption {
-  margin-top: 3.47vw;
+  margin-top: var(--c-s347);
 }
 
 /* The caption of a slider starts at the top edge of the picture: the margin of the slider
    plus the space that the slide leaves above the picture */
 .case__slider ~ .case__caption {
-  margin-top: 4.6vw;
+  margin-top: calc(var(--c-s26) + 2vw);
 }
 
 /* The arrow of the caption is a drawing (not a character): a character can turn into a colored emoji
@@ -401,7 +451,7 @@ h1 {
 .case__caption--below {
   grid-column: 3 / 5;
   max-width: none;
-  margin: 1.2vw 0 6.94vw;
+  margin: 1.2vw 0 var(--c-s694);
 }
 
 .case__caption.case__caption--below::before {
@@ -447,50 +497,28 @@ h1 {
 /* One big line, to put an idea under the spotlight */
 .case__big {
   grid-column: 1 / 6;
-  margin: 0 0 6.94vw;
+  margin: 0 0 var(--c-s694);
   font-size: var(--head-size);
   line-height: 0.907;
 }
 
 .case__end {
-  height: 6.94vw;
+  height: var(--c-s694);
 }
 
-@media (max-width: 767px) {
-  .case__slider {
-    margin: 0 0 8vw;
-  }
-
-
-  .case__slide {
-    padding: 3vw 3vw 4vw;
-  }
-
-  .case__dots {
-    margin-top: 3vw;
-  }
-
-  .case {
-    --lead-size: 7.2vw;
-    --head-size: 10vw;
-    --text-size: 4.6vw;
-    --small-size: 3.4vw;
-  }
-
+/* --- Narrow screens (a phone, a small tablet) --------------------------------------------------
+   The six columns do not fit any more: everything goes in one column, the pictures take the whole width, and
+   the caption goes under its picture (with the arrow pointing up, to the picture). */
+@media (max-width: 899px) {
   .case__intro,
   .case__section {
     display: block;
-    padding: 0 2.2vw;
-  }
-
-  .case__lead {
-    margin: 12vw 0 8vw;
+    padding: 0 min(3.55556vw, 32px);
   }
 
   .case__head {
     display: flex;
     align-items: baseline;
-    margin-top: 12vw;
   }
 
   .case__number,
@@ -498,29 +526,61 @@ h1 {
     margin-top: 0;
   }
 
+  .case__head {
+    margin-top: var(--c-s694);
+  }
+
   .case__number {
     width: 12%;
   }
 
-  .case__body {
-    margin-top: 6vw;
+  /* A picture that has a caption leaves the space under the caption, not under itself */
+  .case__photo,
+  .case__slider,
+  .case__tiles {
+    margin-bottom: var(--c-s694);
   }
 
-  .case__image {
-    margin: 8vw 0 2vw;
-  }
-
-  .case__photo {
-    margin: 0 0 8vw;
+  .case__figure:has(> .case__caption) > .case__photo,
+  .case__figure:has(> .case__caption) > .case__slider,
+  .case__figure:has(> .case__caption) > .case__tiles {
+    margin-bottom: 0;
   }
 
   .case__caption,
-  .case__slider ~ .case__caption {
-    margin: 0 0 12vw;
+  .case__slider ~ .case__caption,
+  .case__body + .case__figure > .case__caption,
+  .case__caption.case__caption--below {
+    margin: 2.4vw 0 var(--c-s694);
+  }
+
+  /* The caption is under the picture: its arrow points up */
+  .case__caption::before {
+    transform: rotate(90deg);
+    animation-name: arrow-hop-up;
+  }
+
+  /* The tall pictures (posts, whole feeds) can be as big as the screen allows */
+  .case__photo--tall,
+  .case__slide .case__photo {
+    max-height: min(120vw, 70vh);
+  }
+
+  .case__slider {
+    margin-left: -3vw;
+    margin-right: -3vw;
+  }
+
+  .case__slide {
+    padding: 3vw 3vw 4vw;
+  }
+
+  .case__dots {
+    margin-top: 2.5vw;
   }
 
   .case__big {
-    margin: 12vw 0;
+    margin: var(--c-s694) 0;
   }
 }
 

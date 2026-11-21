@@ -195,6 +195,16 @@ body {
     opacity: 1;
   }
 
+  /* The bar has the color of the page, so the text that scrolls under it does not run into the logo and the
+     button (not on the home, where the color of the page changes slowly) */
+  .nav__list {
+    background: var(--page-bg, #fff);
+  }
+
+  body:has(.home) .nav__list {
+    background: none;
+  }
+
   /* One line: the logo (and the back pill) at the left, the button at the right.
      When the menu is open, the pills go under it, one on each line. */
   .nav__list {
