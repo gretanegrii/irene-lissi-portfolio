@@ -523,3 +523,15 @@ h1 {
     margin: 12vw 0;
   }
 }
+
+/* The title strip at the top of a case study is not covered by another strip (as the strips of the work list are),
+   so its words are simply centered in it, at every screen width (the work list lifts them to leave room for the
+   strip that covers the bottom). */
+.case .project__title {
+  top: calc((var(--w-pad-b) - var(--w-pad-t)) / 2 - 0.0105em);
+}
+
+/* With the pill under the title the title stays at the top of the strip, as it was designed */
+.case .project--stacked .project__title {
+  top: -0.05em;
+}
