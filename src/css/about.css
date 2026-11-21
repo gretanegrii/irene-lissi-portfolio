@@ -2,6 +2,101 @@
    a big sentence, a text, and a list of small uppercase rows with a line under each.
    Sizes are in vw, designed on a 1680px wide screen, like the work page. */
 
+/* --- Fluid sizes ----------------------------------------------------------------
+   Nothing jumps between one screen size and the next: from a phone (390px) to 1024px every size slides in a
+   straight line to the laptop design; from 1024px it is the design of the 1680px screen, in vw (and in px
+   above 1680px). */
+:root {
+  --a-pad-t: 28vw;
+  --a-pad-x: 3.5556vw;
+  --a-pad-b: 12vw;
+  --a-stmt: 10.5vw;
+  --a-stmt-mb: 14vw;
+  --a-text: 4.9vw;
+  --a-gap: 1.8vw;
+  --a-sk-mt: 7vw;
+  --a-sk-mb: 18vw;
+  --a-sk-pt: 2.2vw;
+  --a-sk-px: 4vw;
+  --a-sk-pb: 1.7vw;
+  --a-sk-r: 8vw;
+  --a-sk-fs: 4.4vw;
+  --a-row: 3.3vw;
+  --a-label: 4.8vw;
+  --a-cell: 1.6vw;
+  --a-block: 12vw;
+}
+
+@media (min-width: 390px) {
+  :root {
+    --a-pad-t: calc(88.2617px + 5.3688vw);
+    --a-pad-x: calc(13.3985px + 0.1201vw);
+    --a-pad-b: calc(37.7943px + 2.3091vw);
+    --a-stmt: calc(24.8963px + 4.1163vw);
+    --a-stmt-mb: calc(39.0541px + 3.9861vw);
+    --a-text: calc(17.3674px + 0.4468vw);
+    --a-gap: calc(8.3388px + -0.3381vw);
+    --a-sk-mt: calc(23.9364px + 0.8625vw);
+    --a-sk-mb: calc(44.0934px + 6.694vw);
+    --a-sk-pt: calc(10.4835px + -0.4881vw);
+    --a-sk-px: calc(19.1971px + -0.9223vw);
+    --a-sk-pb: calc(8.0838px + -0.3728vw);
+    --a-sk-r: calc(38.3942px + -1.8447vw);
+    --a-sk-fs: calc(14.2178px + 0.7544vw);
+    --a-row: calc(14.0379px + -0.2995vw);
+    --a-label: calc(20.157px + -0.3685vw);
+    --a-cell: calc(7.1179px + -0.2251vw);
+    --a-block: calc(47.2429px + -0.1136vw);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --a-pad-t: 13.9881vw;
+    --a-pad-x: 1.4286vw;
+    --a-pad-b: 6vw;
+    --a-stmt: 6.5476vw;
+    --a-stmt-mb: 7.8vw;
+    --a-text: 2.1429vw;
+    --a-gap: 0.4762vw;
+    --a-sk-mt: 3.2vw;
+    --a-sk-mb: 11vw;
+    --a-sk-pt: 0.5357vw;
+    --a-sk-px: 0.9524vw;
+    --a-sk-pb: 0.4167vw;
+    --a-sk-r: 1.9048vw;
+    --a-sk-fs: 2.1429vw;
+    --a-row: 1.0714vw;
+    --a-label: 1.6vw;
+    --a-cell: 0.47vw;
+    --a-block: 4.5vw;
+  }
+}
+
+@media (min-width: 1681px) {
+  :root {
+    --a-pad-t: 235.0001px;
+    --a-pad-x: 24px;
+    --a-pad-b: 100.8px;
+    --a-stmt: 110px;
+    --a-stmt-mb: 131.04px;
+    --a-text: 36px;
+    --a-gap: 8px;
+    --a-sk-mt: 53.76px;
+    --a-sk-mb: 184.8px;
+    --a-sk-pt: 8.9999px;
+    --a-sk-px: 16px;
+    --a-sk-pb: 7.0001px;
+    --a-sk-r: 32px;
+    --a-sk-fs: 36px;
+    --a-row: 18px;
+    --a-label: 26.88px;
+    --a-cell: 7.896px;
+    --a-block: 75.6px;
+  }
+}
+
+
 *,
 *::before,
 *::after {
@@ -22,19 +117,19 @@ body {
 }
 
 .about {
-  padding: 13.9881vw 1.42857vw 6vw; /* the top leaves the room for the navbar */
+  padding: var(--a-pad-t) var(--a-pad-x) var(--a-pad-b); /* the top leaves the room for the navbar */
 }
 
 /* The big sentence: same size as the titles of the work strips */
 .about__statement {
-  margin: 0 0 7.8vw;
-  font-size: 6.54762vw;
+  margin: 0 0 var(--a-stmt-mb);
+  font-size: var(--a-stmt);
   font-weight: 400;
   line-height: 1;
 }
 
 .about__text {
-  font-size: 2.14286vw;
+  font-size: var(--a-text);
   line-height: 1.12;
 }
 
@@ -50,17 +145,17 @@ body {
 .about__skills {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.47619vw;
-  margin: 3.2vw 0 11vw;
+  gap: var(--a-gap);
+  margin: var(--a-sk-mt) 0 var(--a-sk-mb);
   padding: 0;
   list-style: none;
 }
 
 .about__skill {
-  padding: 0.53571vw 0.95238vw 0.41667vw;
+  padding: var(--a-sk-pt) var(--a-sk-px) var(--a-sk-pb);
   border: 1px solid #000;
-  border-radius: 1.90476vw;
-  font-size: 2.14286vw;
+  border-radius: var(--a-sk-r);
+  font-size: var(--a-sk-fs);
   font-weight: 500;
   line-height: 1;
   text-transform: uppercase;
@@ -85,8 +180,6 @@ body {
 /* List: four columns, small uppercase text, a line under each cell */
 .about__label {
   margin: 0;
-  font-size: 1.07143vw;
-  font-weight: 400;
   line-height: 1.11;
 }
 
@@ -98,7 +191,7 @@ body {
 
 .about__label,
 .about__row > * {
-  padding: 0.47vw 0;
+  padding: var(--a-cell) 0;
 }
 
 /* The lines are only under the rows of the lists, not under the label */
@@ -107,21 +200,21 @@ body {
 }
 
 .about__label {
-  width: calc((100% - 3 * 1.07143vw) / 4);
+  width: calc((100% - 3 * var(--a-row)) / 4);
 }
 
 .about__row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  column-gap: 1.07143vw;
-  font-size: 1.07143vw;
+  column-gap: var(--a-row);
+  font-size: max(12px, var(--a-row)); /* not smaller than 12px: it has to be readable */
   line-height: 1.11;
   text-transform: uppercase;
 }
 
 /* The label of each list: bigger and bolder than the text of the rows, and no line under it */
 .about__label {
-  font-size: 1.6vw;
+  font-size: max(15px, var(--a-label));
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -140,63 +233,29 @@ body {
 
 /* Space between one list and the next */
 .about__block + .about__block {
-  margin-top: 4.5vw;
+  margin-top: var(--a-block);
 }
 
-@media (max-width: 767px) {
-  .about {
-    padding: 28vw 2.22vw 12vw;
-  }
-
-  .about__statement {
-    margin-bottom: 14vw;
-    font-size: 10.5vw;
-  }
-
-  .about__text {
-    font-size: 4.9vw;
-  }
-
-  .about__skills {
-    gap: 1.8vw;
-    margin: 7vw 0 18vw;
-  }
-
-  .about__skill {
-    padding: 2.2vw 4vw 1.7vw;
-    border-radius: 8vw;
-    font-size: 4.4vw;
-  }
-
-  .about__row {
-    font-size: 3.3vw;
-  }
-
-  .about__label {
-    font-size: 4.8vw;
-  }
-
-  .about__label,
-  .about__row > * {
-    padding: 1.6vw 0;
-  }
-
+/* Narrow screens: four columns do not fit any more. Each row becomes a little block (the year or the level first,
+   then the title, then the description) with one line under it, and the label takes the whole width. */
+@media (max-width: 640px) {
   .about__label {
     width: 100%;
   }
 
   .about__row {
     display: block;
-    margin-bottom: 4vw;
+    border-bottom: 1px solid #000;
+    padding: var(--a-cell) 0;
   }
 
-  .about__wide,
-  .about__desc,
-  .about__full {
-    grid-column: auto;
+  .about__row > * {
+    display: block;
+    padding: 0.15em 0;
+    border-bottom: 0;
   }
 
-  .about__block + .about__block {
-    margin-top: 12vw;
+  .about__row > :first-child:not(:only-child) {
+    font-weight: 500;
   }
 }
