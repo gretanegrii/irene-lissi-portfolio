@@ -2,6 +2,12 @@
    on the left the name and the year, on the right who made the site (with a link to the portfolio).
    Sizes are in vw, designed on a 1680px wide screen; fixed px above 1680px. */
 
+/* The height of the footer (border + padding + one line of text): the work page needs it, so that the last strip
+   ends exactly on the line of the footer */
+:root {
+  --footer-h: calc(1.07143vw * 1.2 + 1.25vw + 1px);
+}
+
 .site-footer {
   position: fixed;
   right: 0;
@@ -38,6 +44,10 @@
 }
 
 @media (min-width: 1681px) {
+  :root {
+    --footer-h: calc(18px * 1.2 + 21px + 1px);
+  }
+
   .site-footer {
     padding: 11px 24px 10px;
     font-size: 18px;
@@ -45,6 +55,10 @@
 }
 
 @media (max-width: 767px) {
+  :root {
+    --footer-h: calc(3vw * 1.2 + 3.8vw + 1px);
+  }
+
   .site-footer {
     padding: 2vw 3.55556vw 1.8vw;
     font-size: 3vw;

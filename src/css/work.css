@@ -50,6 +50,16 @@ a {
   list-style: none;
 }
 
+/* The list ends like between two strips: the footer (fixed, at the end of the page) is the "next strip" of the
+   last one, so its top line cuts the title by the same amount (--overlap) as the line of the next strip does */
+.work:has(> .work__list) {
+  padding-bottom: 0;
+}
+
+.work__list .project:last-child {
+  margin-bottom: calc(var(--footer-h) + var(--overlap)); /* --overlap is negative */
+}
+
 /* --- Strip -------------------------------------------------------------- */
 
 .project {
