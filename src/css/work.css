@@ -51,8 +51,9 @@ a {
   --w-tag-pb: 0.8889vw;
   --w-tag-r: 7.1111vw;
   --w-tag-fs: 3.5556vw;
-  --w-top: 27.5556vw;
-  --w-list-top: 52.2222vw;
+  --w-top: 17.9487vw;
+  --w-list-top: 38.4615vw;
+  --w-nudge: -1.8462vw;
 }
 
 @media (min-width: 390px) {
@@ -69,8 +70,9 @@ a {
     --w-tag-pb: calc(1.2932px + 0.5573vw);
     --w-tag-r: calc(25.1087px + 0.673vw);
     --w-tag-fs: calc(12.5544px + 0.3365vw);
-    --w-top: calc(120.6718px + -3.3859vw);
-    --w-list-top: calc(184.3923px + 4.9422vw);
+    --w-top: calc(60.1577px + 2.5237vw);
+    --w-list-top: calc(97.7129px + 13.4069vw);
+    --w-nudge: calc(-5.1085px + -0.5363vw);
   }
 }
 
@@ -90,6 +92,7 @@ a {
     --w-tag-fs: calc(17.4065px + -0.1374vw);
     --w-top: calc(116.2417px + -2.9533vw);
     --w-list-top: calc(317.6372px + -8.07vw);
+    --w-nudge: calc(-36.6923px + 2.5481vw);
   }
 }
 
@@ -109,6 +112,7 @@ a {
     --w-tag-fs: 1.0714vw;
     --w-top: 5.119vw;
     --w-list-top: 13.9881vw;
+    --w-nudge: 0px;
   }
 }
 
@@ -128,6 +132,7 @@ a {
     --w-tag-fs: 18px;
     --w-top: 86px;
     --w-list-top: 235.0001px;
+    --w-nudge: 0px;
   }
 }
 
@@ -172,8 +177,19 @@ a {
     transform 0.4s ease 0.2s;
 }
 
-/* Hover: the strip takes its color and slides up over the one above */
-.project:hover {
+/* Hover (mouse) or first tap (finger, see work.js): the strip takes its color and slides up over the one above.
+   Hover is only for a mouse: on a touch screen it would stay stuck on the last strip that was touched. */
+@media (hover: hover) {
+  .project:hover {
+    background: var(--color);
+    transform: translateY(var(--overlap));
+    transition:
+      background-color 0.1s linear,
+      transform 0.4s ease;
+  }
+}
+
+.project.is-touch-active {
   background: var(--color);
   transform: translateY(var(--overlap));
   transition:
@@ -182,9 +198,64 @@ a {
 }
 
 .project__link {
+  position: relative;
   display: block;
+  overflow: hidden; /* the square of the touch screens comes in from the left, inside the strip */
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;
+}
+
+/* Touch screens: the first tap on a strip makes a white square slide in from the left, with a round arrow
+   in it (the strip takes its color and its text slides like on hover). A second tap opens the case study.
+   The square only exists on touch screens. */
+.project__go {
+  display: none;
+}
+
+@media (hover: none) {
+  .project__go {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: max(19.8vw, 64px);
+    border-right: 1px solid #000;
+    background: #fff;
+    visibility: hidden;
+    transform: translateX(-100%);
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s linear 0.35s; /* hidden only after it has gone out */
+    pointer-events: none;
+  }
+
+  .project.is-touch-active .project__go {
+    visibility: visible;
+    transform: translateX(0);
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s;
+  }
+
+  .project__go-pill {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: max(8.7vw, 34px);
+    height: max(8.7vw, 34px);
+    border: 1px solid #000;
+    border-radius: 50%;
+    color: #000;
+  }
+
+  .project__go-pill svg {
+    width: 45%;
+    height: auto;
+  }
 }
 
 .project__text {
@@ -198,12 +269,28 @@ a {
 
 .project__title {
   position: relative;
-  top: -0.05em; /* 0 = title lower and more hidden by the next strip; more negative = higher */
+  /* The next strip covers the bottom of the title by --overlap. On a small screen the title is smaller but the
+     overlap is not in the same proportion, so the words would be more covered than on a laptop: the title goes
+     up by the difference, so the same part of the letters is covered at every width (on a laptop: 0).
+     --w-nudge then centers the words in the visible part of the strip on a phone and a tablet (0 from 1440px). */
+  top: calc(-0.05em - max(0px, var(--w-overlap) - var(--w-pad-b) - 0.2725 * var(--w-title)) + var(--w-nudge));
   font-size: var(--w-title);
   line-height: 1;
   letter-spacing: 0;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+/* A strip that is turned on with a finger slides up by --overlap, so nothing covers its bottom any more: its
+   visible part is --overlap taller. The words go down by half of that, to stay in the middle of the colored strip. */
+.project__title {
+  transition: top 0.4s ease;
+}
+
+.project.is-touch-active .project__title {
+  top: calc(
+    -0.05em - max(0px, var(--w-overlap) - var(--w-pad-b) - 0.2725 * var(--w-title)) + var(--w-nudge) + var(--w-overlap) / 2
+  );
 }
 
 /* Picture of the work: same trick as anacuna.com.
@@ -227,12 +314,14 @@ a {
     opacity 0s linear 0.7s; /* it disappears only after it has gone down */
 }
 
-.project:hover .project__thumb {
-  transform: translateY(0);
-  opacity: 1;
-  transition:
-    transform 0.7s ease,
-    opacity 0s;
+@media (hover: hover) {
+  .project:hover .project__thumb {
+    transform: translateY(0);
+    opacity: 1;
+    transition:
+      transform 0.7s ease,
+      opacity 0s;
+  }
 }
 
 /* No hover on touch screens */

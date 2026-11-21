@@ -7,6 +7,10 @@
 // stay readable.
 
 const SPEED = 95; // pixels per second (the reference uses 100)
+// Touch screens: the text goes all the way to the end of the word (so it can be read), slowly, stays there for a
+// moment, comes back, stays again, and so on. No quick zigzag.
+const TOUCH_SPEED = 55; // pixels per second
+const TOUCH_HOLD = 900; // ms the text waits at each end
 const RETURN_TIME = 400; // ms the text takes to go back when the mouse leaves
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -26,6 +30,16 @@ function currentX(text) {
 
 // How far the text has to slide so that only the first letter of the title disappears
 function measure(strip) {
+  if (isTouch()) {
+    // Until the end of the last thing of the strip (the title, or the pill after it) is inside the screen,
+    // with the same air at the right as at the left. A short title does not move.
+    const { text } = strip;
+    const padding = parseFloat(getComputedStyle(text).paddingLeft);
+    const last = text.lastElementChild || strip.title;
+    const end = last.getBoundingClientRect().right - text.getBoundingClientRect().left + padding;
+    return Math.max(0, end - text.clientWidth);
+  }
+
   const paddingLeft = parseFloat(getComputedStyle(strip.text).paddingLeft);
 
   // Width of the first letter, as it is drawn (uppercase, with the real font)
@@ -47,7 +61,30 @@ function setup(strip, distance) {
 
   if (distance < 1) return; // nothing to move
 
+  if (isTouch()) {
+    // 0 (wait) -> end of the word -> (wait) -> 0, one slow trip each way
+    const move = (distance / TOUCH_SPEED) * 1000;
+    const total = move * 2 + TOUCH_HOLD * 2;
+    const at = (ms) => ms / total;
+    strip.speed = TOUCH_SPEED;
+    strip.hold = TOUCH_HOLD;
+    strip.slide = text.animate(
+      [
+        { transform: "translateX(0)", offset: 0 },
+        { transform: "translateX(0)", offset: at(TOUCH_HOLD) },
+        { transform: `translateX(${-distance}px)`, offset: at(TOUCH_HOLD + move) },
+        { transform: `translateX(${-distance}px)`, offset: at(TOUCH_HOLD * 2 + move) },
+        { transform: "translateX(0)", offset: 1 },
+      ],
+      { duration: total, iterations: Infinity, easing: "linear" }
+    );
+    strip.slide.pause();
+    return;
+  }
+
   // 0 -> left -> 0, at a constant speed
+  strip.speed = SPEED;
+  strip.hold = 0;
   strip.slide = text.animate(
     [
       { transform: "translateX(0)", offset: 0 },
@@ -71,7 +108,7 @@ function start(strip) {
     const x = currentX(strip.text);
     strip.goBack.cancel();
     strip.goBack = null;
-    strip.slide.currentTime = (-x / SPEED) * 1000; // first half of the cycle: going left
+    strip.slide.currentTime = strip.hold + (-x / strip.speed) * 1000; // first trip of the cycle: going left
   }
 
   strip.slide.play();
@@ -95,14 +132,60 @@ function stop(strip) {
   };
 }
 
+// --- Touch screens ------------------------------------------------------------------
+// There is no hover with a finger. The first tap on a strip "turns it on": it takes its color (CSS), a white square
+// with an arrow slides in from the left, and the text slides like on hover. A second tap on the same strip opens
+// the case study. A tap somewhere else turns the strip off.
+const isTouch = () => window.matchMedia("(hover: none)").matches;
+let activeStrip = null;
+
+function activate(strip) {
+  if (activeStrip === strip) return;
+  deactivate();
+  activeStrip = strip;
+  strip.project.classList.add("is-touch-active");
+  start(strip);
+}
+
+function deactivate() {
+  if (!activeStrip) return;
+  const strip = activeStrip;
+  activeStrip = null;
+  strip.project.classList.remove("is-touch-active");
+  stop(strip);
+}
+
+// The white square with the round arrow (decorative: the link is the whole strip)
+strips.forEach((strip) => {
+  const go = document.createElement("span");
+  go.className = "project__go";
+  go.setAttribute("aria-hidden", "true");
+  go.innerHTML =
+    '<span class="project__go-pill"><svg viewBox="0 0 16 16"><path d="M3 13 13 3M5 3h8v8" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></span>';
+  strip.project.querySelector(".project__link").append(go);
+});
+
+document.addEventListener("click", (event) => {
+  if (!event.target.closest(".project")) deactivate();
+});
+
 function setupAll() {
-  strips.forEach((strip) => setup(strip, measure(strip)));
+  strips.forEach((strip) => {
+    // measured at rest: not while the text is sliding
+    if (strip.slide) strip.slide.cancel();
+    if (strip.goBack) strip.goBack.cancel();
+    strip.slide = null;
+    strip.goBack = null;
+    setup(strip, measure(strip));
+  });
+  if (activeStrip) start(activeStrip); // a strip that is turned on (touch) goes on sliding
 }
 
 setupAll();
 strips.forEach((strip) => {
-  strip.project.addEventListener("mouseenter", () => start(strip));
-  strip.project.addEventListener("mouseleave", () => stop(strip));
+  // With a finger the browser also sends mouse events after a tap: they are ignored, the tap has its own logic
+  strip.project.addEventListener("mouseenter", () => !isTouch() && start(strip));
+  strip.project.addEventListener("mouseleave", () => !isTouch() && stop(strip));
 });
 
 window.addEventListener("resize", setupAll);
@@ -172,7 +255,15 @@ function openProject(event, strip) {
 }
 
 strips.forEach((strip) => {
-  strip.project.querySelector(".project__link").addEventListener("click", (event) => openProject(event, strip));
+  strip.project.querySelector(".project__link").addEventListener("click", (event) => {
+    // Touch: the first tap only turns the strip on, the second one opens it
+    if (isTouch() && activeStrip !== strip) {
+      event.preventDefault();
+      activate(strip);
+      return;
+    }
+    openProject(event, strip);
+  });
 });
 
 // Coming back with the browser's back button: show the list again, not the frozen one
