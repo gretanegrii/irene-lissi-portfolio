@@ -7,10 +7,9 @@
 // stay readable.
 
 const SPEED = 95; // pixels per second (the reference uses 100)
-// Touch screens: the text goes all the way to the end of the word (so it can be read), slowly, stays there for a
-// moment, comes back, stays again, and so on. No quick zigzag.
+// Touch screens: the text goes all the way to the end of the word (so it can be read), slowly, and comes back,
+// without stopping at the ends. No quick zigzag.
 const TOUCH_SPEED = 55; // pixels per second
-const TOUCH_HOLD = 900; // ms the text waits at each end
 const RETURN_TIME = 400; // ms the text takes to go back when the mouse leaves
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -62,21 +61,17 @@ function setup(strip, distance) {
   if (distance < 1) return; // nothing to move
 
   if (isTouch()) {
-    // 0 (wait) -> end of the word -> (wait) -> 0, one slow trip each way
+    // 0 -> end of the word -> 0, slowly, without stopping at the ends
     const move = (distance / TOUCH_SPEED) * 1000;
-    const total = move * 2 + TOUCH_HOLD * 2;
-    const at = (ms) => ms / total;
     strip.speed = TOUCH_SPEED;
-    strip.hold = TOUCH_HOLD;
+    strip.hold = 0;
     strip.slide = text.animate(
       [
         { transform: "translateX(0)", offset: 0 },
-        { transform: "translateX(0)", offset: at(TOUCH_HOLD) },
-        { transform: `translateX(${-distance}px)`, offset: at(TOUCH_HOLD + move) },
-        { transform: `translateX(${-distance}px)`, offset: at(TOUCH_HOLD * 2 + move) },
+        { transform: `translateX(${-distance}px)`, offset: 0.5 },
         { transform: "translateX(0)", offset: 1 },
       ],
-      { duration: total, iterations: Infinity, easing: "linear" }
+      { duration: move * 2, iterations: Infinity, easing: "linear" }
     );
     strip.slide.pause();
     return;

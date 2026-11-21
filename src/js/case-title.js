@@ -1,10 +1,9 @@
 // The title strip at the top of a case study: when the title (with its pill) is longer than the screen, it slides
-// slowly to the end of the word so that it can be read, stays there a moment, comes back, stays again, and so on:
-// the same slow trip as the strips of the work list on a phone. A title that fits does not move.
+// slowly to the end of the word so that it can be read and comes back, without stopping, again and again: the same
+// slow trip as the strips of the work list on a phone. A title that fits does not move.
 
 (() => {
   const SPEED = 55; // pixels per second
-  const HOLD = 900; // ms the text waits at each end
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const text = document.querySelector(".case .project__text");
@@ -29,18 +28,14 @@
     const distance = measure();
     if (distance < 1) return;
 
-    const move = (distance / SPEED) * 1000;
-    const total = move * 2 + HOLD * 2;
-    const at = (ms) => ms / total;
+    // to the end of the word and back, without stopping at the ends: the movement goes on the other way
     slide = text.animate(
       [
         { transform: "translateX(0)", offset: 0 },
-        { transform: "translateX(0)", offset: at(HOLD) },
-        { transform: `translateX(${-distance}px)`, offset: at(HOLD + move) },
-        { transform: `translateX(${-distance}px)`, offset: at(HOLD * 2 + move) },
+        { transform: `translateX(${-distance}px)`, offset: 0.5 },
         { transform: "translateX(0)", offset: 1 },
       ],
-      { duration: total, iterations: Infinity, easing: "linear" }
+      { duration: ((distance * 2) / SPEED) * 1000, iterations: Infinity, easing: "linear" }
     );
   }
 
