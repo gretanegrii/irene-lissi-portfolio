@@ -28,6 +28,7 @@ body {
   z-index: 9999;
   width: 100%;
   padding: 0 1.42857vw;
+  isolation: isolate; /* its own layer: the cover of the menu (::before) stays behind the pills */
   pointer-events: none; /* only the pills catch the mouse, what is below stays usable */
   /* Placeholder: the reference uses the paid font ABC Monument Grotesk */
   font-family: var(--font-main);
@@ -147,47 +148,153 @@ body {
   }
 }
 
-@media (max-width: 767px) and (orientation: portrait) {
+/* --- Small screens: the pills of the menu are hidden, a button (hamburger) opens them -------- */
+/* The menu button does not exist on big screens */
+.nav__item--toggle {
+  display: none;
+}
+
+@media (max-width: 767px) {
   .nav {
     padding: 0 3.55556vw;
   }
 
+  /* The cover of the open menu: a layer with the color of the page, behind the bar. It is always there
+     but invisible; opening the menu fades it in. (On the home the color of the page changes slowly: the
+     layer follows it.) */
+  .nav::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: var(--page-bg, #fff);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity 0.2s ease,
+      background-color 0.8s ease-in-out;
+  }
+
+  .nav.is-open::before {
+    opacity: 1;
+  }
+
+  /* One line: the logo (and the back pill) at the left, the button at the right.
+     When the menu is open, the pills go under it, one on each line. */
   .nav__list {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
     padding: 3.55556vw 0;
   }
 
   .nav__item {
-    margin-left: 0;
-    margin-right: 1.77778vw;
+    margin: 0;
+  }
+
+  .nav__item--logo {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .nav__item--back {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    justify-self: start;
+    margin: 0 0 0 2.5vw;
+  }
+
+  .nav__item--toggle {
+    display: block;
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  /* The links: hidden until the menu is open */
+  .nav__item:not(.nav__item--logo):not(.nav__item--back):not(.nav__item--toggle) {
+    display: none;
+    grid-column: 1 / -1;
+    justify-self: start;
   }
 
   .nav__link {
-    padding: 1.11111vw 3.11111vw 0.88889vw;
-    border-radius: 7.11111vw;
-    font-size: 6.66667vw;
+    padding: 2vw 5vw 1.6vw;
+    border-radius: 10vw;
+    font-size: 11vw;
+  }
+
+  /* The button: a circle as tall as the other things of the bar, with two lines */
+  .nav__toggle {
+    position: relative;
+    display: block;
+    width: var(--pill-height);
+    height: var(--pill-height);
+    padding: 0;
+    border: 1px solid #000;
+    border-radius: 50%;
+    background: var(--page-bg, #fff);
+    color: #000;
+    cursor: pointer;
+  }
+
+  .home .nav__toggle,
+  body:has(.home) .nav__toggle {
+    background: transparent; /* on the home the page color changes: the button shows it through */
+  }
+
+  .nav__toggle-line {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 42%;
+    height: 2px;
+    background: currentColor;
+    transition: transform 0.3s ease;
+  }
+
+  .nav__toggle-line:first-child {
+    transform: translate(-50%, calc(-50% - 0.28em));
+  }
+
+  .nav__toggle-line:last-child {
+    transform: translate(-50%, calc(-50% + 0.28em));
+  }
+
+  .nav__toggle[aria-expanded="true"] .nav__toggle-line:first-child {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .nav__toggle[aria-expanded="true"] .nav__toggle-line:last-child {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  /* Menu open: the bar covers the whole window with the color of the page, and the pills show up */
+  .nav.is-open {
+    height: 100vh;
+    height: 100dvh;
+    overflow-y: auto;
+    pointer-events: all;
+  }
+
+  .nav.is-open .nav__item:not(.nav__item--logo):not(.nav__item--back):not(.nav__item--toggle) {
+    display: block;
+    margin-top: 2.5vw;
+  }
+
+  .nav.is-open .nav__item:nth-child(1):not(.nav__item--logo):not(.nav__item--back):not(.nav__item--toggle) {
+    margin-top: 12vw; /* the first pill: some air under the logo */
+  }
+
+  body.is-menu-open {
+    overflow: hidden;
   }
 }
 
-@media (max-width: 767px) and (orientation: landscape) {
-  .nav {
-    padding: 0 1.77778vw;
-  }
-
-  .nav__list {
-    flex-wrap: wrap;
-    padding: 1.77778vw 0;
-  }
-
-  .nav__item {
-    margin-left: 0;
-    margin-right: 0.88889vw;
-  }
-
-  .nav__link {
-    padding: 0.55556vw 1.55556vw 0.44444vw;
-    border-radius: 3.55556vw;
-    font-size: 3.33333vw;
+@media (prefers-reduced-motion: reduce) {
+  .nav__toggle-line,
+  .nav::before {
+    transition: none;
   }
 }
 
