@@ -33,6 +33,10 @@ document.querySelectorAll("[data-slider]").forEach((slider) => {
       dot.classList.toggle("is-active", i === now);
       dot.setAttribute("aria-current", i === now ? "true" : "false");
     });
+    // A video that is no longer shown stops
+    track.querySelectorAll("video").forEach((video, i) => {
+      if (i !== now && !video.paused) video.pause();
+    });
     const text = slides[now] && slides[now].dataset.caption;
     if (caption && text && caption.innerHTML !== text) caption.innerHTML = text;
   }
@@ -46,6 +50,7 @@ document.querySelectorAll("[data-slider]").forEach((slider) => {
     downX = event.clientX;
   });
   track.addEventListener("click", (event) => {
+    if (event.target.closest("video")) return; // the video has its own controls
     if (downX !== null && Math.abs(event.clientX - downX) > 6) return;
     const box = track.getBoundingClientRect();
     goTo(event.clientX - box.left < box.width / 2 ? current() - 1 : current() + 1);
@@ -60,6 +65,8 @@ document.querySelectorAll("[data-slider]").forEach((slider) => {
   // The pill follows the mouse (only with a mouse, not on touch screens)
   track.addEventListener("pointermove", (event) => {
     if (event.pointerType !== "mouse") return;
+    // Over a video the normal pointer comes back (the controls), and the pill goes away
+    if (event.target.closest("video")) return slider.classList.remove("is-pointing");
     slider.classList.add("is-pointing");
     cursor.style.transform = `translate(${event.clientX}px, ${event.clientY}px) translate(-50%, -50%)`;
   });

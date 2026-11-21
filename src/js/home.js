@@ -8,7 +8,7 @@ const COLORS = [
   "#89e6f0", // Studio
   "#e789f0", // NCA
   "#8bb6ee", // Staedtler
-  "#f0a489", // CMDZ
+  "#f0a489", // CMD Z
   "#c189f0", // Vibe
   "#f09389", // Anti-Violence Campaign
   "#8dede8", // Interview

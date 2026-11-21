@@ -219,6 +219,53 @@ h1 {
   background: #fff;
 }
 
+/* A video in the slider: the same size rules as the pictures, and its own pointer for the controls */
+.case__slide .case__video {
+  width: 100%;
+  max-height: none;
+  background: #000;
+  cursor: auto;
+}
+
+/* The single video, in the text column */
+.case__video--single {
+  grid-column: 3 / 5;
+  width: 100%;
+  height: auto;
+  margin: 2.6vw 0 0;
+  background: #000;
+  filter: drop-shadow(0 0.5vw 1.6vw rgba(0, 0, 0, 0.28));
+}
+
+.case__video--spaced {
+  margin-bottom: 6.94vw;
+}
+
+/* Under it, the three phases: a frame each, with its caption under it */
+.case__phases {
+  grid-column: 3 / 5;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4vw;
+  margin: 2.6vw 0 6.94vw;
+}
+
+.case__phase {
+  margin: 0;
+}
+
+.case__phase .case__photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+.case__phase .case__caption.case__caption--below {
+  grid-column: auto;
+  margin: 1vw 0 0;
+}
+
 /* The pill that follows the mouse over the pictures: white, with an arrow to the left and one to the right */
 .case__cursor {
   position: fixed;
