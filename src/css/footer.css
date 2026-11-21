@@ -2,10 +2,25 @@
    on the left the name and the year, on the right who made the site (with a link to the portfolio).
    Sizes are in vw, designed on a 1680px wide screen; fixed px above 1680px. */
 
-/* The height of the footer (border + padding + one line of text): the work page needs it, so that the last strip
-   ends exactly on the line of the footer */
+/* Fluid sizes: the numbers of the 1680px screen (in vw), but never smaller than a readable minimum, so the
+   footer does not jump between one screen size and the next. */
 :root {
-  --footer-h: calc(1.07143vw * 1.2 + 1.25vw + 1px);
+  --f-size: max(1.07143vw, 11.5px);
+  --f-pad-t: max(0.65vw, 7px);
+  --f-pad-b: max(0.6vw, 6.5px);
+  --f-pad-x: max(1.42857vw, 14px);
+  /* The height of the footer (border + padding + one line of text): the work page needs it, so that the
+     last strip is cut by the line of the footer */
+  --footer-h: calc(var(--f-size) * 1.2 + var(--f-pad-t) + var(--f-pad-b) + 1px);
+}
+
+@media (min-width: 1681px) {
+  :root {
+    --f-size: 18px;
+    --f-pad-t: 11px;
+    --f-pad-b: 10px;
+    --f-pad-x: 24px;
+  }
 }
 
 .site-footer {
@@ -17,12 +32,12 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  padding: 0.65vw 1.42857vw 0.6vw;
+  padding: var(--f-pad-t) var(--f-pad-x) var(--f-pad-b);
   border-top: 1px solid #000;
   background: var(--page-bg, #fff); /* same color as the page, so what scrolls behind is hidden */
   color: #000;
   font-family: var(--font-main);
-  font-size: 1.07143vw;
+  font-size: var(--f-size);
   font-weight: 400;
   line-height: 1.2;
   text-transform: uppercase;
@@ -41,26 +56,4 @@
 .site-footer a:hover,
 .site-footer a:focus-visible {
   text-decoration: none;
-}
-
-@media (min-width: 1681px) {
-  :root {
-    --footer-h: calc(18px * 1.2 + 21px + 1px);
-  }
-
-  .site-footer {
-    padding: 11px 24px 10px;
-    font-size: 18px;
-  }
-}
-
-@media (max-width: 767px) {
-  :root {
-    --footer-h: calc(3vw * 1.2 + 3.8vw + 1px);
-  }
-
-  .site-footer {
-    padding: 2vw 3.55556vw 1.8vw;
-    font-size: 3vw;
-  }
 }

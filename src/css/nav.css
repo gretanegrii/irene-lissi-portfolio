@@ -27,7 +27,7 @@ body {
   left: 0;
   z-index: 9999;
   width: 100%;
-  padding: 0 1.42857vw;
+  padding: 0 var(--n-side);
   isolation: isolate; /* its own layer: the cover of the menu (::before) stays behind the pills */
   pointer-events: none; /* only the pills catch the mouse, what is below stays usable */
   /* Placeholder: the reference uses the paid font ABC Monument Grotesk */
@@ -40,12 +40,12 @@ body {
   display: flex;
   justify-content: flex-end;
   margin: 0;
-  padding: 0.95238vw 0;
+  padding: var(--n-list-y) 0;
   list-style: none;
 }
 
 .nav__item {
-  margin-left: 0.47619vw;
+  margin-left: var(--n-gap);
   pointer-events: all;
 }
 
@@ -53,12 +53,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.53571vw 0.95238vw 0.41667vw;
+  padding: var(--n-pad-t) var(--n-pad-x) var(--n-pad-b);
   border: 1px solid #000;
-  border-radius: 1.90476vw;
+  border-radius: var(--n-radius);
   background: var(--page-bg, #fff); /* same color as the page (solid, so the text passing behind is hidden) */
   color: #000;
-  font-size: 2.14286vw;
+  font-size: var(--n-font);
   font-weight: 500; /* Medium: for the small interface things */
   letter-spacing: 0;
   line-height: 1;
@@ -106,45 +106,61 @@ body {
   }
 }
 
-/* --- Breakpoints (same as the reference) -------------------------------- */
+/* --- Fluid sizes ---------------------------------------------------------------
+   Below 1024px everything is in vw (the tablet design); from 1024px to 1440px each size slides in a straight
+   line to the laptop design (so nothing jumps); from 1440px it is the design of the 1680px screen, in vw, and in px
+   above 1680px. */
+:root {
+  --n-side: 2.3438vw;
+  --n-list-y: 1.5625vw;
+  --n-gap: 0.7812vw;
+  --n-pad-t: 0.8789vw;
+  --n-pad-x: 1.5625vw;
+  --n-pad-b: 0.6836vw;
+  --n-radius: 3.125vw;
+  --n-font: 2.9297vw;
+  --n-pill: 4.4922vw;
+}
 
-@media (min-width: 1681px) {
-  .nav {
-    padding: 0 24px;
-  }
-
-  .nav__list {
-    padding: 16px 0;
-  }
-
-  .nav__item {
-    margin-left: 8px;
-  }
-
-  .nav__link {
-    padding: 9px 16px 7px;
-    border-radius: 32px;
-    font-size: 36px;
+@media (min-width: 1024px) {
+  :root {
+    --n-side: calc(32.4396px + -0.8242vw);
+    --n-list-y: calc(21.6264px + -0.5495vw);
+    --n-gap: calc(10.8132px + -0.2747vw);
+    --n-pad-t: calc(12.1651px + -0.3091vw);
+    --n-pad-x: calc(21.6264px + -0.5495vw);
+    --n-pad-b: calc(9.4613px + -0.2404vw);
+    --n-radius: calc(43.2528px + -1.0989vw);
+    --n-font: calc(27.8901px + 0.206vw);
+    --n-pill: calc(49.5165px + -0.3434vw);
   }
 }
 
-@media (max-width: 1024px) {
-  .nav {
-    padding: 0 2.34375vw;
+@media (min-width: 1440px) {
+  :root {
+    --n-side: 1.4286vw;
+    --n-list-y: 0.9524vw;
+    --n-gap: 0.4762vw;
+    --n-pad-t: 0.5357vw;
+    --n-pad-x: 0.9524vw;
+    --n-pad-b: 0.4167vw;
+    --n-radius: 1.9048vw;
+    --n-font: 2.1429vw;
+    --n-pill: 3.0952vw;
   }
+}
 
-  .nav__list {
-    padding: 1.5625vw 0;
-  }
-
-  .nav__item {
-    margin-left: 0.78125vw;
-  }
-
-  .nav__link {
-    padding: 0.87891vw 1.5625vw 0.68359vw;
-    border-radius: 3.125vw;
-    font-size: 2.92969vw;
+@media (min-width: 1681px) {
+  :root {
+    --n-side: 24px;
+    --n-list-y: 16px;
+    --n-gap: 8px;
+    --n-pad-t: 8.9999px;
+    --n-pad-x: 16px;
+    --n-pad-b: 7.0001px;
+    --n-radius: 32px;
+    --n-font: 36px;
+    --n-pill: 52px;
   }
 }
 
@@ -156,7 +172,7 @@ body {
 
 @media (max-width: 767px) {
   .nav {
-    padding: 0 3.55556vw;
+    padding: 0 clamp(14px, 3.55556vw, 18px);
   }
 
   /* The cover of the open menu: a layer with the color of the page, behind the bar. It is always there
@@ -185,7 +201,7 @@ body {
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
-    padding: 3.55556vw 0;
+    padding: min(3.55556vw, 12px) 0;
   }
 
   .nav__item {
@@ -218,10 +234,11 @@ body {
     justify-self: start;
   }
 
+  /* The pills of the open menu: big on a phone, they do not keep growing on a wide one (sizes in em) */
   .nav__link {
-    padding: 2vw 5vw 1.6vw;
-    border-radius: 10vw;
-    font-size: 11vw;
+    padding: 0.19em 0.46em 0.15em;
+    border-radius: 999px;
+    font-size: min(11vw, 52px);
   }
 
   /* The button: a circle as tall as the other things of the bar, with two lines */
@@ -322,23 +339,12 @@ body {
    --pill-height is the height of a pill (padding + text + border, the same numbers as .nav__link above,
    for each screen size). */
 .nav {
-  --pill-height: calc(3.09524vw + 2px);
+  --pill-height: calc(var(--n-pill) + 2px);
 }
 
-@media (min-width: 1681px) {
-  .nav { --pill-height: 54px; }
-}
-
-@media (max-width: 1024px) {
-  .nav { --pill-height: calc(4.49219vw + 2px); }
-}
-
-@media (max-width: 767px) and (orientation: portrait) {
-  .nav { --pill-height: calc(8.66667vw + 2px); }
-}
-
-@media (max-width: 767px) and (orientation: landscape) {
-  .nav { --pill-height: calc(4.33333vw + 2px); }
+/* On a phone the bar (logo, back pill, menu button) is 36px tall, like on a tablet, and a bit smaller on tiny screens */
+@media (max-width: 767px) {
+  .nav { --pill-height: clamp(32px, 8.66667vw + 2px, 36px); }
 }
 
 .nav__item--logo {
