@@ -1,5 +1,103 @@
-/* Contact page: colored background, not white */
+/* Contact page: same structure as the about page: a big sentence and, under it, pills with the contacts.
+   Sizes are in vw, designed on a 1680px wide screen, like the other pages. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
-  --page-bg: #ffd51a; /* the navbar pills take this color too */
+  --page-bg: #8bb6ee; /* the navbar pills take this color too */
+  margin: 0;
   background: var(--page-bg);
+  color: #000;
+  line-height: 1;
+}
+
+::selection {
+  color: #fff;
+  background: #000;
+}
+
+.contact {
+  padding: 13.9881vw 1.42857vw 8vw; /* the top leaves the room for the navbar */
+}
+
+/* The big sentence: same size as the one of the about page */
+.contact__statement {
+  margin: 0 0 4vw;
+  font-size: 6.54762vw;
+  font-weight: 400;
+  line-height: 1;
+}
+
+/* The contacts: pills, same style as the skills of the about page. Each list is one line of pills */
+.contact__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.47619vw;
+  margin: 0 0 0.47619vw;
+  padding: 0;
+  list-style: none;
+}
+
+.contact__pill {
+  display: block;
+  padding: 0.53571vw 0.95238vw 0.41667vw;
+  border: 1px solid #000;
+  border-radius: 1.90476vw;
+  color: #000;
+  font-size: 2.14286vw;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  /* On hover the colors are swapped: black pill, text of the color of the page */
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.contact__pill:hover,
+.contact__pill:focus-visible {
+  background: #000;
+  color: var(--page-bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact__pill {
+    transition: none;
+  }
+}
+
+@media (min-width: 1681px) {
+  .contact__pill {
+    padding: 9px 16px 7px;
+    border-radius: 32px;
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 767px) {
+  .contact {
+    padding: 36vw 3.55556vw 22vw;
+  }
+
+  .contact__statement {
+    margin-bottom: 8vw;
+    font-size: 10.5vw;
+  }
+
+  .contact__list {
+    gap: 1.8vw;
+    margin-bottom: 1.8vw;
+  }
+
+  .contact__pill {
+    padding: 2.2vw 4vw 1.7vw;
+    border-radius: 8vw;
+    font-size: 4.4vw;
+  }
 }

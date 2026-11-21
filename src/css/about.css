@@ -65,6 +65,21 @@ body {
   line-height: 1;
   text-transform: uppercase;
   white-space: nowrap;
+  /* On hover the colors are swapped: black pill, text of the color of the page (the green) */
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.about__skill:hover {
+  background: #000;
+  color: var(--page-bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about__skill {
+    transition: none;
+  }
 }
 
 /* List: four columns, small uppercase text, a line under each cell */
@@ -84,6 +99,10 @@ body {
 .about__label,
 .about__row > * {
   padding: 0.47vw 0;
+}
+
+/* The lines are only under the rows of the lists, not under the label */
+.about__row > * {
   border-bottom: 1px solid #000;
 }
 
@@ -100,7 +119,10 @@ body {
   text-transform: uppercase;
 }
 
+/* The label of each list: bigger and bolder than the text of the rows, and no line under it */
 .about__label {
+  font-size: 1.6vw;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
@@ -146,9 +168,12 @@ body {
     font-size: 4.4vw;
   }
 
-  .about__label,
   .about__row {
     font-size: 3.3vw;
+  }
+
+  .about__label {
+    font-size: 4.8vw;
   }
 
   .about__label,
