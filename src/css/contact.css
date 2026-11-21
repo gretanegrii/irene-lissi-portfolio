@@ -1,6 +1,72 @@
 /* Contact page: same structure as the about page: a big sentence and, under it, pills with the contacts.
    Sizes are in vw, designed on a 1680px wide screen, like the other pages. */
 
+/* --- Fluid sizes ----------------------------------------------------------------
+   Nothing jumps between one screen size and the next: from a phone (390px) to 1024px every size slides in a
+   straight line to the laptop design; from 1024px it is the design of the 1680px screen, in vw (and in px
+   above 1680px). */
+:root {
+  --c-pad-t: 36vw;
+  --c-pad-x: 3.5556vw;
+  --c-pad-b: 22vw;
+  --c-stmt: 10.5vw;
+  --c-stmt-mb: 8vw;
+  --c-gap: 1.8vw;
+  --c-pt: 2.2vw;
+  --c-px: 4vw;
+  --c-pb: 1.7vw;
+  --c-r: 8vw;
+  --c-fs: 4.4vw;
+}
+
+@media (min-width: 390px) {
+  :root {
+    --c-pad-t: calc(138.6541px + 0.4477vw);
+    --c-pad-x: calc(13.3985px + 0.1201vw);
+    --c-pad-b: calc(88.1868px + -0.612vw);
+    --c-stmt: calc(24.8963px + 4.1163vw);
+    --c-stmt-mb: calc(25.1962px + 1.5394vw);
+    --c-gap: calc(8.3388px + -0.3381vw);
+    --c-pt: calc(10.4835px + -0.4881vw);
+    --c-px: calc(19.1971px + -0.9223vw);
+    --c-pb: calc(8.0838px + -0.3728vw);
+    --c-r: calc(38.3942px + -1.8447vw);
+    --c-fs: calc(14.2178px + 0.7544vw);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --c-pad-t: 13.9881vw;
+    --c-pad-x: 1.4286vw;
+    --c-pad-b: 8vw;
+    --c-stmt: 6.5476vw;
+    --c-stmt-mb: 4vw;
+    --c-gap: 0.4762vw;
+    --c-pt: 0.5357vw;
+    --c-px: 0.9524vw;
+    --c-pb: 0.4167vw;
+    --c-r: 1.9048vw;
+    --c-fs: 2.1429vw;
+  }
+}
+
+@media (min-width: 1681px) {
+  :root {
+    --c-pad-t: 235.0001px;
+    --c-pad-x: 24px;
+    --c-pad-b: 134.4px;
+    --c-stmt: 110px;
+    --c-stmt-mb: 67.2px;
+    --c-gap: 8px;
+    --c-pt: 8.9999px;
+    --c-px: 16px;
+    --c-pb: 7.0001px;
+    --c-r: 32px;
+    --c-fs: 36px;
+  }
+}
+
 *,
 *::before,
 *::after {
@@ -21,13 +87,13 @@ body {
 }
 
 .contact {
-  padding: 13.9881vw 1.42857vw 8vw; /* the top leaves the room for the navbar */
+  padding: var(--c-pad-t) var(--c-pad-x) var(--c-pad-b); /* the top leaves the room for the navbar */
 }
 
 /* The big sentence: same size as the one of the about page */
 .contact__statement {
-  margin: 0 0 4vw;
-  font-size: 6.54762vw;
+  margin: 0 0 var(--c-stmt-mb);
+  font-size: var(--c-stmt);
   font-weight: 400;
   line-height: 1;
 }
@@ -36,19 +102,19 @@ body {
 .contact__list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.47619vw;
-  margin: 0 0 0.47619vw;
+  gap: var(--c-gap);
+  margin: 0 0 var(--c-gap);
   padding: 0;
   list-style: none;
 }
 
 .contact__pill {
   display: block;
-  padding: 0.53571vw 0.95238vw 0.41667vw;
+  padding: var(--c-pt) var(--c-px) var(--c-pb);
   border: 1px solid #000;
-  border-radius: 1.90476vw;
+  border-radius: var(--c-r);
   color: #000;
-  font-size: 2.14286vw;
+  font-size: var(--c-fs);
   font-weight: 500;
   line-height: 1;
   text-decoration: none;
@@ -69,35 +135,5 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .contact__pill {
     transition: none;
-  }
-}
-
-@media (min-width: 1681px) {
-  .contact__pill {
-    padding: 9px 16px 7px;
-    border-radius: 32px;
-    font-size: 36px;
-  }
-}
-
-@media (max-width: 767px) {
-  .contact {
-    padding: 36vw 3.55556vw 22vw;
-  }
-
-  .contact__statement {
-    margin-bottom: 8vw;
-    font-size: 10.5vw;
-  }
-
-  .contact__list {
-    gap: 1.8vw;
-    margin-bottom: 1.8vw;
-  }
-
-  .contact__pill {
-    padding: 2.2vw 4vw 1.7vw;
-    border-radius: 8vw;
-    font-size: 4.4vw;
   }
 }
