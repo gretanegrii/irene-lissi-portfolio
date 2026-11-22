@@ -263,32 +263,37 @@ strips.forEach((strip) => {
 });
 
 // --- Entrance -------------------------------------------------------------------------
-// When the page opens, one light runs down the list, slowly and softly: one strip at a time takes its color and, as the next
-// one lights up, it goes out. When the light has passed, every strip has been lit once and the page is the white
-// list with the hover, as usual.
+// When the page opens, the strips take their colors one after the other, from the first to the last, and stay
+// colored: together they make a complete rainbow. It stays for a moment, then the colors go away, from the first
+// to the last, and the page is the white list with the hover, as usual.
 
-const WAVE_DELAY = 200; // ms before it starts
-const WAVE_STEP = 190; // ms between one strip and the next
-const WAVE_IN = 220; // ms a strip takes to light up
-const WAVE_OUT = 260; // ms a strip takes to go out: it starts to go out when it is lit, while the next one is lighting up
+const ENTER_DELAY = 150; // ms before it starts
+const ENTER_STEP = 60; // ms between one strip and the next
+const ENTER_IN = 220; // ms a strip takes to get its color
+const ENTER_HOLD = 700; // ms the whole rainbow stays
+const EXIT_STEP = 30; // ms between one strip and the next when the colors go away
+const EXIT_OUT = 400; // ms a strip takes to go back to white
 
 let entrance = [];
 
 function playEntrance() {
   if (reducedMotion.matches) return;
   const n = strips.length;
-  const total = WAVE_DELAY + (n - 1) * WAVE_STEP + WAVE_IN + WAVE_OUT;
+  const rainbowDone = ENTER_DELAY + (n - 1) * ENTER_STEP + ENTER_IN; // the last strip has its color
+  const total = rainbowDone + ENTER_HOLD + (n - 1) * EXIT_STEP + EXIT_OUT;
   const at = (ms) => Math.min(1, ms / total);
 
   entrance = strips.map((strip, i) => {
     const color = getComputedStyle(strip.project).getPropertyValue("--color").trim();
-    const start = WAVE_DELAY + i * WAVE_STEP; // here the strip starts to light up
+    const start = ENTER_DELAY + i * ENTER_STEP; // here the strip starts to take its color
+    const leave = rainbowDone + ENTER_HOLD + i * EXIT_STEP; // here it starts to go back to white
     return strip.project.animate(
       [
         { backgroundColor: "#fff", offset: 0 },
-        { backgroundColor: "#fff", offset: at(start), easing: "ease-in-out" },
-        { backgroundColor: color, offset: at(start + WAVE_IN), easing: "ease-in-out" },
-        { backgroundColor: "#fff", offset: at(start + WAVE_IN + WAVE_OUT) },
+        { backgroundColor: "#fff", offset: at(start), easing: "ease-out" },
+        { backgroundColor: color, offset: at(start + ENTER_IN) },
+        { backgroundColor: color, offset: at(leave), easing: "ease-in-out" },
+        { backgroundColor: "#fff", offset: at(leave + EXIT_OUT) },
         { backgroundColor: "#fff", offset: 1 },
       ],
       { duration: total, easing: "linear" }
