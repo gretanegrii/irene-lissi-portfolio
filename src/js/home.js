@@ -10,7 +10,7 @@ const COLORS = [
   "#8bb6ee", // Staedtler
   "#f0a489", // CMD Z
   "#c189f0", // Vibe
-  "#f09389", // Anti-Violence Campaign
+  "#5b84ee", // Anti-Violence Campaign
   "#8dede8", // Interview
   "#f0dd89", // Quieta Distanza
   "#f0bf89", // Karibujua
