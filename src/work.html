@@ -44,6 +44,10 @@
   <link rel="stylesheet" href="css/nav.css">
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/work.css">
+  <script>
+    /* The view of the list (row or grid) is remembered: it is set before the page is drawn, so it does not flash */
+    try { document.documentElement.dataset.view = localStorage.getItem("work-view") === "grid" ? "grid" : "row"; } catch (e) { document.documentElement.dataset.view = "row"; }
+  </script>
 </head>
 <body>
   <nav class="nav" aria-label="Main navigation">
@@ -58,6 +62,12 @@
   </nav>
 
   <main class="work">
+    <!-- Two ways to see the works: the rows (the titles) or the grid (the pictures) -->
+    <div class="work__view" role="group" aria-label="Modo di visione">
+      <button class="work__view-btn" type="button" data-view="row" aria-pressed="true">Row</button>
+      <button class="work__view-btn" type="button" data-view="grid" aria-pressed="false">Grid</button>
+    </div>
+
     <ul class="work__list">
       <li class="project" style="--color: #f089ba">
         <a class="project__link" href="projects/reblend.html">

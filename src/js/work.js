@@ -262,6 +262,92 @@ strips.forEach((strip) => {
   });
 });
 
+// --- Grid view -------------------------------------------------------------------------
+// The grid is made from the strips of the list (same works, same colors, same pictures): each cell has the picture,
+// the title and the pill with the area of interest. The choice between row and grid is in data-view of <html>
+// (the page sets it before it is drawn, from what the browser remembers).
+
+const cells = strips.map((strip) => {
+  const link = strip.project.querySelector(".project__link");
+  const thumb = strip.project.querySelector(".project__thumb");
+  const tag = strip.project.querySelector(".project__tag");
+
+  const li = document.createElement("li");
+  li.className = "work__cell";
+  li.style.setProperty("--color", getComputedStyle(strip.project).getPropertyValue("--color").trim());
+
+  const a = document.createElement("a");
+  a.className = "work__cell-link";
+  a.href = link.href;
+
+  if (thumb) {
+    const img = document.createElement("img");
+    img.className = "work__cell-pic";
+    img.src = thumb.getAttribute("src");
+    img.alt = "";
+    img.width = 700;
+    img.height = 467;
+    img.loading = "lazy";
+    a.append(img);
+  }
+
+  const title = document.createElement("span");
+  title.className = "work__cell-title";
+  title.textContent = strip.title.textContent;
+  a.append(title);
+  if (tag) a.append(document.createElement("br"), tag.cloneNode(true));
+
+  li.append(a);
+  return { li, a, strip };
+});
+
+const grid = document.createElement("ul");
+grid.className = "work__grid";
+grid.append(...cells.map((cell) => cell.li));
+strips[0].project.parentElement.after(grid);
+
+// Opening a work from the grid: the cell takes its color, the others fade away, then the page opens
+grid.addEventListener("click", (event) => {
+  const link = event.target.closest(".work__cell-link");
+  if (!link || reducedMotion.matches || opening) return;
+  event.preventDefault();
+  opening = true;
+  stopEntrance();
+  const cell = cells.find((c) => c.a === link);
+  document.body.classList.add("is-opening");
+  cell.li.classList.add("work__cell--chosen");
+  const color = getComputedStyle(cell.li).getPropertyValue("--color").trim();
+  setTimeout(() => {
+    document.body.style.background = color;
+    window.location.href = link.href;
+  }, 450);
+});
+
+// The two pills to choose the view
+const viewButtons = [...document.querySelectorAll(".work__view-btn")];
+
+function syncViewButtons() {
+  const view = document.documentElement.dataset.view;
+  viewButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.view === view)));
+}
+
+function setView(view) {
+  if (document.documentElement.dataset.view === view) return;
+  document.documentElement.dataset.view = view;
+  try {
+    localStorage.setItem("work-view", view);
+  } catch (error) {
+    // the browser does not remember: it works anyway
+  }
+  syncViewButtons();
+  deactivate(); // a strip turned on with the finger
+  stopEntrance();
+  playEntrance(); // the colors run through the new view, as when the page opens
+}
+
+viewButtons.forEach((button) => button.addEventListener("click", () => setView(button.dataset.view)));
+syncViewButtons();
+
 // --- Entrance -------------------------------------------------------------------------
 // When the page opens, the strips take their colors one after the other, from the first to the last, and stay
 // colored: together they make a complete rainbow. It stays for a moment, then the colors go away, from the first
@@ -276,18 +362,26 @@ const EXIT_OUT = 400; // ms a strip takes to go back to white
 
 let entrance = [];
 
+// What lights up: the strips of the row view, or the cells of the grid view (in the order of the page)
+function entranceItems() {
+  return document.documentElement.dataset.view === "grid"
+    ? cells.map((cell) => cell.li)
+    : strips.map((strip) => strip.project);
+}
+
 function playEntrance() {
   if (reducedMotion.matches) return;
-  const n = strips.length;
+  const items = entranceItems();
+  const n = items.length;
   const rainbowDone = ENTER_DELAY + (n - 1) * ENTER_STEP + ENTER_IN; // the last strip has its color
   const total = rainbowDone + ENTER_HOLD + (n - 1) * EXIT_STEP + EXIT_OUT;
   const at = (ms) => Math.min(1, ms / total);
 
-  entrance = strips.map((strip, i) => {
-    const color = getComputedStyle(strip.project).getPropertyValue("--color").trim();
+  entrance = items.map((item, i) => {
+    const color = getComputedStyle(item).getPropertyValue("--color").trim();
     const start = ENTER_DELAY + i * ENTER_STEP; // here the strip starts to take its color
     const leave = rainbowDone + ENTER_HOLD + i * EXIT_STEP; // here it starts to go back to white
-    return strip.project.animate(
+    return item.animate(
       [
         { backgroundColor: "#fff", offset: 0 },
         { backgroundColor: "#fff", offset: at(start), easing: "ease-out" },

@@ -375,3 +375,153 @@ body.is-opening {
   letter-spacing: 0;
   white-space: nowrap;
 }
+
+/* --- Two views: row (the strips) and grid (the pictures) -------------------------------------------
+   The choice is in data-view of <html> (set by work.js, remembered in the browser). */
+
+/* The two pills to choose the view: same style as the pills of the strips, in the empty space above the list */
+.work {
+  position: relative;
+}
+
+.work__view {
+  position: absolute;
+  top: calc(var(--w-top) + var(--w-list-top) - 3.8 * var(--w-tag-fs));
+  left: var(--w-pad-x);
+  z-index: 3;
+  display: flex;
+  gap: var(--w-tag-ml);
+}
+
+.work__view-btn {
+  padding: var(--w-tag-pt) var(--w-tag-px) var(--w-tag-pb);
+  border: 1px solid #000;
+  border-radius: var(--w-tag-r);
+  background: #fff;
+  color: #000;
+  font: inherit;
+  font-size: var(--w-tag-fs);
+  font-weight: 500;
+  line-height: 1.11;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.work__view-btn[aria-pressed="true"] {
+  background: #000;
+  color: #fff;
+}
+
+@media (hover: hover) {
+  .work__view-btn[aria-pressed="false"]:hover {
+    background: #000;
+    color: #fff;
+  }
+}
+
+/* The list is hidden in the grid view, and the grid in the row view */
+[data-view="grid"] .work__list,
+[data-view="row"] .work__grid {
+  display: none;
+}
+
+/* The grid: the same style as the strips: thin black lines, uppercase titles, pills for the area of interest,
+   the colors of the works on hover. The picture is the main character. */
+.work__grid {
+  --g-cols: 2;
+  display: grid;
+  grid-template-columns: repeat(var(--g-cols), minmax(0, 1fr));
+  width: 100%;
+  margin: var(--w-list-top) -1px var(--footer-h) 0; /* -1px: the line on the right side of the last column goes out of the window */
+  padding: 0;
+  border-top: 1px solid #000;
+  list-style: none;
+}
+
+@media (min-width: 700px) {
+  .work__grid {
+    --g-cols: 3;
+  }
+}
+
+@media (min-width: 1100px) {
+  .work__grid {
+    --g-cols: 4;
+  }
+}
+
+.work__cell {
+  position: relative;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+  background: #fff;
+  transition: background-color 0.2s linear;
+}
+
+@media (hover: hover) {
+  .work__cell:hover {
+    background: var(--color);
+  }
+}
+
+.work__cell-link {
+  display: block;
+  padding: var(--w-pad-x);
+}
+
+.work__cell-pic {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+@media (hover: hover) {
+  .work__cell:hover .work__cell-pic {
+    transform: translateY(-0.5vw);
+    box-shadow: 0 0.6vw 1.4vw rgba(0, 0, 0, 0.25);
+  }
+}
+
+.work__cell-title {
+  margin: calc(var(--w-pad-x) * 0.8) 0 0;
+  font-size: clamp(14px, 1.5vw, 26px);
+  font-weight: 400;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.work__cell .project__tag {
+  display: inline-flex;
+  margin: calc(var(--w-pad-x) * 0.5) 0 0;
+  font-size: max(12px, calc(var(--w-tag-fs) * 0.85));
+}
+
+/* Opening a work from the grid: the chosen cell takes its color, the others fade away (work.js) */
+.is-opening .work__cell {
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.is-opening .work__cell--chosen {
+  background: var(--color);
+}
+
+.is-opening .work__cell:not(.work__cell--chosen) {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work__cell-pic,
+  .work__cell,
+  .work__view-btn {
+    transition: none;
+  }
+}
