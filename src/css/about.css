@@ -219,6 +219,13 @@ body {
   text-transform: uppercase;
 }
 
+/* Bolder: the first column of every list (the dates, the level of the software and of the languages) and the second column
+   of the experiences (the role) */
+.about__row > :first-child:not(:only-child),
+.about__role {
+  font-weight: 700;
+}
+
 .about__wide {
   grid-column: 2 / span 2;
 }
@@ -253,10 +260,6 @@ body {
     display: block;
     padding: 0.15em 0;
     border-bottom: 0;
-  }
-
-  .about__row > :first-child:not(:only-child) {
-    font-weight: 500;
   }
 }
 
