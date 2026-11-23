@@ -96,10 +96,17 @@
   </nav>
 
   <main class="about">
+    <!-- The photo of Irene, stuck on the page where there is no text (the right side, next to the short lines), a little turned; when you
+         scroll, each one moves at its own speed, a little like on anacuna.com/about (js/parallax.js; data-factor = how much, on a big screen / tablet / phone) -->
+    <img class="about__photo about__photo--1" data-factor="0.5" data-factor-md="0.4" data-factor-sm="0.3" src="../assets/img/about-photo.png" width="686" height="760" alt="Irene Lissi da bambina, con gli occhiali rosa, accanto a un monitor con un disegno colorato">
+    <img class="about__photo about__photo--2" data-factor="0.3" data-factor-md="0.25" data-factor-sm="0.2" src="../assets/img/about-photo.png" width="686" height="760" alt="" aria-hidden="true">
+    <img class="about__photo about__photo--3" data-factor="0.2" data-factor-md="0.16" data-factor-sm="0.12" src="../assets/img/about-photo.png" width="686" height="760" alt="" aria-hidden="true">
+    <img class="about__photo about__photo--4" data-factor="0.12" data-factor-md="0.1" data-factor-sm="0.08" src="../assets/img/about-photo.png" width="686" height="760" alt="" aria-hidden="true">
     <h1 class="about__statement">Sono Irene Lissi! Mi sono innamorata della grafica da bambina, alle medie sapevo già che sarebbe stata la mia strada.</h1>
 
     <div class="about__text">
       <p>Ho studiato Grafica a Pavia, poi ho scelto NABA a Milano per specializzarmi in Graphic Design &amp; Art Direction, dove mi sono laureata con il massimo dei voti.</p>
+      <!-- The second photo: between the first two paragraphs, at the left (it is in the text, so it does not move) -->
       <p>Oggi sono un’Art Director con una formazione in graphic design. Lavoro su progetti che uniscono concept, visione e sviluppo concreto, dove la creatività non è solo estetica ma funzionale alla comunicazione.</p>
     </div>
 
@@ -170,6 +177,8 @@
     <p>Design/code by <a href="https://gretanegri.vercel.app" target="_blank" rel="noopener">Greta Negri</a></p>
   </footer>
   <script src="js/nav.js" defer></script>
+  <script src="js/parallax.js" defer></script>
+  <script src="js/drag-photos.js" defer></script>
   <script src="js/appear.js"></script>
 </body>
 </html>

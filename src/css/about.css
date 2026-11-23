@@ -259,3 +259,139 @@ body {
     font-weight: 500;
   }
 }
+
+/* --- The photos stuck on the page ------------------------------------------------------------------
+   Like the stickers of anacuna.com/about: the photo of Irene, four times, small, scattered at random over the whole page, each at
+   a different height and a little turned, over the big sentence. They are over the page but never in the way of a click. When you
+   scroll each one follows the page with its own delay (parallax.js adds a strong movement on top of the position: the factors are
+   in the html), so they drift over the text. The tops are in vw because the big sentence grows with the width of the window too. */
+.about {
+  position: relative;
+  overflow-x: clip; /* a turned photo never makes the page scroll sideways */
+}
+
+.about__photo {
+  --w: clamp(100px, 13vw, 260px);
+  position: absolute;
+  z-index: 5;
+  width: var(--w);
+  height: auto;
+  /* The photos can be picked up and thrown around (js/drag-photos.js) */
+  cursor: grab;
+  touch-action: none; /* a finger on a photo moves the photo, it does not scroll the page */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  will-change: transform;
+  filter: drop-shadow(0 0.4vw 0.9vw rgba(0, 0, 0, 0.25));
+  transition:
+    scale 0.25s ease,
+    rotate 0.25s ease,
+    filter 0.25s ease;
+}
+
+/* A small hint that they can be touched */
+.about__photo:hover {
+  scale: 1.05;
+}
+
+/* In your hand: bigger, with a bigger shadow, and it follows the pointer without delay */
+.about__photo.is-held {
+  cursor: grabbing;
+  filter: drop-shadow(0 1.2vw 1.8vw rgba(0, 0, 0, 0.32));
+  transition:
+    scale 0.2s ease,
+    rotate 0.12s ease-out,
+    filter 0.2s ease;
+}
+
+/* When you let it go: it lands with a little bounce */
+.about__photo.is-landing {
+  transition:
+    scale 0.55s cubic-bezier(0.34, 1.7, 0.64, 1),
+    rotate 0.6s cubic-bezier(0.34, 1.7, 0.64, 1),
+    filter 0.4s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about__photo,
+  .about__photo.is-held,
+  .about__photo.is-landing {
+    transition: none;
+  }
+}
+
+.about__photo--1 {
+  top: 7vw;
+  right: calc(var(--a-pad-x) + 3vw); /* on the right, a little in from the margin of the page */
+  rotate: -6deg;
+}
+
+.about__photo--2 {
+  --w: clamp(90px, 11vw, 220px);
+  top: 34vw; /* just above the paragraph "Ho studiato Grafica a Pavia" */
+  left: 5%;
+  rotate: 5deg;
+}
+
+.about__photo--3 {
+  top: 64vw; /* just under the skills pills */
+  left: 76%;
+  rotate: -4deg;
+}
+
+.about__photo--4 {
+  --w: clamp(90px, 11vw, 220px);
+  top: 106vw; /* on the right, next to the label "Istruzione" */
+  left: 78%;
+  rotate: 7deg;
+}
+
+/* On a very big screen the sizes stop growing: so the tops stop too */
+@media (min-width: 1681px) {
+  .about__photo {
+    --w: 230px;
+  }
+
+  .about__photo--2,
+  .about__photo--4 {
+    --w: 190px;
+  }
+
+  .about__photo--1 { top: 110px; }
+  .about__photo--2 { top: 570px; }
+  .about__photo--3 { top: 1070px; }
+  .about__photo--4 { top: 1840px; }
+}
+
+@media (max-width: 1023px) {
+  .about__photo {
+    --w: 17vw;
+  }
+
+  .about__photo--2,
+  .about__photo--4 {
+    --w: 14vw;
+  }
+
+  .about__photo--1 { top: 14vw; right: calc(var(--a-pad-x) + 3vw); }
+  .about__photo--2 { top: 45vw; left: 6%; }
+  .about__photo--3 { top: 93vw; left: 76%; }
+  .about__photo--4 { top: 153vw; left: 78%; }
+}
+
+@media (max-width: 640px) {
+  .about__photo {
+    --w: 24vw;
+  }
+
+  .about__photo--2,
+  .about__photo--4 {
+    --w: 20vw;
+  }
+
+  .about__photo--1 { top: 24vw; right: calc(var(--a-pad-x) + 3vw); }
+  .about__photo--2 { top: 90vw; left: 5%; }
+  .about__photo--3 { top: 230vw; left: 70%; }
+  .about__photo--4 { top: 420vw; left: 70%; }
+}
