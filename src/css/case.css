@@ -120,12 +120,13 @@ h1 {
   padding-right: 60px;
 }
 
-/* Introduction: columns 3 to 5 */
+/* Introduction: the same size as all the other texts of the page, in bold, in the same column of the text (3-4) */
 .case__lead {
-  grid-column: 3 / 6;
+  grid-column: 3 / 5;
   margin: var(--c-lead-t) 0 var(--c-lead-b);
-  font-size: var(--lead-size);
-  line-height: 1.109;
+  font-size: var(--text-size);
+  font-weight: 700;
+  line-height: 1.311;
 }
 
 /* Section title: number on column 1, title on columns 2-3 */
@@ -288,6 +289,15 @@ h1 {
   margin: var(--c-s26) 0 0;
   background: #000;
   filter: drop-shadow(0 0.5vw 1.6vw rgba(0, 0, 0, 0.28));
+}
+
+/* A vertical video (a phone): it is not as wide as the column, it would be taller than the screen. It is as tall as it can be
+   and it stays in the middle of the column */
+.case__video--portrait {
+  width: auto;
+  max-width: 100%;
+  max-height: min(52vw, 85vh);
+  justify-self: center;
 }
 
 .case__video--spaced {
