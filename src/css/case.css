@@ -825,3 +825,14 @@ h1 {
 .case .project--stacked .project__title {
   top: -0.05em;
 }
+
+/* A caption beside a slider (on a wide screen) can sit halfway down the slider instead of at its top edge: useful when the
+   pictures in the slider have very different heights, so the top of the slider is empty space for some of them */
+@media (min-width: 900px) {
+  /* Same margins as the slider (so it is centered on it), plus a bit at the bottom: the dots under the pictures are
+     part of the slider, and the caption has to be at the height of the pictures, not of the dots */
+  .case__caption.case__caption--middle {
+    align-self: center;
+    margin: var(--c-s26) 0 calc(var(--c-s694) + 2.4vw);
+  }
+}
