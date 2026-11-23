@@ -201,7 +201,8 @@ body {
     background: var(--page-bg, #fff);
   }
 
-  body:has(.home) .nav__list {
+  body:has(.home) .nav__list,
+  body:has(.about) .nav__list { /* the "su di me" page too: the page goes up to the top, the text passes behind the logo */
     background: none;
   }
 

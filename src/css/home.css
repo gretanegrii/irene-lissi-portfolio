@@ -82,38 +82,20 @@ body {
   display: inline-block;
 }
 
-/* The R has an eye inside: the empty part of the R, with a pupil that looks left and right */
-.home__r {
+/* The I and the E of the name (the I of IRENE and the two I of LISSI, the two E of IRENE) are drawn by hand (assets/img/home-letters): as tall as the capital letters of the font */
+.home__hand {
   display: inline-block;
-  height: 0.7em; /* as tall as the capital letters of the font */
+  height: 0.7em;
   width: auto;
-  margin: 0 0.03em;
-  overflow: visible;
+  vertical-align: -0.035em;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
 }
 
-.home__pupil {
-  animation: pupil-look 3s ease-in-out infinite;
-}
-
-@keyframes pupil-look {
-  0%,
-  20% {
-    transform: translateX(0);
-  }
-
-  35%,
-  55% {
-    transform: translateX(-14px);
-  }
-
-  70%,
-  90% {
-    transform: translateX(12px);
-  }
-
-  100% {
-    transform: translateX(0);
-  }
+/* When one of them turns into the asterisk it goes away for a moment */
+.home__letter.is-star .home__hand {
+  visibility: hidden;
 }
 
 /* A letter that has turned into the asterisk: the letter is hidden, the asterisk takes its place */
@@ -173,8 +155,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home__star,
-  .home__pupil {
+  .home__star {
     animation: none;
   }
 }
