@@ -318,6 +318,17 @@ body.is-opening {
   white-space: nowrap;
 }
 
+/* On a phone the strips of the design would be only about 24px high (the design scaled down): too thin for a finger. Here they get
+   more air above and below the words, so each strip is at least 44px high on the screen (the visible part, without the part
+   covered by the next strip). The words stay in the middle of the strip. */
+@media (max-width: 767px) {
+  :root {
+    --w-pad-t: calc(0.83333vw + 13px);
+    --w-pad-b: calc(0.11905vw + 11px);
+    --w-nudge: -5px;
+  }
+}
+
 /* On a small screen the strips are low: the pill sits at the top, so the next strip does not cover it */
 @media (max-width: 700px) {
   .project__tag {
@@ -363,6 +374,19 @@ body.is-opening {
 .work__view-btn[aria-pressed="true"] {
   background: #000;
   color: #fff;
+}
+
+/* The two view pills are small: on a touch screen the area that reacts to a finger is bigger than the pill (at least 44px tall) */
+@media (pointer: coarse) {
+  .work__view-btn {
+    position: relative;
+  }
+
+  .work__view-btn::after {
+    content: "";
+    position: absolute;
+    inset: -12px -2px;
+  }
 }
 
 @media (hover: hover) {

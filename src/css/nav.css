@@ -326,6 +326,17 @@ body {
   }
 }
 
+/* On a touch screen (a tablet too) the pills are at least 44px tall, so a finger can hit them: on a tablet they would be 34-46px */
+@media (pointer: coarse) and (min-width: 768px) {
+  .nav {
+    --pill-height: max(44px, calc(var(--n-pill) + 2px));
+  }
+
+  .nav__link {
+    min-height: var(--pill-height);
+  }
+}
+
 /* Case study pages: a pill with an arrow, at the left, goes back to the work page */
 /* The back pill: a circle as tall as the pills of the navbar */
 .nav__item--back {
@@ -353,9 +364,9 @@ body {
   --pill-height: calc(var(--n-pill) + 2px);
 }
 
-/* On a phone the bar (logo, back pill, menu button) is 36px tall, like on a tablet, and a bit smaller on tiny screens */
+/* On a phone the bar (logo, back pill, menu button) is 44px tall, so a finger can hit them */
 @media (max-width: 767px) {
-  .nav { --pill-height: clamp(32px, 8.66667vw + 2px, 36px); }
+  .nav { --pill-height: 44px; } /* 44px: the least that a finger can hit without missing (the menu button, the logo, the back pill) */
 }
 
 .nav__item--logo {

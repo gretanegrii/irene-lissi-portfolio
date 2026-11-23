@@ -126,6 +126,15 @@ body {
     color 0.3s ease;
 }
 
+/* On a phone the pills are at least 44px tall, so a finger can hit them */
+@media (max-width: 767px) {
+  .contact__pill {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
 .contact__pill:hover,
 .contact__pill:focus-visible {
   background: #000;
