@@ -84,6 +84,13 @@
   <link rel="stylesheet" href="css/nav.css">
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/home.css">
+  <script>
+    /* The name is not there when the page opens: the asterisks write it (js/home-intro.js). Not with "reduce motion", and never for more than 9 seconds. */
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("has-intro");
+      setTimeout(function () { document.documentElement.classList.remove("has-intro"); }, 9000);
+    }
+  </script>
 </head>
 <body>
   <nav class="nav" aria-label="Main navigation">
@@ -98,8 +105,6 @@
   </nav>
 
   <main class="home">
-    <!-- The pictures that follow the cursor (js/trail.js) -->
-    <div class="home__trail" aria-hidden="true"></div>
     <h1 class="home__title" aria-label="Irene Lissi">
       <span class="home__row" aria-hidden="true"><span class="home__letter">I</span><span class="home__letter home__letter--r"><svg class="home__r" viewBox="0 0 115 140" aria-hidden="true"><path fill="currentColor" d="M0 0H30V140H0ZM15 0H70A46 46 0 0 1 70 92H15V64H70A18 18 0 0 0 70 28H15ZM44 80H81L115 140H78Z"/><circle class="home__pupil" cx="58" cy="46" r="11" fill="currentColor"/></svg></span><span class="home__letter">E</span><span class="home__letter">N</span><span class="home__letter">E</span></span>
       <span class="home__row" aria-hidden="true"><span class="home__letter">L</span><span class="home__letter">I</span><span class="home__letter">S</span><span class="home__letter">S</span><span class="home__letter">I</span></span>
@@ -108,7 +113,7 @@
   </main>
 
   <script src="js/home.js" defer></script>
-  <script src="js/trail.js" defer></script>
+  <script src="js/home-intro.js" defer></script>
   <footer class="site-footer">
     <p>Irene Lissi © 2026</p>
     <p>Design/code by <a href="https://gretanegri.vercel.app" target="_blank" rel="noopener">Greta Negri</a></p>

@@ -38,28 +38,49 @@ const LETTERS = [...document.querySelectorAll(".home__letter")];
 const EVERY = 1400; // ms between one change and the next
 const STAYS = 1100; // ms a letter stays an asterisk
 
+const AFTER_INTRO = 600; // ms between the moment the name is there and the start of the changes (the first one comes EVERY ms after that)
+
+// The changes start a little after the name has appeared: when the page opens the name is built by the asterisks (js/home-intro.js,
+// the class "has-intro" is on <html> until it is done), and the letters must not change before that
+function whenTheNameIsThere(start) {
+  const html = document.documentElement;
+  if (!html.classList.contains("has-intro")) {
+    setTimeout(start, AFTER_INTRO);
+    return;
+  }
+  const watcher = new MutationObserver(() => {
+    if (!html.classList.contains("has-intro")) {
+      watcher.disconnect();
+      setTimeout(start, AFTER_INTRO);
+    }
+  });
+  watcher.observe(html, { attributes: true, attributeFilter: ["class"] });
+}
+
 if (!reducedMotion.matches && LETTERS.length) {
-  let previous = -1;
+  whenTheNameIsThere(() => {
+    let previous = -1;
 
-  setInterval(() => {
-    // a letter different from the last one
-    let n;
-    do {
-      n = Math.floor(Math.random() * LETTERS.length);
-    } while (n === previous);
-    previous = n;
+    setInterval(() => {
+      // a letter different from the last one
+      let n;
+      do {
+        n = Math.floor(Math.random() * LETTERS.length);
+      } while (n === previous);
+      previous = n;
 
-    const letter = LETTERS[n];
-    const star = document.createElement("img");
-    star.className = "home__star";
-    star.src = "../assets/img/asterisk.png";
-    star.alt = "";
-    letter.classList.add("is-star");
-    letter.append(star);
+      const letter = LETTERS[n];
+      const star = document.createElement("img");
+      star.className = "home__star";
+      star.src = "../assets/img/asterisk.png";
+      star.alt = "";
+      letter.classList.add("is-star");
+      letter.append(star);
 
-    setTimeout(() => {
-      star.remove();
-      letter.classList.remove("is-star");
-    }, STAYS);
-  }, EVERY);
+      setTimeout(() => {
+        star.remove();
+        letter.classList.remove("is-star");
+      }, STAYS);
+    }, EVERY);
+  });
 }

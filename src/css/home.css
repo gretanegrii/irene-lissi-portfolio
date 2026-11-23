@@ -49,7 +49,7 @@ body {
   will-change: transform, opacity;
 }
 
-/* A finger that drags on the home leaves the trail too: the page does not scroll there */
+/* The page does not scroll on the home */
 .home {
   position: relative;
   touch-action: none;
@@ -82,38 +82,13 @@ body {
   display: inline-block;
 }
 
-/* The R has an eye inside: the empty part of the R, with a pupil that looks left and right */
+/* The R has an eye inside: the empty part of the R, with a pupil (it does not move) */
 .home__r {
   display: inline-block;
   height: 0.7em; /* as tall as the capital letters of the font */
   width: auto;
   margin: 0 0.03em;
   overflow: visible;
-}
-
-.home__pupil {
-  animation: pupil-look 3s ease-in-out infinite;
-}
-
-@keyframes pupil-look {
-  0%,
-  20% {
-    transform: translateX(0);
-  }
-
-  35%,
-  55% {
-    transform: translateX(-14px);
-  }
-
-  70%,
-  90% {
-    transform: translateX(12px);
-  }
-
-  100% {
-    transform: translateX(0);
-  }
 }
 
 /* A letter that has turned into the asterisk: the letter is hidden, the asterisk takes its place */
@@ -173,8 +148,35 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home__star,
-  .home__pupil {
+  .home__star {
     animation: none;
   }
+}
+
+/* When the page opens (js/home-intro.js): the name and the sentence are hidden, the asterisks write the name, then they appear.
+   The class "has-intro" is set on <html> in the head of the page, and taken away at the end (or after 9 seconds, whatever happens). */
+.has-intro .home__title,
+.has-intro .home__tagline {
+  opacity: 0;
+}
+
+.has-intro.intro-reveal .home__tagline {
+  opacity: 1;
+  transition: opacity 0.9s ease;
+}
+
+/* The asterisks that write the name: on the whole screen, above the name, under the navbar, never in the way of the mouse */
+.home__intro-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* The name and the sentence have their own entrance here (above): not the fade-in of js/appear.js, that would show them too early */
+.home__letter.appear,
+.home__tagline.appear {
+  animation: none;
 }
