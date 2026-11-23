@@ -91,6 +91,14 @@
     }
   }
 
+  // All the pictures go away at once
+  function clearAll() {
+    pool.splice(0).forEach((el) => {
+      clearTimeout(el._timer);
+      el.remove();
+    });
+  }
+
   // A movement of the cursor, of the finger, or of the "ghost" cursor that goes by itself (below)
   function travel(x, y) {
     if (lastX === null) {
@@ -178,6 +186,14 @@
     "pointermove",
     (event) => {
       userMoved();
+      // Over the things you click (the pills of the navbar, the logo, the footer) there are no pictures: they would be
+      // in the way. The pictures that are on the screen go away at once.
+      if (event.target.closest && event.target.closest(".nav__item, .site-footer")) {
+        clearAll();
+        lastX = null;
+        travelled = 0;
+        return;
+      }
       travel(event.clientX, event.clientY);
     },
     { passive: true }
