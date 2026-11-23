@@ -120,7 +120,7 @@
   // that covers the whole screen, and leaves the same trail. As soon as the real cursor (or a finger) moves, it stops;
   // when it is still again for a moment, the trail starts again by itself.
   const IDLE_BEFORE_AUTO = 1500; // ms of stillness before the trail goes by itself (the first time: a little less)
-  const AUTO_SPEED = 1.3; // how fast the invisible cursor travels (radians per second of the curve)
+  const AUTO_SPEED = 0.8; // how fast the invisible cursor travels (radians per second of the curve)
 
   let lastUserMove = performance.now() - IDLE_BEFORE_AUTO + 600; // at the start it begins after 0.6 s
   let autoRunning = false;
