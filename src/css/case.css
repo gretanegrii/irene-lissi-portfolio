@@ -588,6 +588,11 @@ h1 {
   margin: 0;
 }
 
+/* Three or more pictures side by side, on the whole width of the page (the three vertical posters of the launch) */
+.case__pair--wide {
+  grid-column: 1 / -1;
+}
+
 @media (max-width: 899px) {
   .case__pair {
     display: block;
