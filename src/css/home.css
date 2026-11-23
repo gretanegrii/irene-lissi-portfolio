@@ -28,7 +28,36 @@ body {
   min-height: 100vh;
 }
 
+/* The pictures that follow the cursor (js/trail.js): above the name and the sentence, under the navbar, never in the way of the mouse */
+.home__trail {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.home__trail-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  will-change: transform, opacity;
+}
+
+/* A finger that drags on the home leaves the trail too: the page does not scroll there */
+.home {
+  position: relative;
+  touch-action: none;
+}
+
 .home__title {
+  position: relative;
+  z-index: 2; /* under the pictures of the trail */
   margin: 0;
   /* Fluid size: 16vw on a big screen; below 1024px it grows slowly to 24vw at 390px, with no jump
      (a straight line between the two: 50.4px + 11.07vw), so the name fills the phone */
@@ -116,6 +145,7 @@ body {
 
 /* The sentence of the first version, small, at the bottom */
 .home__tagline {
+  z-index: 2;
   position: fixed;
   bottom: calc(var(--footer-h) + 1.4vw); /* above the footer, whatever its height is */
   left: 0;
