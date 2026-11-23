@@ -395,6 +395,116 @@ h1 {
   margin-top: var(--c-s347);
 }
 
+/* Facts about the project (a list, one line each, with a thin line under it) */
+.case__meta {
+  grid-column: 3 / 5;
+  margin: 0;
+  font-size: var(--small-size);
+  line-height: 1.25;
+}
+
+.case__meta div {
+  display: grid;
+  grid-template-columns: 7em 1fr;
+  gap: 1em;
+  padding: 0.55em 0;
+  border-top: 1px solid currentColor;
+}
+
+.case__meta div:last-child {
+  border-bottom: 1px solid currentColor;
+}
+
+.case__meta dt {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.case__meta dd {
+  margin: 0;
+}
+
+/* After the facts, the first picture */
+.case__meta + .case__figure > .case__photo {
+  margin-top: var(--c-s347);
+}
+
+/* A small title that opens a part of a section (the pieces of the campaign, the palette) */
+.case__label {
+  grid-column: 3 / 5;
+  margin: var(--c-s694) 0 0;
+  font-size: var(--small-size);
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.case__label + .case__body {
+  margin-top: 0.7em;
+}
+
+/* The three numbers of the survey */
+.case__stats {
+  grid-column: 3 / 5;
+  margin: var(--c-s39) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-size);
+  line-height: 1.311;
+}
+
+.case__stats li {
+  margin-bottom: 0.45em;
+}
+
+.case__stats strong {
+  display: inline-block;
+  min-width: 3.6em;
+}
+
+.case__stats + .case__body {
+  margin-top: var(--c-s39);
+}
+
+/* The palette: one colored circle for each color, with its name and its code */
+.case__palette {
+  grid-column: 3 / 5;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 1.2vw;
+  margin: var(--c-s26) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: calc(var(--small-size) * 0.8);
+  line-height: 1.2;
+}
+
+.case__palette small {
+  display: block;
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+@media (max-width: 899px) {
+  .case__palette {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4vw;
+  }
+}
+
+.case__chip {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  margin-bottom: 0.5em;
+  border: 1px solid #02031f;
+  border-radius: 50%;
+}
+
+.case__palette + .case__body {
+  margin-top: var(--c-s39);
+}
+
 /* Two pictures side by side, with the same height (each one is as wide as its proportions say: --r = width / height).
    Wider than the text column: columns 2 to 5, still in the middle of the page. On a phone they go one under the other. */
 .case__pair {
