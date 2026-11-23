@@ -339,34 +339,18 @@ body {
   rotate: 5deg;
 }
 
-.about__photo--3 {
-  top: 64vw; /* just under the skills pills */
-  left: 76%;
-  rotate: -4deg;
-}
-
-.about__photo--4 {
-  --w: clamp(90px, 11vw, 220px);
-  top: 106vw; /* on the right, next to the label "Istruzione" */
-  left: 78%;
-  rotate: 7deg;
-}
-
 /* On a very big screen the sizes stop growing: so the tops stop too */
 @media (min-width: 1681px) {
   .about__photo {
     --w: 230px;
   }
 
-  .about__photo--2,
-  .about__photo--4 {
+  .about__photo--2 {
     --w: 190px;
   }
 
   .about__photo--1 { top: 110px; }
   .about__photo--2 { top: 570px; }
-  .about__photo--3 { top: 1070px; }
-  .about__photo--4 { top: 1840px; }
 }
 
 @media (max-width: 1023px) {
@@ -374,15 +358,12 @@ body {
     --w: 17vw;
   }
 
-  .about__photo--2,
-  .about__photo--4 {
+  .about__photo--2 {
     --w: 14vw;
   }
 
   .about__photo--1 { top: 14vw; right: calc(var(--a-pad-x) + 3vw); }
   .about__photo--2 { top: 45vw; left: 6%; }
-  .about__photo--3 { top: 93vw; left: 76%; }
-  .about__photo--4 { top: 153vw; left: 78%; }
 }
 
 @media (max-width: 640px) {
@@ -390,13 +371,10 @@ body {
     --w: 24vw;
   }
 
-  .about__photo--2,
-  .about__photo--4 {
+  .about__photo--2 {
     --w: 20vw;
   }
 
   .about__photo--1 { top: 24vw; right: calc(var(--a-pad-x) + 3vw); }
   .about__photo--2 { top: 90vw; left: 5%; }
-  .about__photo--3 { top: 230vw; left: 70%; }
-  .about__photo--4 { top: 420vw; left: 70%; }
 }
