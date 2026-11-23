@@ -505,6 +505,71 @@ h1 {
   margin-top: var(--c-s39);
 }
 
+/* The construction of the logo of Reblend: an SVG without a background (js/logo-build.js animates it). It is in the text column,
+   with its caption on the side, like a picture. Without the script it is the finished logo. */
+.case__logo-build {
+  grid-column: 3 / 5;
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: var(--c-s26) 0 var(--c-s694);
+  overflow: visible;
+  color: #1d1d1b;
+}
+
+.case__body + .case__figure > .case__logo-build {
+  margin-top: var(--c-s347);
+}
+
+.case__logo-build .lb-final {
+  fill: currentColor;
+}
+
+.case__logo-build .lb-payoff {
+  fill: currentColor;
+}
+
+/* Only when the script is running: the parts that draw themselves start hidden */
+.case__logo-build.is-animated .lb-guides,
+.case__logo-build.is-animated .lb-construction {
+  fill: none;
+  stroke: currentColor;
+}
+
+.case__logo-build.is-animated .lb-guide {
+  stroke-width: 1.6;
+}
+
+.case__logo-build.is-animated .lb-ellipse {
+  fill: none;
+  stroke-width: 2.4;
+}
+
+.case__logo-build.is-animated .lb-corner {
+  fill: none;
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+
+.case__logo-build .lb-outline {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.6;
+  stroke-linejoin: round;
+}
+
+.case__logo-build .lb-gray {
+  fill: currentColor;
+  opacity: 0;
+}
+
+.case__logo-build:not(.is-animated) .lb-construction,
+.case__logo-build:not(.is-animated) .lb-guides {
+  display: none;
+}
+
 /* Two pictures side by side, with the same height (each one is as wide as its proportions say: --r = width / height).
    Wider than the text column: columns 2 to 5, still in the middle of the page. On a phone they go one under the other. */
 .case__pair {
