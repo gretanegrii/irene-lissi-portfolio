@@ -34,46 +34,107 @@ a {
   text-decoration: none;
 }
 
-/* --- Sizes: always the desktop design, scaled ----------------------------------------------------
-   The strips have the same look on every screen: the numbers of the 1680px screen, in vw, so everything gets
-   smaller (or bigger) in the same proportion, from a phone to a big monitor (fixed px above 1680px).
-   Only the small text of the pill has a minimum, so that it can be read. */
+/* --- Fluid sizes -------------------------------------------------------------
+   Nothing jumps between one screen size and the next: every size is a straight line between three
+   anchors (phone 390px, tablet 1024px, laptop 1440px). From 1440px it is the design of the 1680px screen,
+   in vw (and in px above 1680px). Made with the same numbers as the reference, anacuna.com. */
 :root {
-  --w-title: 6.54762vw;
-  --w-overlap: 1.90476vw;
-  --w-pad-t: 0.83333vw;
-  --w-pad-x: 0.95238vw;
-  --w-pad-b: 0.11905vw;
-  --w-tag-mt: 0.71429vw;
-  --w-tag-ml: 0.47619vw;
-  --w-tag-pt: 0.53571vw;
-  --w-tag-px: 0.95238vw;
-  --w-tag-pb: 0.41667vw;
-  --w-tag-r: 1.90476vw;
-  --w-top: max(5.11905vw, 48px); /* not under the bar of the navbar (it has the color of the page on a phone) */
-  --w-list-top: 13.9881vw;
-  --w-tag-fs: max(10px, 1.07143vw);
-  /* room above the list: the navbar and the two pills (row / grid) have to fit, also on a phone */
+  --w-title: 15.5556vw;
+  --w-overlap: 7.1111vw;
+  --w-pad-t: 3.1111vw;
+  --w-pad-x: 3.5556vw;
+  --w-pad-b: 0.4444vw;
+  --w-tag-mt: 0vw;
+  --w-tag-ml: 1.7778vw;
+  --w-tag-pt: 1.1111vw;
+  --w-tag-px: 3.1111vw;
+  --w-tag-pb: 0.8889vw;
+  --w-tag-r: 7.1111vw;
+  --w-tag-fs: 3.5556vw;
+  --w-top: 17.9487vw;
+  --w-list-top: 38.4615vw;
+  --w-nudge: -1.8462vw;
+  /* room above the list: the navbar and the two pills (row / grid) have to fit */
   --w-list-room: max(var(--w-list-top), 90px);
-  --w-nudge: 0px;
+}
+
+@media (min-width: 390px) {
+  :root {
+    --w-title: calc(48.774px + 3.0494vw);
+    --w-overlap: calc(25.1087px + 0.673vw);
+    --w-pad-t: calc(10.985px + 0.2944vw);
+    --w-pad-x: calc(12.5544px + 0.3365vw);
+    --w-pad-b: calc(1.5692px + 0.0421vw);
+    --w-tag-mt: calc(-7.3817px + 1.8927vw);
+    --w-tag-ml: calc(6.2771px + 0.1682vw);
+    --w-tag-pt: calc(1.4626px + 0.7361vw);
+    --w-tag-px: calc(9.7547px + 0.6099vw);
+    --w-tag-pb: calc(1.2932px + 0.5573vw);
+    --w-tag-r: calc(25.1087px + 0.673vw);
+    --w-tag-fs: calc(12.5544px + 0.3365vw);
+    --w-top: calc(60.1577px + 2.5237vw);
+    --w-list-top: calc(97.7129px + 13.4069vw);
+    --w-nudge: calc(-5.1085px + -0.5363vw);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --w-title: calc(44.8351px + 3.4341vw);
+    --w-overlap: calc(43.2528px + -1.0989vw);
+    --w-pad-t: calc(18.9232px + -0.4808vw);
+    --w-pad-x: calc(21.6264px + -0.5495vw);
+    --w-pad-b: calc(2.7032px + -0.0687vw);
+    --w-tag-mt: calc(16.2196px + -0.4121vw);
+    --w-tag-ml: calc(10.8132px + -0.2747vw);
+    --w-tag-pt: calc(12.165px + -0.3091vw);
+    --w-tag-px: calc(21.6264px + -0.5495vw);
+    --w-tag-pb: calc(9.4614px + -0.2404vw);
+    --w-tag-r: calc(43.2528px + -1.0989vw);
+    --w-tag-fs: calc(17.4065px + -0.1374vw);
+    --w-top: calc(116.2417px + -2.9533vw);
+    --w-list-top: calc(317.6372px + -8.07vw);
+    --w-nudge: calc(-36.6923px + 2.5481vw);
+  }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --w-title: 6.5476vw;
+    --w-overlap: 1.9048vw;
+    --w-pad-t: 0.8333vw;
+    --w-pad-x: 0.9524vw;
+    --w-pad-b: 0.1191vw;
+    --w-tag-mt: 0.7143vw;
+    --w-tag-ml: 0.4762vw;
+    --w-tag-pt: 0.5357vw;
+    --w-tag-px: 0.9524vw;
+    --w-tag-pb: 0.4167vw;
+    --w-tag-r: 1.9048vw;
+    --w-tag-fs: 1.0714vw;
+    --w-top: 5.119vw;
+    --w-list-top: 13.9881vw;
+    --w-nudge: 0px;
+  }
 }
 
 @media (min-width: 1681px) {
   :root {
-    --w-title: 110.00002px;
-    --w-overlap: 31.99997px;
-    --w-pad-t: 13.99994px;
-    --w-pad-x: 15.99998px;
-    --w-pad-b: 2.00004px;
-    --w-tag-mt: 12.00007px;
-    --w-tag-ml: 7.99999px;
-    --w-tag-pt: 8.99993px;
-    --w-tag-px: 15.99998px;
-    --w-tag-pb: 7.00006px;
-    --w-tag-r: 31.99997px;
-    --w-top: 86.00004px;
-    --w-list-top: 235.00008px;
+    --w-title: 110px;
+    --w-overlap: 32px;
+    --w-pad-t: 13.9999px;
+    --w-pad-x: 16px;
+    --w-pad-b: 2px;
+    --w-tag-mt: 12.0001px;
+    --w-tag-ml: 8px;
+    --w-tag-pt: 8.9999px;
+    --w-tag-px: 16px;
+    --w-tag-pb: 7.0001px;
+    --w-tag-r: 32px;
     --w-tag-fs: 18px;
+    --w-top: 86px;
+    --w-list-top: 235.0001px;
+    --w-nudge: 0px;
   }
 }
 
@@ -318,17 +379,6 @@ body.is-opening {
   white-space: nowrap;
 }
 
-/* On a phone the strips of the design would be only about 24px high (the design scaled down): too thin for a finger. Here they get
-   more air above and below the words, so each strip is at least 44px high on the screen (the visible part, without the part
-   covered by the next strip). The words stay in the middle of the strip. */
-@media (max-width: 767px) {
-  :root {
-    --w-pad-t: calc(0.83333vw + 13px);
-    --w-pad-b: calc(0.11905vw + 11px);
-    --w-nudge: -5px;
-  }
-}
-
 /* On a small screen the strips are low: the pill sits at the top, so the next strip does not cover it */
 @media (max-width: 700px) {
   .project__tag {
@@ -346,7 +396,8 @@ body.is-opening {
 
 .work__view {
   position: absolute;
-  top: max(68px, calc(var(--w-top) + var(--w-list-room) - 3.8 * var(--w-tag-fs)));
+  /* --w-overlap higher: the first strip, when it is turned on, slides up by that much and must not go over the pills */
+  top: max(68px, calc(var(--w-top) + var(--w-list-room) - 3.8 * var(--w-tag-fs) - var(--w-overlap)));
   left: var(--w-pad-x);
   z-index: 3;
   display: flex;
@@ -374,6 +425,14 @@ body.is-opening {
 .work__view-btn[aria-pressed="true"] {
   background: #000;
   color: #fff;
+}
+
+/* On a phone the two view pills are bigger (16px text, about 34px tall), so they are easy to see and to hit */
+@media (max-width: 767px) {
+  .work__view,
+  .work__view-btn {
+    font-size: max(16px, var(--w-tag-fs));
+  }
 }
 
 /* The two view pills are small: on a touch screen the area that reacts to a finger is bigger than the pill (at least 44px tall) */
