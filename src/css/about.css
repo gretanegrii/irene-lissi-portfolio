@@ -333,8 +333,8 @@ body {
 }
 
 .about__photo--2 {
-  --w: clamp(90px, 11vw, 220px);
-  top: 34vw; /* just above the paragraph "Ho studiato Grafica a Pavia" */
+  --w: clamp(110px, 15vw, 300px); /* the photo without a polaroid, taller than wide */
+  top: 26vw; /* just above the paragraph "Ho studiato Grafica a Pavia" */
   left: 5%;
   rotate: 5deg;
 }
@@ -346,11 +346,11 @@ body {
   }
 
   .about__photo--2 {
-    --w: 190px;
+    --w: 250px;
   }
 
   .about__photo--1 { top: 110px; }
-  .about__photo--2 { top: 570px; }
+  .about__photo--2 { top: 440px; }
 }
 
 @media (max-width: 1023px) {
@@ -359,11 +359,11 @@ body {
   }
 
   .about__photo--2 {
-    --w: 14vw;
+    --w: 19vw;
   }
 
   .about__photo--1 { top: 14vw; right: calc(var(--a-pad-x) + 3vw); }
-  .about__photo--2 { top: 45vw; left: 6%; }
+  .about__photo--2 { top: 34vw; left: 6%; }
 }
 
 @media (max-width: 640px) {
@@ -372,9 +372,9 @@ body {
   }
 
   .about__photo--2 {
-    --w: 20vw;
+    --w: 27vw;
   }
 
   .about__photo--1 { top: 24vw; right: calc(var(--a-pad-x) + 3vw); }
-  .about__photo--2 { top: 90vw; left: 5%; }
+  .about__photo--2 { top: 74vw; left: 5%; }
 }
