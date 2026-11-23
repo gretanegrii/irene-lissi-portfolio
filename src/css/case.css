@@ -112,9 +112,12 @@ h1 {
 .case__intro,
 .case__section {
   display: grid;
-  grid-template-columns: 1fr 1fr 2.5fr 1fr 0.625fr 150px;
+  /* The text column (3-4) is in the middle of the page: the two columns on the left and the two on the right have the same width,
+     and the sides have the same padding */
+  grid-template-columns: 0.8fr 0.8fr 2.5fr 1fr 0.8fr 0.8fr;
   column-gap: 30px;
   padding-left: 60px;
+  padding-right: 60px;
 }
 
 /* Introduction: columns 3 to 5 */
