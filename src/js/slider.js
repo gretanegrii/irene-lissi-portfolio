@@ -17,8 +17,11 @@ document.querySelectorAll("[data-slider]").forEach((slider) => {
     const next = (index + slides.length) % slides.length; // after the last one it starts again
     // Going on after the last picture (or back before the first one) jumps straight to the other end:
     // sliding back through all the pictures would look like they are going the wrong way.
+    // (Not with two pictures: there is only one picture to go through.)
     const wraps = index < 0 || index >= slides.length;
-    track.scrollTo({ left: next * track.clientWidth, behavior: reducedMotion.matches || wraps ? "auto" : "smooth" });
+    // With only two pictures going back to the first one is just one step: it slides like any other step
+    const jump = wraps && slides.length > 2;
+    track.scrollTo({ left: next * track.clientWidth, behavior: reducedMotion.matches || jump ? "auto" : "smooth" });
   }
 
   // If the slider has a caption next to it and the pictures have their own (data-caption), the caption changes
