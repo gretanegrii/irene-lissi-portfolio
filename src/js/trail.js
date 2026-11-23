@@ -7,7 +7,7 @@
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   if (reducedMotion.matches) return;
 
-  const COUNT = 31; // how many pictures there are in assets/img/home-trail
+  const COUNT = 19; // how many pictures there are in assets/img/home-trail
   const LOAD_AT_ONCE = 8; // the first ones load at once, the others after the page has loaded (there are many, and they are heavy)
   const FILES = Array.from({ length: COUNT }, (_, i) => `../assets/img/home-trail/trail-${i + 1}.png`);
   const STAMPS_PER_PICTURE = 3; // the same picture comes out three times, then the next one
