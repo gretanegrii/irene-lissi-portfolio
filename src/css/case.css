@@ -343,6 +343,11 @@ h1 {
   height: auto;
 }
 
+/* On the first picture "back" does nothing: the left arrow of the pill is dimmed */
+.case__slider.is-first .case__cursor svg:first-child {
+  opacity: 0.25;
+}
+
 .case__slider.is-pointing .case__cursor {
   opacity: 1;
 }

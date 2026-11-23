@@ -2,6 +2,8 @@
 // The pictures are side by side in a box that scrolls and "snaps" on each one, so the swipe on a phone and the
 // trackpad work by themselves. This script adds: the dots, the click on the left or right half of the picture,
 // the arrow keys, and the white pill with two arrows that follows the mouse.
+// From the last picture "forward" goes back to the first one; from the first one "back" does nothing (the left arrow
+// of the pill is dimmed), so that a click on the first picture never sends you to the last one.
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -32,6 +34,7 @@ document.querySelectorAll("[data-slider]").forEach((slider) => {
   // The dots (and the caption) follow the scroll
   function updateDots() {
     const now = current();
+    slider.classList.toggle("is-first", now === 0); // on the first picture "back" does nothing (see the click below)
     dots.forEach((dot, i) => {
       dot.classList.toggle("is-active", i === now);
       dot.setAttribute("aria-current", i === now ? "true" : "false");
@@ -45,6 +48,7 @@ document.querySelectorAll("[data-slider]").forEach((slider) => {
   }
   track.addEventListener("scroll", updateDots, { passive: true });
   window.addEventListener("resize", updateDots);
+  updateDots(); // at the start (the first picture)
   dots.forEach((dot, i) => dot.addEventListener("click", () => goTo(i)));
 
   // Click: left half = before, right half = after (not when the click ends a drag)
@@ -56,12 +60,14 @@ document.querySelectorAll("[data-slider]").forEach((slider) => {
     if (event.target.closest("video")) return; // the video has its own controls
     if (downX !== null && Math.abs(event.clientX - downX) > 6) return;
     const box = track.getBoundingClientRect();
-    goTo(event.clientX - box.left < box.width / 2 ? current() - 1 : current() + 1);
+    const back = event.clientX - box.left < box.width / 2;
+    if (back && current() === 0) return; // from the first picture "back" does not jump to the last one
+    goTo(back ? current() - 1 : current() + 1);
   });
 
   // Arrow keys when the slider has the focus
   track.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowLeft") goTo(current() - 1);
+    if (event.key === "ArrowLeft" && current() > 0) goTo(current() - 1);
     if (event.key === "ArrowRight") goTo(current() + 1);
   });
 
