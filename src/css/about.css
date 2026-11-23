@@ -290,9 +290,11 @@ body {
     filter 0.25s ease;
 }
 
-/* A small hint that they can be touched */
-.about__photo:hover {
-  scale: 1.05;
+/* A small hint that they can be touched (only where there is a cursor: on a phone "hover" would stay stuck after a touch) */
+@media (hover: hover) {
+  .about__photo:hover {
+    scale: 1.05;
+  }
 }
 
 /* In your hand: bigger, with a bigger shadow, and it follows the pointer without delay */
