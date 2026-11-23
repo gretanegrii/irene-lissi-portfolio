@@ -1,13 +1,15 @@
 // Home: a trail of pictures follows the cursor (or the finger, when you drag it), like the home of madeinhaus.com.
 // The same picture comes out three times in a row, then another one three times, then another one, in a random order:
 // so the cursor leaves a strip of different pictures. They come out at once and go away at once, after a short time.
-// The pictures (cutouts, in assets/img/home-trail) are chosen by Irene, among the things she loves.
+// The pictures are cutouts of her projects (assets/img/home-trail, trail-1.png ... trail-N.png: change COUNT when you add or remove one).
 
 (() => {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   if (reducedMotion.matches) return;
 
-  const FILES = [1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `../assets/img/home-trail/trail-${n}.png`);
+  const COUNT = 31; // how many pictures there are in assets/img/home-trail
+  const LOAD_AT_ONCE = 8; // the first ones load at once, the others after the page has loaded (there are many, and they are heavy)
+  const FILES = Array.from({ length: COUNT }, (_, i) => `../assets/img/home-trail/trail-${i + 1}.png`);
   const STAMPS_PER_PICTURE = 3; // the same picture comes out three times, then the next one
   const LIFE = 450; // ms a picture stays before it is gone (at once, without fading)
   const MAX_ON_SCREEN = 22; // the oldest ones are reused, the page does not fill up
@@ -16,21 +18,33 @@
   if (!layer) return;
 
   // --- The pictures, loaded in advance --------------------------------------------------
-  const pictures = FILES.map((src) => {
+  const pictures = FILES.map((src, i) => {
     const img = new Image();
-    img.src = src;
     img.alt = "";
+    img.dataset.src = src;
+    if (i < LOAD_AT_ONCE) img.src = src;
     return img;
   });
+  const loadTheRest = () => {
+    pictures.forEach((img) => {
+      if (!img.src) img.src = img.dataset.src;
+    });
+  };
+  if (document.readyState === "complete") setTimeout(loadTheRest, 800);
+  else window.addEventListener("load", () => setTimeout(loadTheRest, 800));
+
+  const isReady = (img) => img.complete && img.naturalWidth > 0;
 
   // The order is random: every picture comes out once before any of them comes out again,
-  // and the same one never comes twice in a row
+  // and the same one never comes twice in a row. Only the pictures that have already loaded are used.
   let bag = [];
   let last = -1;
   function nextPicture() {
     if (!bag.length) {
-      bag = pictures.map((_, i) => i).sort(() => Math.random() - 0.5);
-      if (bag[bag.length - 1] === last) bag.unshift(bag.pop()); // the next one (the last of the bag) is not the same as the previous one
+      let ids = pictures.map((_, i) => i).filter((i) => isReady(pictures[i]));
+      if (!ids.length) ids = pictures.map((_, i) => i).filter((i) => pictures[i].src);
+      bag = ids.sort(() => Math.random() - 0.5);
+      if (bag.length > 1 && bag[bag.length - 1] === last) bag.unshift(bag.pop()); // the next one (the last of the bag) is not the same as the previous one
     }
     last = bag.pop();
     return last;
@@ -42,7 +56,7 @@
   // --- Where a picture comes out --------------------------------------------------------
   // Every time the cursor has moved a bit more than half of the width of a picture, a picture comes out:
   // so the three copies of the same picture overlap a little but can be told apart
-  const pictureWidth = () => Math.min(300, Math.max(110, window.innerWidth * 0.155));
+  const pictureWidth = () => Math.min(200, Math.max(75, window.innerWidth * 0.105));
   const stepLength = () => pictureWidth() * 0.55;
 
   const pool = []; // the pictures on the screen, from the oldest to the newest
