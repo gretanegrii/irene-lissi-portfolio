@@ -63,16 +63,23 @@
         <p>Attraverso una composizione multisoggetto, il lavoro si sviluppa in tre fasi narrative progressive, che accompagnano lo spettatore dalle forme di violenza più silenti e normalizzate, come le molestie verbali, fino alle espressioni di violenza fisica più dirette ed esplicite.</p>
       </div>
       <figure class="case__figure">
-        <video class="case__photo case__video case__video--single case__video--spaced" src="../../assets/img/works/8-anti-violence-campaign/phase-1.mp4" poster="../../assets/img/works/8-anti-violence-campaign/frame-1.jpg" width="960" height="540" controls playsinline preload="none" aria-label="Primo video: fase 1, la violenza verbale"></video>
+        <div class="case__slider" data-slider>
+          <div class="case__slides" tabindex="0" role="group" aria-roledescription="carosello" aria-label="Le tre fasi della campagna">
+            <div class="case__slide" data-caption="Le parole lasciano segni che non si vedono, ma che restano.<br>Fase 1: la violenza verbale."><video class="case__photo case__video case__video--single" src="../../assets/img/works/8-anti-violence-campaign/phase-1.mp4" poster="../../assets/img/works/8-anti-violence-campaign/frame-1.jpg" width="960" height="540" controls playsinline preload="none" aria-label="Primo video: fase 1, la violenza verbale"></video></div>
+            <div class="case__slide" data-caption="Controllo, umiliazione, paura silenziosa.<br>Fase 2: la violenza psicologica."><video class="case__photo case__video case__video--single" src="../../assets/img/works/8-anti-violence-campaign/phase-2.mp4" poster="../../assets/img/works/8-anti-violence-campaign/frame-2.jpg" width="960" height="540" controls playsinline preload="none" aria-label="Secondo video: fase 2, la violenza psicologica"></video></div>
+            <div class="case__slide" data-caption="Il segno più visibile di un dolore che dura da sempre.<br>Fase 3: la violenza fisica."><video class="case__photo case__video case__video--single" src="../../assets/img/works/8-anti-violence-campaign/phase-3.mp4" poster="../../assets/img/works/8-anti-violence-campaign/frame-3.jpg" width="960" height="540" controls playsinline preload="none" aria-label="Terzo video: fase 3, la violenza fisica"></video></div>
+          </div>
+          <div class="case__dots">
+            <button class="case__dot is-active" type="button" aria-label="Fase 1: la violenza verbale"></button>
+            <button class="case__dot" type="button" aria-label="Fase 2: la violenza psicologica"></button>
+            <button class="case__dot" type="button" aria-label="Fase 3: la violenza fisica"></button>
+          </div>
+          <div class="case__cursor" aria-hidden="true">
+            <svg viewBox="0 0 20 16"><path d="M19 8H2M8 1.5 1.5 8 8 14.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+            <svg viewBox="0 0 20 16"><path d="M1 8H18M12 1.5 18.5 8 12 14.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          </div>
+        </div>
         <figcaption class="case__caption">Le parole lasciano segni che non si vedono, ma che restano.<br>Fase 1: la violenza verbale.</figcaption>
-      </figure>
-      <figure class="case__figure">
-        <video class="case__photo case__video case__video--single case__video--spaced" src="../../assets/img/works/8-anti-violence-campaign/phase-2.mp4" poster="../../assets/img/works/8-anti-violence-campaign/frame-2.jpg" width="960" height="540" controls playsinline preload="none" aria-label="Secondo video: fase 2, la violenza psicologica"></video>
-        <figcaption class="case__caption">Controllo, umiliazione, paura silenziosa.<br>Fase 2: la violenza psicologica.</figcaption>
-      </figure>
-      <figure class="case__figure">
-        <video class="case__photo case__video case__video--single case__video--spaced" src="../../assets/img/works/8-anti-violence-campaign/phase-3.mp4" poster="../../assets/img/works/8-anti-violence-campaign/frame-3.jpg" width="960" height="540" controls playsinline preload="none" aria-label="Terzo video: fase 3, la violenza fisica"></video>
-        <figcaption class="case__caption">Il segno più visibile di un dolore che dura da sempre.<br>Fase 3: la violenza fisica.</figcaption>
       </figure>
     </section>
 
@@ -85,5 +92,6 @@
   <script src="../js/nav.js" defer></script>
   <script src="../js/case-title.js" defer></script>
   <script src="../js/appear.js"></script>
+  <script src="../js/slider.js" defer></script>
 </body>
 </html>
