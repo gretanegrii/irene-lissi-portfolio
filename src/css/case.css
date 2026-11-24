@@ -836,3 +836,47 @@ h1 {
     margin: var(--c-s26) 0 calc(var(--c-s694) + 2.4vw);
   }
 }
+
+/* The construction of the card of the logopedista (js/card-build.js animates it): the paper and, on top of it, the layers of the print.
+   Each layer is the scan of the card where only one color is left, white elsewhere: with "multiply" the white disappears and the
+   paper shows through. Without the script it is the finished card. */
+.case__card {
+  position: relative;
+  flex: var(--r, 1.776) 1 0%;
+  min-width: 0;
+  aspect-ratio: 707 / 398; /* the proportions of the card in the final picture */
+  isolation: isolate;
+  filter: drop-shadow(0 0.3vw 1.4vw rgba(0, 0, 0, 0.28));
+}
+
+.case__card-layer {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: multiply;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+}
+
+.case__card-paper,
+.case__card-final {
+  mix-blend-mode: normal;
+}
+
+/* The back: the same proportions as its final picture */
+.case__card--back {
+  aspect-ratio: 754 / 425;
+}
+
+@media (max-width: 899px) {
+  .case__card {
+    width: 100%;
+  }
+
+  .case__card + .case__card {
+    margin-top: var(--c-s26);
+  }
+}
