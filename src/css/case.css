@@ -570,6 +570,152 @@ h1 {
   display: none;
 }
 
+/* The construction of the logo of NCA (js/nca-logo-build.js): the rectangle that measures the logo, the letters and the four circles
+   of the clear space. Without the script it is the finished construction. */
+.case__logo-build--nca .nb-rect {
+  fill: #9a9a9a;
+  stroke: #d00c3c;
+  stroke-width: 2;
+}
+
+.case__logo-build--nca .nb-final {
+  fill: currentColor;
+}
+
+.case__logo-build--nca .nb-circle {
+  fill: #4b4b4b;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.case__logo-build--nca .nb-outline {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+.case__logo-build--nca .nb-gray {
+  fill: currentColor;
+  opacity: 0;
+}
+
+/* The way from the starting font to the logo of NCA (the same script): lilac, gray and black letters and the arrow between the first two */
+.case__logo-build--evolution .eb-start .eb-letter {
+  fill: #cacafc;
+}
+
+.case__logo-build--evolution .eb-round .eb-letter {
+  fill: #4b4b4b;
+}
+
+.case__logo-build--evolution .eb-final .eb-letter {
+  fill: currentColor;
+}
+
+.case__logo-build--evolution .eb-arrow-line,
+.case__logo-build--evolution .eb-arrow-head {
+  fill: none;
+  stroke: #4b4b4b;
+  stroke-width: 3;
+}
+
+.case__logo-build--evolution .eb-outline {
+  fill: none;
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+.case__logo-build--evolution .eb-outline--start {
+  stroke: #cacafc;
+}
+
+.case__logo-build--evolution .eb-outline--round {
+  stroke: #4b4b4b;
+}
+
+.case__logo-build--evolution .eb-outline--final {
+  stroke: currentColor;
+}
+
+.case__logo-build--evolution.is-animated .eb-letter {
+  opacity: 0;
+}
+
+/* The two extended versions of the logo of NCA, side by side (the same script): they are in a pair, so the same height, and
+   one under the other on a phone. Each one is an SVG with its own ratio (--r). */
+.case__pair .case__logo-build--version {
+  grid-column: auto;
+  flex: var(--r) 1 0%;
+  width: auto;
+  min-width: 0;
+  margin: 0;
+}
+
+.case__logo-build--version .vb-label {
+  fill: currentColor;
+  font-family: inherit;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.case__logo-build--version .vb-letter,
+.case__logo-build--version .vb-glyph {
+  fill: currentColor;
+}
+
+.case__logo-build--version.is-animated .vb-letter {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media (max-width: 899px) {
+  .case__pair .case__logo-build--version {
+    display: block;
+    width: 100%;
+  }
+
+  .case__pair .case__logo-build--version + .case__logo-build--version {
+    margin-top: var(--c-s347);
+  }
+}
+
+/* The logo in the layouts of NCA (the same script): three versions of the logo, and for each one the pages (with the red guides)
+   where it goes. Wider than the text column, like a pair. Without the script, the logos are already in their places. */
+@media (min-width: 900px) {
+  .case__logo-build--layouts {
+    grid-column: 2 / 6;
+  }
+}
+
+.case__logo-build--layouts .nl-frame {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2;
+}
+
+.case__logo-build--layouts .nl-guide {
+  fill: none;
+  stroke: #cd171a;
+  stroke-width: 0.8;
+}
+
+.case__logo-build--layouts .nl-main,
+.case__logo-build--layouts .nl-logo {
+  fill: currentColor;
+}
+
+.case__logo-build--layouts .nl-slot {
+  display: none;
+  fill: #8a8a8a;
+}
+
+.case__logo-build--layouts.is-animated .nl-slot {
+  display: block;
+}
+
 /* Two pictures side by side, with the same height (each one is as wide as its proportions say: --r = width / height).
    Wider than the text column: columns 2 to 5, still in the middle of the page. On a phone they go one under the other. */
 .case__pair {
