@@ -7,6 +7,8 @@
 //     come in letter by letter, along the line they follow (tilted in the horizontal version, straight in the vertical one).
 //  4. "Il logo nei layout" (data-nca-layouts): for each version of the logo, the pages with the red guides draw themselves one
 //     after the other and the logo lands in its place.
+//  5. "Il bozzetto" (data-nca-sketch): the pencil sketch of the award is drawn again as a time lapse: outlines, writing, then the filled parts with a pencil hatching.
+//  6. "Il modello 3D" (data-nca-award): the model is built like in a 3D program: lines, gray surfaces, then the materials and the shadow.
 // Each one plays when it comes into view and goes round and round.
 // Without JavaScript, or with "reduce motion", they just show the finished picture.
 
@@ -174,6 +176,89 @@
         });
       });
       lay.style.opacity = 1 - inOut(prog(t, END, 0.7));
+    });
+  }
+
+  // --- 5. The sketch of the award ----------------------------------------------------------------------------
+  // A time lapse of the drawing, in the order a person draws: the outlines of the book (the cover, then the pages behind it) and
+  // the plaque, then the writing (word by word, from left to right), then the filled parts with a pencil hatching: the logo,
+  // the small square, the shading of the cover. The sketch is the real one: the strokes uncover it as they go.
+  const sketch = document.querySelector("[data-nca-sketch]");
+  if (sketch) {
+    sketch.querySelectorAll(".ns-base").forEach((base) => base.setAttribute("fill", "#000")); // nothing shown, the strokes uncover it
+    const SPEED = { line: 2600, text: 480 }; // units per second: the outlines are quick, the writing is slow
+    const strokes = [...sketch.querySelectorAll(".ns-stroke")].map(drawn);
+    const hatches = new Map([...sketch.querySelectorAll(".ns-hatch")].map((h) => [h.dataset.id, drawn(h)]));
+    const fillRect = sketch.querySelector(".ns-fill");
+    const plan = [];
+    let clock = 0.3;
+    strokes.forEach((el, i) => {
+      const kind = el.dataset.kind;
+      const dur = kind === "fill" ? Number(el.dataset.dur) : Math.max(kind === "line" ? 0.15 : 0.3, Number(el.dataset.len) / SPEED[kind]);
+      plan.push({ el, start: clock, dur, hatch: hatches.get(el.dataset.hatch) });
+      clock += dur + (kind === "line" ? 0.04 : kind === "text" ? 0.12 : 0.1);
+    });
+    const FILL_AT = clock + 0.1; // at the end the last gaps (the paper, the soft shading) fill in
+    const END = FILL_AT + 0.8 + 2.6; // finished until here, then it fades away
+    const CYCLE = END + 1.2;
+    run(sketch, (time) => {
+      const t = time % CYCLE;
+      plan.forEach(({ el, start, dur, hatch }) => {
+        const p = prog(t, start, dur); // the pencil goes at the same speed all the time
+        draw(el, p);
+        if (hatch) {
+          draw(hatch, p);
+          hatch.style.opacity = Number(hatch.dataset.op) * (1 - inOut(prog(t, start + dur, 0.6)));
+        }
+      });
+      fillRect.setAttribute("opacity", inOut(prog(t, FILL_AT, 0.8)));
+      sketch.style.opacity = 1 - inOut(prog(t, END, 0.7));
+    });
+  }
+
+  // --- 6. The 3D model of the award --------------------------------------------------------------------------
+  // Built like in a 3D program: first the lines of the shapes with their corner points, then the surfaces in flat gray,
+  // then the materials: the plate with its writing, the black block and, wiped from left to right, the front with the
+  // texture and the logo. The shadow comes last; the lines and the gray go away.
+  const award = document.querySelector("[data-nca-award]");
+  if (award) {
+    const CYCLE = 10.4;
+    const END = 9.2;
+    const q = (sel) => [...award.querySelectorAll(sel)];
+    const edges = q(".n3-edge").map(drawn); // the plate, the top of the block, the side of the block, the front
+    const dots = q(".n3-dot");
+    const clay = { plate: q(".n3-clay-plate"), body: q(".n3-clay-body"), front: q(".n3-clay-front") };
+    const layer = (n) => award.querySelector(".n3-" + n);
+    const wire = award.querySelector(".n3-wire");
+    const clayGroup = award.querySelector(".n3-clay");
+    run(award, (time) => {
+      const t = time % CYCLE;
+      // 1. the lines
+      const starts = [0.2, 0.7, 1.0, 1.4];
+      edges.forEach((e, i) => draw(e, inOut(prog(t, starts[i], 0.9))));
+      dots.forEach((d, i) => {
+        const p = outBack(prog(t, 0.5 + i * 0.12, 0.5));
+        d.style.opacity = clamp01(p);
+        d.style.transformBox = "fill-box";
+        d.style.transformOrigin = "center";
+        d.style.transform = "scale(" + Math.max(0.001, p) + ")";
+      });
+      // 2. the gray surfaces
+      [clay.plate, clay.body, clay.front].forEach((list, i) =>
+        list.forEach((el) => (el.style.opacity = inOut(prog(t, 2.2 + i * 0.35, 0.5))))
+      );
+      // 3. the materials
+      layer("plate").style.opacity = inOut(prog(t, 3.5, 0.8));
+      layer("body").style.opacity = inOut(prog(t, 4.0, 0.7));
+      const wipe = inOut(prog(t, 4.3, 1.8));
+      layer("front").style.opacity = 1;
+      layer("front").style.clipPath = "inset(0 " + (1 - wipe) * 100 + "% 0 0)";
+      layer("shadow").style.opacity = inOut(prog(t, 6.1, 0.9));
+      // the lines and the gray go away
+      const away = 1 - inOut(prog(t, 6.2, 0.8));
+      wire.style.opacity = away;
+      clayGroup.style.opacity = away;
+      award.style.opacity = 1 - inOut(prog(t, END, 0.7));
     });
   }
 

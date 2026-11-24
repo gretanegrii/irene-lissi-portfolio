@@ -716,6 +716,24 @@ h1 {
   display: block;
 }
 
+/* The sketch and the 3D model of the award of NCA (js/nca-logo-build.js): pictures without a background that build themselves. */
+
+.case__build-sketch .ns-stroke {
+  fill: none;
+  stroke: #fff;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The pencil hatching that goes over the filled parts (the logo, the square, the shading) while they are filled in */
+.case__build-sketch .ns-hatch {
+  fill: none;
+  stroke: #2a2a2e;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+}
+
 /* Two pictures side by side, with the same height (each one is as wide as its proportions say: --r = width / height).
    Wider than the text column: columns 2 to 5, still in the middle of the page. On a phone they go one under the other. */
 .case__pair {
@@ -1025,4 +1043,42 @@ h1 {
   .case__card + .case__card {
     margin-top: var(--c-s26);
   }
+}
+
+/* The 3D model of the award, built like in a 3D program (js/nca-logo-build.js): lines, gray surfaces, then the materials */
+.case__build-3d .n3-clay polygon {
+  fill: #c7cbd2;
+  stroke: none;
+}
+
+.case__build-3d .n3-clay-front {
+  fill: #dfe2e7;
+}
+
+.case__build-3d .n3-clay-body {
+  fill: #7d828c;
+}
+
+.case__build-3d .n3-edge {
+  fill: none;
+  stroke: #26304f;
+  stroke-width: 5;
+  stroke-linejoin: round;
+}
+
+.case__build-3d .n3-dot {
+  fill: #fff;
+  stroke: #26304f;
+  stroke-width: 4;
+}
+
+/* Without the script only the finished model is there */
+.case__build-3d:not(.is-animated) .n3-clay,
+.case__build-3d:not(.is-animated) .n3-wire {
+  display: none;
+}
+
+/* A picture of text without a background (the font of NCA): the shadow of a photo would blur the thin letters */
+.case__photo--flat {
+  filter: none;
 }
